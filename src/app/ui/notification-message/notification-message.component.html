@@ -1,0 +1,22 @@
+<!-- <div *ngIf="notify.msg | async as msg" class="notification "
+  [ngClass]="{ 
+    'is-danger': msg.style == 'error',
+    'is-success': msg.style == 'success',
+    'is-info': msg.style == 'info'
+  }">
+  <button class="delete" (click)="notify.clear()"></button>
+  {{ msg.content }}
+</div> -->
+
+
+<div *ngIf="notify.msg | async as msg" class="alert alert-dismissible fade show" role="alert"
+    [ngClass]="{ 
+      'alert-danger': msg.style == 'error',
+      'alert-success': msg.style == 'success',
+      'alert-info': msg.style == 'info'
+    }">
+    {{ msg.content }}
+    <button type="button" class="close" (click)="notify.clear()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>

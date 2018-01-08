@@ -1,4 +1,4 @@
-<div *ngIf="!(auth.user | async); else alreadyLoggedIn">
+<div class="login-area" *ngIf="!(auth.user | async); else alreadyLoggedIn">
 
   <h3>Social Login</h3>
 
@@ -11,8 +11,8 @@
 <loading-spinner *ngIf="showSpinner" ></loading-spinner>
 
 
-<ng-template #alreadyLoggedIn>
+<!-- <ng-template #alreadyLoggedIn>
   <p class="text-success">
     Already logged in!
   </p>
-</ng-template>
+</ng-template> -->

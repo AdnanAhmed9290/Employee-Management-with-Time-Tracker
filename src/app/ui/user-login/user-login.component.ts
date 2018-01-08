@@ -11,7 +11,7 @@ import { AuthService } from '../../core/auth.service';
 })
 export class UserLoginComponent {
 
-  showSpinner: boolean;
+  showSpinner: boolean = false;
 
   constructor(public auth: AuthService,
               private router: Router) { }

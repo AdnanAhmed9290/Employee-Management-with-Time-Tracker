@@ -1,3 +1,5 @@
+/// <reference path="../../assets/js/toastr.d.ts" />
+
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -61,7 +63,7 @@ export class AuthService {
   private oAuthLogin(provider: firebase.auth.AuthProvider) {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
-        this.notify.update('Welcome to Employee Management System!!!', 'success');
+        // this.notify.update('Welcome to Employee Management System!!!', 'success');
         return this.updateUserData(credential.user);
       })
       .catch((error) => this.handleError(error) );
@@ -114,13 +116,15 @@ export class AuthService {
   signOut() {
     this.afAuth.auth.signOut().then(() => {
         this.router.navigate(['/']);
+        toastr.success('Logout Successfull');
     });
   }
 
   // If error, console log and notify user
   private handleError(error: Error) {
     console.error(error);
-    this.notify.update(error.message, 'error');
+    toastr.error(error.message);
+    // this.notify.update(error.message, 'error');
   }
 
   // Sets user data to firestore after succesful login
@@ -134,6 +138,7 @@ export class AuthService {
       displayName: user.displayName || 'nameless user',
       photoURL: user.photoURL || 'https://goo.gl/Fz9nrQ',
     };
+    toastr.success('Login Successfull');
     return userRef.set(data);
   }
 }

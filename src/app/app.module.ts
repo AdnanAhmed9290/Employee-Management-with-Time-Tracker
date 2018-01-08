@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CountdownModule } from 'ngx-countdown';
 
 ///// Start FireStarter
 
@@ -43,6 +44,7 @@ import { ActivityLogsComponent } from './activity-logs/activity-logs.component';
     ItemModule,
     UiModule,
     NotesModule,
+    CountdownModule,
     AngularFireModule.initializeApp(firebaseConfig),
   ],
   bootstrap: [

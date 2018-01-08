@@ -1,3 +1,105 @@
-<p>
-  timer works!
-</p>
+<div id="timer">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="pomodoro-tab" data-toggle="tab" href="#pomodoro" role="tab" aria-controls="pomodoro" aria-selected="true">
+                <i class="fas fa-stopwatch"></i> Pomodoro
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="short-break-tab" data-toggle="tab" href="#short-break" role="tab" aria-controls="short-break" aria-selected="false">
+                <i class="fas fa-glass-martini"></i> Short Break
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="coffee-break-tab" data-toggle="tab" href="#coffee-break" role="tab" aria-controls="coffee-break"
+                aria-selected="false">
+                <i class="fas fa-coffee"></i> Coffee Break
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="long-break-tab" data-toggle="tab" href="#long-break" role="tab" aria-controls="long-break" aria-selected="false">
+                <i class="fas fa-utensils"></i> Long Break
+            </a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div class="tab-pane active" id="pomodoro" role="tabpanel" aria-labelledby="home-tab">
+            <div class="row">
+                <div class="col-8">
+                    <input type="text" class="form-control task-input" name="task" placeholder="Task's Name" />
+                </div>
+                <div class="col">
+                    <select class="form-control">
+                        <option>Select</option>
+                        <option>Babywink</option>
+                    </select>
+                </div>
+            </div>
+            <div class="stopwatch my-5 text-center">
+                <div class="row my-3">
+                        <countdown [config]="{leftTime: 1500, className: 'custom-timer', template: '$!m!:$!s!',demand: true}" #cd1 (start)="onStart()"
+                        (finished)="onFinished()"></countdown>
+                </div>
+                
+                <div class="timer-btns row btn-group-vertical">
+                    <button (click)="begin(cd1)" class="btn btn-default btn-start mb-3"><i class="fas fa-play"></i> Start</button>
+                    <button (click)="cd1.stop()" class="btn btn-default btn-stop mb-3"><i class="fas fa-stop"></i> Stop</button>
+                    <button (click)="cd1.restart()" class="btn btn-default btn-reset mb-3"><i class="fas fa-redo"></i>  Reset</button>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="short-break" role="tabpanel" aria-labelledby="short-break-tab">
+            <div class="row stopwatch">
+                short-break
+            </div>
+        </div>
+        <div class="tab-pane" id="coffee-break" role="tabpanel" aria-labelledby="coffee-break-tab">
+            Coffee Break
+        </div>
+        <div class="tab-pane" id="long-break" role="tabpanel" aria-labelledby="long-break-tab">
+            Long Break
+        </div>
+    </div>
+
+    <div class="container footer py-4">
+        <div class="row">
+            <div class="col">
+                <h5>
+                    <i class="fas fa-keyboard fa-lg"></i> <span class="pl-3">Keyboard Shortcuts</span> </h5>
+                <ul class="list-unstyled text pl-5">
+                    <li>
+                        <strong>SPACE</strong> start or stop timer</li>
+                    <li>
+                        <strong>ALT + P</strong> Pomodoro</li>
+                    <li>
+                        <strong>ALT + S</strong> Short Break </li>
+                    <li>
+                        <strong>ALT + C</strong> CoffeeBreak</li>
+                    <li>
+                        <strong>ALT + L</strong> Long Break </li>
+                </ul>
+            </div>
+            <div class="col">
+                <h5>
+                    <i class="fas fa-bell fa-lg"></i> <span class="pl-3">Notifications</span></h5>
+                <div class="text pl-5">
+                    <p>Desktop Notifications are currently supported in Chrome, Firefox and Safari</p>
+                    <div class="switch switch--horizontal">
+                        <input id="radio-a" type="radio" name="first-switch" value="off" [(ngModel)]="model.val" />
+                        <label for="radio-a">Off</label>
+                        <input id="radio-b" type="radio" name="first-switch" value="on" [(ngModel)]="model.val" />
+                        <label for="radio-b">On</label>
+                        <span class="toggle-outside">
+                            <span class="toggle-inside"></span>
+                        </span>
+                        <p class="val text-primary">{{model.val}}</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

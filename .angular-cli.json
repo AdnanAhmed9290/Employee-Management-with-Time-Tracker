@@ -20,7 +20,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "",
       "styles": [
-        "assets/styles/bootstrap-custom.scss",
+        "assets/styles/css/toastr.min.css",
         "styles.scss"
       ],
       "scripts": [

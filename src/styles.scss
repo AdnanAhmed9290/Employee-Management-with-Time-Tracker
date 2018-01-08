@@ -1,8 +1,350 @@
-@import "./styles/loading.scss";
-// @import "./styles/firestarter.scss";
+@import "./assets/styles/loading.scss";
+@import "./assets/styles/bootstrap-custom.scss";
+
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,700" rel="stylesheet');
+
+$primary-color: #039be5;
+
+
+///// Content
+
+$body-font: 'Roboto', sans-serif;
+$heading-font: 'Roboto', sans-serif;
+
+body {
+  font-family: $body-font;
+}
+
+h1, h2, h3, h4, h5, h6, {
+  font-family: $heading-font;
+  font-weight: 500;
+}
+
+a {
+//   color: $primary-color;
+//   &:hover {
+//     color: darken($primary-color, 10%)
+//   }
+}
 
 #wrapper {
-// display: flex;
-    height: 100vh;
-// flex-direction: column;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
+
+.content {
+    min-height: 70vh;
+    padding: 2vw;
+    flex: 1
+}
+
+.form-control{
+    border: 0;
+    font-size: 1.2em;
+    border-radius: 0;
+    padding-left: 0;
+    border-bottom: 1px solid #ced4da;
+    color: #CCCCCC;
+
+    &.task-input{
+        font-size: 1.4em;
+
+        &::placeholder{
+            color: #CCCCCC;
+        }
+    }
+
+    &:focus{
+        box-shadow: none;
+    }
+
+}
+
+// ==================================================================
+ 
+//                          Timer Section
+
+// ==================================================================
+
+nav{
+    padding: 0.2em 1em;
+
+    &.navbar {
+        border-bottom: 1px solid #E4E4E4;
+        box-shadow: 0 0 4px rgba(0,0,0,.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 25px;
+        padding: 0 5vw;
+      
+        .nav-item {
+      
+          &.active a.nav-link{
+            color: $primary-color;
+
+            &::before{
+              content: "";
+              position: absolute;
+              bottom: -23px;
+              left: 50%;
+              margin-left: -10px;
+              border-left: 10px solid transparent;
+              border-right: 10px solid transparent;
+              border-bottom: 10px solid #ff000000;
+              border-top: 10px solid #343a40;
+            }
+          }
+      
+          a.nav-link{
+            color: #fff;
+            font-weight: normal;
+            transition: color 0.3s ease;
+            position: relative;
+            &:hover {
+              color: $primary-color;
+            }
+      
+          
+          }
+          
+        }
+      }
+      
+      .guest{
+        color: #fff;
+        .avatar{
+          top: 3px;
+          left: -5px;
+        }
+      }
+      
+      .profile-btn{
+        background: transparent;
+        color: #fff;
+        border: 0;
+      
+        &:focus{
+          outline: 0;
+          box-shadow: none;
+        }
+      
+        .avatar{
+          position: absolute;
+          left: -5px;
+        }
+      
+        .fa-cog{
+          position: absolute;
+          right: 0;
+          top: 30%;
+        }
+      
+      }
+}
+
+
+
+// ==================================================================
+ 
+//                          Timer Section
+
+// ==================================================================
+
+  #timer{
+    // max-width: 762px;
+
+    .nav-tabs{
+        border-bottom: 0;
+        margin-bottom: 5vw;
+
+        .nav-link{
+            border: 1px solid #dee2e6;
+            padding: 1.5vw 3vw;
+            font-size: 1.2em;
+            color: #252525;
+            border-radius: 0;
+            line-height: 20px;
+
+            &.active{
+                color: $primary-color;
+                background: rgba(3,155,299,0.06);
+            }
+        }
+
+        .nav-item:first-child .nav-link{
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .nav-item:last-child .nav-link{
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+
+
+    }
+
+    #pomodoro{
+        select{
+            margin-top: 8px;
+        }
+    }
+
+    .count-down{
+        font-size: 6em;
+        margin: auto;
+        position: relative;
+
+        .hand-m::before{
+            content: 'min';
+            position: absolute;
+            color: #cccccc;
+            font-size: 20px;
+            bottom: 0;
+            left: 20%;
+            margin-left: -10px;
+        }
+
+        .hand-s::before{
+            content: 'sec';
+            position: absolute;
+            color: #cccccc;
+            font-size: 20px;
+            bottom: 0;
+            right: 20%;
+            margin-right: -10px;
+        }
+    }
+
+    .timer-btns .btn{
+        background: none;
+        border-radius: 3px;
+        padding: 10px 30px;
+        text-transform: uppercase;
+        font-weight: bold;
+
+        &.btn-start{
+            color: $primary-color;
+            border: 1px solid $primary-color;
+        }
+
+        &.btn-stop{
+            color: #E54303;
+            border: 1px solid #E54303;
+        }
+
+        &.btn-reset{
+            border: 0;
+            color: #375880;
+        }
+    }
+
+    .footer{
+
+        border-top: 1px solid #CCCCCC;
+
+        .switch{
+            // margin: 4rem auto;
+            // width: 24rem;
+            position: relative;
+        
+            input{
+                position: absolute;
+                top: 0;
+                z-index: 2;
+                opacity: 0;
+                cursor: pointer;
+        
+                &:checked{
+                    z-index: 1;
+        
+                    & + label{
+                        opacity: 1;
+                        cursor: default;
+        
+                        &:hover{
+                            opacity: 0.5;
+                        }
+                    }
+                }
+            }
+        
+            label{
+                color: #000;
+                opacity: 0.33;
+                transition: opacity 0.25s ease;
+                cursor: pointer;
+            }
+        
+            .toggle-outside{
+                height: 100%;
+                border-radius: 2rem;
+                padding: 0.1rem;
+                overflow: hidden;
+                transition: 0.25s ease all;
+            }
+        
+            .toggle-inside{
+                border-radius: 5rem;
+                background:#fff;
+                position: absolute;
+                transition: 0.25s ease all;
+            }
+        
+            &.switch--horizontal {
+                // width: 18rem;
+                height: 1.6rem;
+                margin: 0 auto;
+                font-size: 0;
+                margin-bottom: 1rem;
+                    input {
+                        height: 1.6rem;
+                        width: 1.6rem;
+                        // left: 6rem;
+                        margin: 0;
+        
+                        &:checked ~ .toggle-outside .toggle-inside {
+                            left: 0.25rem;
+                        }
+        
+                        & ~ input:checked ~ .toggle-outside .toggle-inside {
+                            left: 1.45rem;
+                        }
+                    }
+        
+                    label {
+                        font-size: 1rem;
+                        // line-height: 3rem;
+                        display: inline-block;
+                        width: 1rem;
+                        height: 100%;
+                        margin: 0;
+                        text-align: center;
+        
+                        &:last-of-type {
+                            margin-left: 0;
+                          }
+                    }
+        
+                    .toggle-outside {
+                        background: $primary-color;
+                        position: absolute;
+                        width: 3rem;
+                        left: 0;
+                      }
+        
+                      .toggle-inside {
+                        height: 1.4rem;
+                        width: 1.4rem;
+                      }
+              }
+        
+              .value{
+                //   color: 
+              }
+        }
+        
+    }
+}
+

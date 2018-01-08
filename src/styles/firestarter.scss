@@ -1,12 +1,12 @@
 @import 'variables';
 @import url('https://fonts.googleapis.com/css?family=Palanquin|Source+Sans+Pro');
-
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,700" rel="stylesheet');
 
 
 ///// Content
 
-$body-font: 'Source Sans Pro', sans-serif;
-$heading-font: 'Palanquin', sans-serif;
+$body-font: 'Roboto', sans-serif;
+$heading-font: 'Roboto', sans-serif;
 
 body {
   font-family: $body-font;
@@ -14,6 +14,7 @@ body {
 
 h1, h2, h3, h4, h5, h6, {
   font-family: $heading-font;
+  font-weight: 500;
 }
 
 a {

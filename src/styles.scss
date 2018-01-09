@@ -36,7 +36,8 @@ a {
 
 .content {
     min-height: 70vh;
-    padding: 2vw;
+    padding-top: 2vw;
+    padding-bottom: 2vw;
     flex: 1
 }
 
@@ -58,6 +59,12 @@ a {
 
     &:focus{
         box-shadow: none;
+    }
+
+    &:disabled{
+        background: transparent;
+        cursor: no-drop;
+        color: #495057;
     }
 
 }
@@ -215,6 +222,10 @@ nav{
             right: 20%;
             margin-right: -10px;
         }
+
+        .hand-s-ext{
+            display: none;
+        }
     }
 
     .timer-btns .btn{
@@ -243,6 +254,15 @@ nav{
     .footer{
 
         border-top: 1px solid #CCCCCC;
+
+        .title{
+            position: relative;
+
+            .icon{
+                position: absolute;
+                left: 0;
+            }
+        }
 
         .switch{
             // margin: 4rem auto;
@@ -298,11 +318,16 @@ nav{
                 margin: 0 auto;
                 font-size: 0;
                 margin-bottom: 1rem;
+
                     input {
                         height: 1.6rem;
-                        width: 1.6rem;
+                        width: 0rem;
                         // left: 6rem;
                         margin: 0;
+
+                        &#radio-b{
+                            width: 1.6rem;
+                        }
         
                         &:checked ~ .toggle-outside .toggle-inside {
                             left: 0.25rem;
@@ -340,9 +365,15 @@ nav{
                       }
               }
         
-              .value{
-                //   color: 
-              }
+            
+        }
+
+        .notification-status{
+            font-size: 1.2em;
+            position: absolute;
+            bottom: 1.8rem;
+            left: 8rem;
+            font-weight: bold;
         }
         
     }

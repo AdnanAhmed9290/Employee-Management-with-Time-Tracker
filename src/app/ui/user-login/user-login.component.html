@@ -1,14 +1,12 @@
-<div class="login-area" *ngIf="!(auth.user | async); else alreadyLoggedIn">
+<div class="login-area text-center" *ngIf="!(auth.user | async); else alreadyLoggedIn">
 
   <h3>Social Login</h3>
 
-    <button (click)="signInWithGoogle()" class="btn btn-social btn-google">
-      <i class="fab fa-google"></i> Connect Google
+    <button (click)="signInWithGoogle()" class="btn btn-social btn-google text-uppercase my-3">
+      <i class="fab fa-google-plus-g fa-lg" data-fa-transform="grow-6"></i>&nbsp; Sign-In with Google
     </button>
 
 </div>
-
-<loading-spinner *ngIf="showSpinner" ></loading-spinner>
 
 
 <!-- <ng-template #alreadyLoggedIn>

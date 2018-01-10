@@ -11,8 +11,6 @@ import { AuthService } from '../../core/auth.service';
 })
 export class UserLoginComponent {
 
-  showSpinner: boolean = false;
-
   constructor(public auth: AuthService,
               private router: Router) { }
 
@@ -26,8 +24,9 @@ export class UserLoginComponent {
   signInWithGoogle() {
     this.auth.googleLogin()
       .then(() => {
-        this.showSpinner = true;
-        this.afterSignIn()
+        this.router.navigate(['/']);
+        // this.showSpinner = true;
+        // this.afterSignIn()
       });
   }
 
@@ -52,8 +51,7 @@ export class UserLoginComponent {
 
   private afterSignIn() {
     // Do after login stuff here, such router redirects, toast messages, etc.
-    this.router.navigate(['/']);
-    this.showSpinner = false;
+    
   }
 
 }

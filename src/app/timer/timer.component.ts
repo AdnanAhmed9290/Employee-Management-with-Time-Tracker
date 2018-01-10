@@ -1,15 +1,22 @@
 /// <reference path="../../assets/js/toastr.d.ts" />
 
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { CountdownComponent } from 'ngx-countdown';
+import { FormControl, FormGroup, Validators, FormBuilder } from "@angular/forms";
+
+import { fadeInAnimation } from "./../shared/fadein.animation";
 
 declare var $: any;
 declare var Notification: any;
 
 @Component({
-  selector: 'timer',
+  // selector: 'timer',
+  moduleId: module.id.toString(),
   templateUrl: './timer.component.html',
-  styleUrls: ['./timer.component.scss']
+  // styleUrls: ['./timer.component.scss'],
+  // encapsulation: ViewEncapsulation.None,
+  animations: [fadeInAnimation],
+  host: { '[@fadeInAnimation]': '' }
 })
 export class TimerComponent implements OnInit, AfterViewInit  {
 
@@ -17,14 +24,19 @@ export class TimerComponent implements OnInit, AfterViewInit  {
   notification_val: String;
   notify: string;
   disableFields: boolean = false;
+  countDown = { "pomodoro": 1500,"short": 300,"coffee": 600,"long": 1800 }
   toggleButtonTimer: boolean = false;
+  processValidation: boolean = false;
 
-  countDown = {
-    "pomodoro": 1500,
-    "short": 300,
-    "coffee": 600,
-    "long": 1800,
-  }
+  @ViewChild('cd1') cd1: CountdownComponent;
+  @ViewChild('cd2') cd2: CountdownComponent;
+  @ViewChild('cd3') cd3: CountdownComponent;
+  @ViewChild('cd4') cd4: CountdownComponent;
+
+  pomodoroForm = new FormGroup({
+    task: new FormControl('',Validators.required),
+    project: new FormControl('',Validators.required)
+  });
 
   constructor() {
     this.notify = Notification.permission;
@@ -36,20 +48,35 @@ export class TimerComponent implements OnInit, AfterViewInit  {
   }
 
   ngAfterViewInit(){
-    // $('a[data-toggle="tab"]').on('show.bs.tab', function (e:any) {
-    //   console.log(e); // newly activated tab
-    //   console.log(e.target.dataset.tab);
-    //   // console.log(e.relatedTarget) // previous active tab
-    // })
+  
+  }
+
+  inputFocus(e:any){
+    $(e.target).parent().addClass('input--filled');
+  }
+
+  inputFocusOut(e:any){
+    if($(e.target).val() == ""){
+      $(e.target).parent().removeClass('input--filled');
+    }
   }
 
   tabs(counter: CountdownComponent){
     // setTimeout(function(){
       
     // },100);
-    this.restart(counter);
-    counter.begin();
-    this.toggleButtonTimer = true;
+    this.restart(this.cd1);
+    this.restart(this.cd2);
+    this.restart(this.cd3);
+    this.restart(this.cd4);
+
+    if(counter != this.cd1){
+      setTimeout(function(){
+        counter.begin();
+      },600);
+      this.toggleButtonTimer = true;
+    }
+  
   }
 
   start(counter: CountdownComponent) {
@@ -58,6 +85,14 @@ export class TimerComponent implements OnInit, AfterViewInit  {
   }
 
   begin(counter: CountdownComponent) {
+
+    if(counter == this.cd1){
+      this.processValidation = true;
+      if(this.pomodoroForm.invalid){
+        return; //Validation Failed, exit from method
+      }
+  
+    }
     this.disableFields = true;
     counter.begin();
     this.toggleButtonTimer = true;

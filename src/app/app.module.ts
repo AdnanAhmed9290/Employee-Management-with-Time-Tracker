@@ -1,10 +1,10 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CountdownModule } from 'ngx-countdown';
 
 ///// Start FireStarter
 
@@ -19,6 +19,8 @@ import { ItemModule } from './items/shared/item.module';
 import { UploadModule } from './uploads/shared/upload.module';
 import { UiModule } from './ui/shared/ui.module';
 import { NotesModule } from './notes/notes.module';
+import { ActivityLogsModule } from './activity-logs/shared/activity-logs.module';
+import { TimerModule } from './timer/shared/timer.module';
 ///// End FireStarter
 
 import { environment } from '../environments/environment';
@@ -26,26 +28,25 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from 'angularfire2';
 export const firebaseConfig = environment.firebaseConfig;
 import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { TimerComponent } from './timer/timer.component';
-import { ActivityLogsComponent } from './activity-logs/activity-logs.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    TimerComponent,
-    ActivityLogsComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     CoreModule,
     SharedModule,
     ItemModule,
     UiModule,
+    ActivityLogsModule,
+    TimerModule,
     NotesModule,
-    CountdownModule,
-    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(firebaseConfig)
+    // NgbModule.forRoot()
   ],
   bootstrap: [
     AppComponent,

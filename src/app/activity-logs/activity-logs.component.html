@@ -1,3 +1,63 @@
-<p>
-  activity-logs works!
-</p>
+<div id="activity-section" class="container">
+
+  <h2>Activity Logs</h2>
+
+  <div class="calender my-4">
+    <div class="row">
+
+      <div class="col-2">
+        <button class="btn btn-default" (click)="subDate()" >
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <button class="btn btn-default" (click)="addDate()">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      <div class="col-2">
+
+        <form class="form-inline">
+          <div class="form-group">
+            <div class="input-group">
+              <input class="dateInput" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="dateSelected" [maxDate]="maxDate" (ngModelChange)="onDateChange()" ngbDatepicker #d="ngbDatepicker">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                  <img src="assets/images/icons/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+      </div>
+      <div class="col-2">
+        <button class="btn btn-default" (click)="selectToday()">
+           Today
+        </button>
+        <button class="btn btn-default" (click)="create()">
+            Create
+         </button>
+      </div>
+      <div class="col-4">
+        3/16 Cycles
+      </div>
+      <div class="col">
+        
+      </div>
+
+    </div>
+  </div>
+
+
+  <hr/>
+  <pre>Date Selected: {{ dateSelected | json }}</pre>
+
+  <loading-spinner *ngIf="showSpinner" ></loading-spinner>
+
+  <div *ngFor="let item of logData | async" >
+
+    <p>{{item.title}}</p>
+  
+  </div>
+  <!-- <pre>Activity Logs : {{ logData | json }} </pre> -->
+
+</div>

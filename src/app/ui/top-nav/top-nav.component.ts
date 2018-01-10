@@ -10,6 +10,7 @@ import { AuthService } from '../../core/auth.service';
 export class TopNavComponent {
 
   show = false;
+  collapseNav: boolean = false;
 
   toggleCollapse() {
     this.show = !this.show;

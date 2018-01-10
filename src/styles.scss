@@ -1,11 +1,12 @@
 @import "./assets/styles/loading.scss";
 @import "./assets/styles/bootstrap-custom.scss";
+@import "./assets/styles/_variables.scss";
 
 
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,700" rel="stylesheet');
 
 $primary-color: #039be5;
-
+$collapse-width : 300px;
 
 ///// Content
 
@@ -14,6 +15,7 @@ $heading-font: 'Roboto', sans-serif;
 
 body {
   font-family: $body-font;
+  position: relative;
 }
 
 h1, h2, h3, h4, h5, h6, {
@@ -31,14 +33,29 @@ a {
 #wrapper {
   display: flex;
   min-height: 100vh;
+  padding-bottom: 50px;
   flex-direction: column;
+  overflow: hidden;
 }
+
+
 
 .content {
     min-height: 70vh;
     padding-top: 2vw;
     padding-bottom: 2vw;
-    flex: 1
+    flex: 1;
+    transition: margin-left 0.4s;
+
+    &.collapsed{
+        margin-left: $collapse-width;
+    }
+}
+
+footer-nav{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .form-control{
@@ -68,6 +85,293 @@ a {
     }
 
 }
+
+// ==================================================================
+ 
+//                          Interactive Input Fields
+
+// ==================================================================
+
+.input {
+	position: relative;
+	z-index: 1;
+	display: inline-block;
+	margin: 0;
+	// max-width: 400px;
+	width: calc(100% - 2em);
+	vertical-align: top;
+}
+
+.input__field {
+	position: relative;
+	display: block;
+	float: right;
+	padding: 0.8em;
+	width: 60%;
+	border: none;
+	border-radius: 0;
+	background: #f0f0f0;
+	color: #aaa;
+	// font-weight: bold;
+	// font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	-webkit-appearance: none; /* for box shadows to show on iOS */
+}
+
+.input__field:focus {
+	outline: none;
+}
+
+.input__label {
+	display: inline-block;
+	float: right;
+	padding: 0 1em;
+	width: 40%;
+	color: #6a7989;
+	// font-weight: bold;
+	font-size: 100%;
+	-webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.input__label-content {
+	position: relative;
+	display: block;
+	padding: 1.6em 0;
+	width: 100%;
+}
+
+.graphic {
+	position: absolute;
+	top: 0;
+	left: 0;
+	fill: none;
+}
+
+.icon {
+	color: #ddd;
+	font-size: 150%;
+}
+
+/* Hoshi */
+.input--hoshi {
+	overflow: hidden;
+}
+
+.input__field--hoshi {
+    font-size: 2em;
+    margin-top: 0;
+    padding-bottom: 0.4em;
+    padding-left: 0.1em;
+	// padding: 0.85em 0.15em;
+	width: 100%;
+	background: transparent;
+	color: #595F6E;
+}
+
+.input__label--hoshi {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	padding: 0 0.25em;
+	width: 100%;
+	height: calc(100% - 3em);
+	text-align: left;
+	pointer-events: none;
+}
+
+.input__label-content--hoshi {
+    position: absolute;
+    top: -30px;
+}
+
+.input__label--hoshi::before,
+.input__label--hoshi::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: calc(100% - 10px);
+	border-bottom: 1px solid #B9C1CA;
+}
+
+.input__label--hoshi::after {
+	margin-top: 2px;
+	border-bottom: 4px solid red;
+	-webkit-transform: translate3d(-100%, 0, 0);
+	transform: translate3d(-100%, 0, 0);
+	-webkit-transition: -webkit-transform 0.3s;
+	transition: transform 0.3s;
+}
+
+.input__label--hoshi-color-1::after {
+	border-color: hsl(200, 100%, 50%);
+}
+
+.input__label--hoshi-color-2::after {
+	border-color: hsl(160, 100%, 50%);
+}
+
+.input__label--hoshi-color-3::after {
+	border-color: hsl(20, 100%, 50%);
+}
+
+.input__field--hoshi:focus + .input__label--hoshi::after,
+.input--filled .input__label--hoshi::after {
+	-webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
+}
+
+.input__field--hoshi:focus + .input__label--hoshi .input__label-content--hoshi,
+.input--filled .input__label-content--hoshi {
+	-webkit-animation: anim-1 0.3s forwards;
+	animation: anim-1 0.3s forwards;
+}
+
+@-webkit-keyframes anim-1 {
+	50% {
+		opacity: 0;
+		-webkit-transform: translate3d(1em, 0, 0);
+		transform: translate3d(1em, 0, 0);
+	}
+	51% {
+		opacity: 0;
+		-webkit-transform: translate3d(-1em, -40%, 0);
+		transform: translate3d(-1em, -40%, 0);
+	}
+	100% {
+		opacity: 1;
+		-webkit-transform: translate3d(0, -40%, 0);
+		transform: translate3d(0, -40%, 0);
+	}
+}
+
+@keyframes anim-1 {
+	50% {
+		opacity: 0;
+		-webkit-transform: translate3d(2em, 0, 0);
+		transform: translate3d(2em, 0, 0);
+	}
+	51% {
+		opacity: 0;
+		-webkit-transform: translate3d(-2em, -40%, 0);
+		transform: translate3d(-2em, -40%, 0);
+	}
+	100% {
+		opacity: 1;
+		-webkit-transform: translate3d(0, -40%, 0);
+		transform: translate3d(0, -40%, 0);
+	}
+}
+
+
+// ==================================================================
+ 
+//                          Login Section
+
+// ==================================================================
+
+#left-navbar{
+
+    nav{
+        transition: margin-left 0.4s;
+        &.collapsed{
+            margin-left: $collapse-width;
+            width: 100%;
+        }
+    
+    }
+    .sidebar{
+        position: fixed;
+        width: $collapse-width;
+        top: 0;
+        bottom: 0;
+        left:-$collapse-width;
+        z-index: 9;
+        transition: all 0.4s;
+        color: #fff;
+
+        .nav-item{
+            .nav-link{
+                display: inline-block;
+                color: #fff;
+                font-size: 1.2em;
+                border-radius: 25px;
+                padding: 0.5rem 3rem;
+            }
+
+            
+            &.active .nav-link{
+                font-weight: bold;
+                color: $primary-color;
+                background: #fff;
+            }
+        }
+
+        &.collapsed{
+            left: 0;
+        }
+    }
+
+}
+
+
+// ==================================================================
+ 
+//                          Login Section
+
+// ==================================================================
+
+//Social Buttons
+
+.input {
+    margin-bottom: 5px;
+  }
+  
+  .btn-social {
+    color: #fff;
+    i {
+      margin-right: 5px;
+    }
+    &:hover {
+      color: #fff;
+      box-shadow: 0 14px 26px -12px rgba(0, 0, 0, 0.2), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.1);
+    }
+    .btn-block {
+      margin-bottom: 10px;
+    }
+  
+  }
+  
+  .btn-twitter {
+    background-color: #55ACEE;
+  }
+  .btn-facebook {
+    background-color: #3B5998;
+  }
+  
+  .btn-github {
+    background-color: #333333;
+  }
+  
+  .btn-google {
+    background-color: #DD4B39;
+  }
+  
+  .btn-social.button[disabled] {
+    color: #333333;
+    background-color: #fff;
+    border-color: #dbdbdb;
+    box-shadow: none;
+    opacity: .6;
+  }
+  
 
 // ==================================================================
  
@@ -150,23 +454,24 @@ nav{
 }
 
 
-
 // ==================================================================
  
 //                          Timer Section
 
 // ==================================================================
 
-  #timer{
-    // max-width: 762px;
+#timer{
+    max-width: 762px;
+    margin: auto;
 
     .nav-tabs{
         border-bottom: 0;
-        margin-bottom: 5vw;
+        margin-bottom: 2vw;
 
         .nav-link{
             border: 1px solid #dee2e6;
-            padding: 1.5vw 3vw;
+            padding-top: 1.5vw;
+            padding-bottom: 1.5vw; 
             font-size: 1.2em;
             color: #252525;
             border-radius: 0;
@@ -194,7 +499,7 @@ nav{
 
     #pomodoro{
         select{
-            margin-top: 8px;
+            margin-top: 1.7em;
         }
     }
 
@@ -234,6 +539,7 @@ nav{
         padding: 10px 30px;
         text-transform: uppercase;
         font-weight: bold;
+        transition: all 0.5s;
 
         &.btn-start{
             color: $primary-color;
@@ -379,3 +685,27 @@ nav{
     }
 }
 
+// ==================================================================
+ 
+//                          Activity Logs Section
+
+// ==================================================================
+
+
+#activity-section{
+
+    .calender{
+        
+        // border-bottom: 1px solid $gray-light;
+
+        .dateInput{
+            border-bottom-left-radius: 5px;
+            border-top-left-radius: 5px;
+            border: 1px solid #868e96;
+            color: #868e96;
+            padding-left: 1em;
+            max-width: 120px;
+        }
+        
+    }
+}

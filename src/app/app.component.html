@@ -1,18 +1,18 @@
 <div id="wrapper">
   <top-nav></top-nav>
 
-  <div class=" content container">
-    <div class="row justify-content-center">
-        <!-- <aside class="col-4">
+  <div class=" content container" [ngClass]="{collapsed: collapseNav}" >
+      <!-- <aside class="col-4">
             <user-profile></user-profile>
           </aside> -->
-      
-            
-            <router-outlet></router-outlet>
-            <br>
-            <notification-message></notification-message>
-           
-    </div>
+
+      <main>
+        <router-outlet></router-outlet>
+        <loading-spinner *ngIf="loading"></loading-spinner>
+        <br>
+        <notification-message></notification-message>
+      </main>
+
   </div>
 
 </div>

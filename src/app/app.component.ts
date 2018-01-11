@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import { AuthService } from './core/auth.service';
 import { TopNavComponent } from './ui/top-nav/top-nav.component'
 import {
@@ -15,11 +15,13 @@ import {
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  encapsulation : ViewEncapsulation.None
 })
 export class AppComponent implements AfterViewInit {
 
     @ViewChild(TopNavComponent) topNav:boolean;
-    collapseNav: boolean = true;
+    
+    collapseNav: boolean = false;
     // Sets initial value to true to show loading spinner on first load
     loading = true
     
@@ -35,7 +37,7 @@ export class AppComponent implements AfterViewInit {
 
       ngAfterContentChecked(){
         // console.log('ass');
-        this.collapseNav = this.topNav.collapseNav;
+        // this.collapseNav = this.topNav.collapseNav;
       }
     
       // Shows and hides the loading spinner during RouterEvent changes

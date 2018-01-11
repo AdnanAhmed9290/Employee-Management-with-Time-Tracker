@@ -5,6 +5,8 @@ import { fadeInAnimation} from "./../shared/fadein.animation";
 import {NgbDateStruct, NgbCalendar, NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
 import { ActivityLogsService } from './shared/activity-logs.service';
 
+import * as moment from 'moment';
+
 import { Observable } from 'rxjs/Observable';
 
 import {Log} from "./shared/activity";
@@ -26,30 +28,26 @@ export class ActivityLogsComponent implements OnInit {
   maxDate: any;
   date: {year: number, month: number};
   maxDateFlag : boolean = true;
-  content : any = {
-    title: "new data"
-    // type: "pomodoro",
-    // task: "BabywinK UI Dev",
-    // project: "Babywink Web",
-    // date: "2018/01/10",
-    // startTime: new Date(),
-    // endTime: new Date()
-  }
+  cycles: number = 0;
 
   constructor(private logService: ActivityLogsService) {
-    this.logData = this.logService.getLogsList();
-  }
-
-  create(){
-    console.log(this.content);
-    this.logService.createLog(this.content);
+    this.logData = this.logService.getLogsList(moment().format('YYYY/MM/DD'));
   }
 
   ngOnInit() {
 
     this.logData.subscribe((x) => {
-      console.log(this.logData);
+      let counter = 0;
+      x.forEach(element => {
+        if(element.type == 'pomodoro')  
+          ++counter;
+      });
+      this.cycles = counter;
       this.showSpinner = false;
+      // this.noData = false;
+    },error => {
+
+      this.showSpinner = false ;
     });
 
 
@@ -84,6 +82,46 @@ export class ActivityLogsComponent implements OnInit {
     if(this.dateSelected >= this.maxDate){
         this.maxDateFlag = true;
     }
+  }
+
+  createP(){
+    let content : any = {
+      type: "pomodoro",
+      task: "Create Module Added",
+      project: "Babywink Web",
+      duration: 25
+    }
+    this.logService.createLog(content);
+  }
+
+  createS(){
+    let content : any = {
+      type: "short break",
+      task: "",
+      project: "",
+      duration: 5
+    }
+    this.logService.createLog(content);
+  }
+
+  createC(){
+    let content : any = {
+      type: "coffee break",
+      task: "",
+      project: "",
+      duration: 10
+    }
+    this.logService.createLog(content);
+  }
+
+  createL(){
+    let content : any = {
+      type: "long break",
+      task: "",
+      project: "",
+      duration: 30
+    }
+    this.logService.createLog(content);
   }
 
 

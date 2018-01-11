@@ -1,24 +1,24 @@
 <div id="activity-section" class="container">
 
-  <h2>Activity Logs</h2>
+  <div class="calender row my-4">
 
-  <div class="calender my-4">
-    <div class="row">
+    <h2 class="w-100 mb-4">Activity Logs</h2>
 
-      <div class="col-2">
-        <button class="btn btn-default" (click)="subDate()" >
+    <ul class="list-unstyled list-inline">
+      <li class="list-inline-item  align-top">
+        <button class="btn btn-default arrow-btn" (click)="subDate()">
           <i class="fas fa-chevron-left"></i>
         </button>
-        <button class="btn btn-default" (click)="addDate()">
+        <button class="btn btn-default arrow-btn" (click)="addDate()">
           <i class="fas fa-chevron-right"></i>
         </button>
-      </div>
-      <div class="col-2">
-
+      </li>
+      <li class="list-inline-item align-top">
         <form class="form-inline">
           <div class="form-group">
             <div class="input-group">
-              <input class="dateInput" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="dateSelected" [maxDate]="maxDate" (ngModelChange)="onDateChange()" ngbDatepicker #d="ngbDatepicker">
+              <input class="dateInput" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="dateSelected" [maxDate]="maxDate" (ngModelChange)="onDateChange()"
+                ngbDatepicker #d="ngbDatepicker">
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
                   <img src="assets/images/icons/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
@@ -28,36 +28,70 @@
           </div>
         </form>
 
-      </div>
-      <div class="col-2">
-        <button class="btn btn-default" (click)="selectToday()">
-           Today
+      </li>
+      <li class="list-inline-item align-top">
+        <button class="btn btn-default today-btn" (click)="selectToday()">
+          Today
         </button>
-        <button class="btn btn-default" (click)="create()">
-            Create
-         </button>
-      </div>
-      <div class="col-4">
-        3/16 Cycles
-      </div>
-      <div class="col">
-        
-      </div>
+        <button class="btn btn-default" (click)="createP()">
+          Pomodoro
+        </button>
+        <button class="btn btn-default" (click)="createS()">
+          Short Break
+        </button>
+        <button class="btn btn-default" (click)="createC()">
+          Coffee Break
+        </button>
+        <button class="btn btn-default" (click)="createL()">
+          Long Break
+        </button>
+      </li>
+      <li class="list-inline-item align-top cycles">
+        {{cycles}} /
+      </li>
+      <li class="list-inline-item cycles">
+        <p class="text-muted m-0">16 cycles</p>
+        <p class="text-muted m-0 recomended">(recomended)</p>
+      </li>
+    </ul>
 
+  </div>
+
+  <hr>
+
+  <loading-spinner *ngIf="showSpinner"></loading-spinner>
+
+  <h4 *ngIf="cycles == 0">No Activities for this date</h4>
+
+  <div class="logs-data mt-5">
+    <div class="mb-5 logs row" *ngFor="let item of logData | async">
+      <ul class="list-inline list-unstyled">
+        <li class="list-inline-item align-baseline">
+          <span class="text-muted">{{item.startAt | date:"hh:mm a"}} - {{item.createdAt | date:"hh:mm a"}}</span>
+        </li>
+        <li class="list-inline-item">
+          <span class="icon" [ngClass]="{'pomodoro': item.type == 'pomodoro', 'coffee': item.type == 'coffee break'}">
+            <i class="fas fa-lg" [ngClass]="{'fa-stopwatch': item.type == 'pomodoro', 'fa-glass-martini': item.type == 'short break',
+              'fa-coffee': item.type == 'coffee break', 'fa-utensils': item.type == 'long break'}"></i>
+          </span>
+        </li>
+        <li class="list-inline-item align-middle">
+
+          <span *ngIf="item.task != ''" class="font-weight-bold">{{item.task}}
+            <br>
+          </span>
+          <span *ngIf="item.task != ''" class="text-muted">{{item.project}}
+            <br>
+          </span>
+          <span *ngIf="item.task == ''" class="text-muted text-uppercase font-weight-bold">{{item.type}}
+            <br>
+          </span>
+          <span class="time">{{item.duration}} min</span>
+        </li>
+      </ul>
     </div>
+
   </div>
-
-
-  <hr/>
   <pre>Date Selected: {{ dateSelected | json }}</pre>
-
-  <loading-spinner *ngIf="showSpinner" ></loading-spinner>
-
-  <div *ngFor="let item of logData | async" >
-
-    <p>{{item.title}}</p>
-  
-  </div>
-  <!-- <pre>Activity Logs : {{ logData | json }} </pre> -->
 
 </div>

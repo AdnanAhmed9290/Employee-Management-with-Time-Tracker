@@ -1,6 +1,6 @@
-@import "./assets/styles/loading.scss";
-@import "./assets/styles/bootstrap-custom.scss";
-@import "./assets/styles/_variables.scss";
+@import "assets/styles/loading.scss";
+@import "assets/styles/bootstrap-custom.scss";
+@import "assets/styles/_variables.scss";
 
 
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,700" rel="stylesheet');
@@ -706,6 +706,57 @@ nav{
             padding-left: 1em;
             max-width: 120px;
         }
+
+        .arrow-btn, .today-btn{
+            color: $primary-color;
+            border: 1px solid $primary-color;
+            background: transparent;
+        }
+
+        .cycles{
+            font-size: 1.5em;
+
+            .recomended{
+                line-height: 0;
+                font-size: 0.5em;
+            }
+        }
         
+    }
+
+    .logs-data{
+
+        .icon{
+            padding: 0.7em;
+            border-radius: 50%;
+            border: 1px solid;
+            position: relative;
+
+            &::before{
+                content: '';
+                position: absolute;
+                height: 4rem;
+                width: 2px;
+                border-left: 2px solid #CCC;
+                bottom: -63px;
+                left: 50%;
+            }
+
+            &.pomodoro{
+                color: $primary-color;
+                border: 1px solid $primary-color;
+            }
+
+            &.coffee{
+                padding: 0.7em 0.4em;
+            }
+        
+        }
+
+        .logs:last-child{
+            .icon::before{
+                content: none;
+            }
+        }
     }
 }

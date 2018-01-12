@@ -1,6 +1,11 @@
 export const environment = {
     production: true,
     firebaseConfig: {
-        // same as above, or use a different firebase project to isolate environments
+        apiKey: "AIzaSyCiCLq-YaSh69EAdHSGXukvtbpkXGgUXGA",
+        authDomain: "nordicomm-pomodoro.firebaseapp.com",
+        databaseURL: "https://nordicomm-pomodoro.firebaseio.com",
+        projectId: "nordicomm-pomodoro",
+        storageBucket: "nordicomm-pomodoro.appspot.com",
+        messagingSenderId: "374886610836"
     }
 };

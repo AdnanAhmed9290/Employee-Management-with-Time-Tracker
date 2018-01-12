@@ -25,14 +25,15 @@ export class ActivityLogsService {
   LogsDocument:   AngularFirestoreDocument<Log>;
 
   
-  userId : String | null ;
+  userId : String ;
   Logs: AngularFireList<Log []>;
   L : FirebaseListObservable<Log []>;
   // itemsRef: AngularFireList<Item>;
   // itemRef:  AngularFireObject<Item>;
 
   constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth, private afs: AngularFirestore) {
-    this.userId = this.afAuth.auth.currentUser.uid; 
+      if(this.afAuth)
+        this.userId = this.afAuth.auth.currentUser.uid; 
   }
 
    // Return an observable list with optional query
@@ -46,7 +47,7 @@ export class ActivityLogsService {
     //   return arr.map((snap) => Object.assign(snap.payload.val(), { $key: snap.key }) );
     // });
 
-    this.LogsCollection = this.afs.collection<Log>('activities/'+this.userId+'/logs', ref => ref.where('date', '==', date).orderBy('createdAt',"desc"));
+    this.LogsCollection = this.afs.collection<Log>('users/'+this.userId+'/logs', ref => ref.where('date', '==', date).orderBy('createdAt',"desc"));
     return this.LogsCollection.snapshotChanges().map(actions => {
       return actions.map(action => {
         const data = action.payload.doc.data() as Log;
@@ -66,7 +67,7 @@ export class ActivityLogsService {
     // const timestamp = this.timestamp
     let now = moment();
     let start = moment().subtract(log.duration, 'm');
-    const userRef: AngularFirestoreCollection<any> = this.afs.collection(`activities/`).doc(''+this.userId+'/').collection('logs');
+    const userRef: AngularFirestoreCollection<any> = this.afs.collection(`users/`).doc(''+this.userId+'/').collection('logs');
     userRef.add({
       ...log,
       startAt: start.format(),

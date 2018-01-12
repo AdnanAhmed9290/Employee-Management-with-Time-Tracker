@@ -9,7 +9,7 @@
         <button class="btn btn-default arrow-btn" (click)="subDate()">
           <i class="fas fa-chevron-left"></i>
         </button>
-        <button class="btn btn-default arrow-btn" (click)="addDate()">
+        <button class="btn btn-default arrow-btn" (click)="addDate()" [disabled]="maxDateFlag">
           <i class="fas fa-chevron-right"></i>
         </button>
       </li>
@@ -33,7 +33,7 @@
         <button class="btn btn-default today-btn" (click)="selectToday()">
           Today
         </button>
-        <button class="btn btn-default" (click)="createP()">
+        <!-- <button class="btn btn-default" (click)="createP()">
           Pomodoro
         </button>
         <button class="btn btn-default" (click)="createS()">
@@ -44,10 +44,10 @@
         </button>
         <button class="btn btn-default" (click)="createL()">
           Long Break
-        </button>
+        </button> -->
       </li>
       <li class="list-inline-item align-top cycles">
-        {{cycles}} /
+        {{cycles.pomodoro}} /
       </li>
       <li class="list-inline-item cycles">
         <p class="text-muted m-0">16 cycles</p>
@@ -61,7 +61,7 @@
 
   <loading-spinner *ngIf="showSpinner"></loading-spinner>
 
-  <h4 *ngIf="cycles == 0">No Activities for this date</h4>
+  <h4 *ngIf="cycles.data"> No Activities for this date</h4>
 
   <div class="logs-data mt-5">
     <div class="mb-5 logs row" *ngFor="let item of logData | async">
@@ -92,6 +92,5 @@
     </div>
 
   </div>
-  <pre>Date Selected: {{ dateSelected | json }}</pre>
 
 </div>

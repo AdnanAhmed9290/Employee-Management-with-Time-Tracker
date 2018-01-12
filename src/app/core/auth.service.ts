@@ -116,7 +116,7 @@ export class AuthService {
   signOut() {
     this.afAuth.auth.signOut().then(() => {
         this.router.navigate(['/']);
-        toastr.success('Logout Successfull');
+        // toastr.success('Logout Successfull');
     });
   }
 

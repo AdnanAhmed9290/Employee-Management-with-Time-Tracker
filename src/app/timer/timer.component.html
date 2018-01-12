@@ -48,10 +48,10 @@
                         <label *ngIf="pomodoroForm.get('task').invalid && processValidation" class="text-danger" [ngClass]="'error'"> Enter Task Name </label>
                     </div>
                     <div class="col-sm-4">
-                        <select class="form-control mb-4" [disabled]="disableFields" formControlName="project">
+                        <select class="form-control mb-4" formControlName="project">
                             <option disabled selected value class="d-none">Choose a Project </option>
-                            <option>Q for Quran</option>
-                            <option>Babywink</option>
+                            <option ng-value="Q for Quran">Q for Quran</option>
+                            <option ng-value= "Babywink">Babywink</option>
                         </select>
                         <label *ngIf="pomodoroForm.get('project').invalid && processValidation" class="text-danger" [ngClass]="'error'"> Please Choose A Project </label>
                     </div>
@@ -60,13 +60,13 @@
             <div class="stopwatch my-5 text-center">
                 <div class="row my-3">
                     <countdown #cd1 [config]="{leftTime: (countDown.pomodoro), className: 'pomodoro-timer', template: '$!m!:$!s!$!s-ext!',demand: true }"
-                        (finished)="onFinished()"></countdown>
+                        (finished)="onFinishedPomodoro(cd1)"></countdown>
                 </div>
 
                 <div class="timer-btns row btn-group-vertical">
                     <button *ngIf="!toggleButtonTimer" (click)="begin(cd1)" class="btn btn-default btn-start mb-3">
                         <i class="fas fa-play"></i> Start</button>
-                    <button *ngIf="toggleButtonTimer" (click)="cd1.stop()" class="btn btn-default btn-stop mb-3">
+                    <button *ngIf="toggleButtonTimer" class="btn btn-default btn-stop mb-3" (click)="cd1.stop()">
                         <i class="fas fa-stop"></i> Stop</button>
                     <button *ngIf="toggleButtonTimer" (click)="restart(cd1)" class="btn btn-default btn-reset mb-3">
                         <i class="fas fa-redo"></i> Reset</button>
@@ -77,7 +77,7 @@
             <div class="stopwatch my-5 text-center">
                 <div class="row my-3">
                     <countdown #cd2 [config]="{leftTime: (countDown.short), className: 'short-timer', template: '$!m!:$!s!$!s-ext!',demand: true}"
-                        (finished)="onFinished()"></countdown>
+                        (finished)="onFinishedSB(cd2)"></countdown>
                 </div>
 
                 <div class="timer-btns row btn-group-vertical">
@@ -94,7 +94,7 @@
             <div class="stopwatch my-5 text-center">
                 <div class="row my-3">
                     <countdown #cd3 [config]="{leftTime: (countDown.coffee), className: 'coffee-timer', template: '$!m!:$!s!$!s-ext!',demand: true}"
-                        (finished)="onFinished()"></countdown>
+                        (finished)="onFinishedCB(cd3)"></countdown>
                 </div>
 
                 <div class="timer-btns row btn-group-vertical">
@@ -111,7 +111,7 @@
             <div class="stopwatch my-5 text-center">
                 <div class="row my-3">
                     <countdown #cd4 [config]="{leftTime: (countDown.long), className: 'long-timer', template: '$!m!:$!s!$!s-ext!',demand: true}"
-                        (finished)="onFinished()"></countdown>
+                        (finished)="onFinishedLB(cd4)"></countdown>
                 </div>
 
                 <div class="timer-btns row btn-group-vertical">
@@ -167,3 +167,21 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<!-- <div class="modal fade" id="stopModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+         
+            <div class="modal-body">
+                <h3 class="my-5">The time you worked will be lost , it is recommended to complete the cycle</h3>
+                <div class="text-center">
+                    <button class="btn btn-default btn-danger"  (click)="cd1.stop()">STOP</button>
+                    <button class="btn btn-default btn-info"  (click)="cd1.resume()">RESUME</button>
+                </div>
+            </div>
+           
+        </div>
+    </div>
+</div> -->
+

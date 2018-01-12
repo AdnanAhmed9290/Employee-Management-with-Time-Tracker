@@ -30,6 +30,10 @@ a {
 //   }
 }
 
+.btn.disabled, .btn:disabled{
+    cursor: no-drop;
+}
+
 #wrapper {
   display: flex;
   min-height: 100vh;

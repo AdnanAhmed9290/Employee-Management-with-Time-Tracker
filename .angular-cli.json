@@ -24,10 +24,8 @@
         "styles.scss"
       ],
       "scripts": [
-        "assets/js/jquery-3.2.1.min.js",
         "../node_modules/bootstrap/dist/js/bootstrap.bundle.js",
-        "../node_modules/moment/min/moment.min.js",
-        "assets/js/fontawesome-all.min.js"
+        "../node_modules/moment/min/moment.min.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

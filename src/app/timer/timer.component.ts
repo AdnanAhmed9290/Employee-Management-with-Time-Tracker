@@ -141,6 +141,8 @@ export class TimerComponent implements OnInit, AfterViewInit {
       project: project,
       duration: 25
     }
+
+    this.timerService.createLog(content);
     this.restart(counter);
     this.toggleButtonTimer = false;
     this.processValidation = false;

@@ -25,8 +25,8 @@ export class TimerComponent implements OnInit, AfterViewInit {
   notification_val: String;
   notify: string;
   disableFields: boolean = false;
-  countDown = { "pomodoro": 1500, "short": 300, "coffee": 600, "long": 1800 }
-  // countDown = { "pomodoro": 10, "short": 10, "coffee": 10, "long": 10 }
+  // countDown = { "pomodoro": 1500, "short": 300, "coffee": 600, "long": 1800 }
+  countDown = { "pomodoro": 30, "short": 10, "coffee": 20, "long": 40 }
   toggleButtonTimer: boolean = false;
   processValidation: boolean = false;
 
@@ -94,7 +94,6 @@ export class TimerComponent implements OnInit, AfterViewInit {
       }
 
     }
-    console.log(this.pomodoroForm.get('task').value, this.pomodoroForm.get('project').value);
     this.disableFields = true;
     counter.begin();
     this.toggleButtonTimer = true;
@@ -142,7 +141,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
       project: project,
       duration: 25
     }
-    counter.restart();
+    this.restart(counter);
     this.toggleButtonTimer = false;
     this.processValidation = false;
     this.pomodoroForm.reset();
@@ -151,6 +150,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
   }
 
   onFinishedSB(counter:any) {
+
 
 
     if (Notification.permission !== "granted")
@@ -164,9 +164,11 @@ export class TimerComponent implements OnInit, AfterViewInit {
     var audio = new Audio('assets/sounds/definite.mp3');
     audio.play();
 
+    
+    this.restart(counter);
     let content: any = { type: "short break", task: '', project: '', duration: 5 }
     this.timerService.createLog(content);
-    counter.restart();
+    
     this.toggleButtonTimer = false;
   }
 
@@ -186,7 +188,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
 
     let content: any = { type: "coffee break", task: '', project: '', duration: 10 }
     this.timerService.createLog(content);
-    counter.restart();
+    this.restart(counter);
     this.toggleButtonTimer = false;
   }
 
@@ -205,7 +207,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
 
     let content: any = { type: "long break", task: '', project: '', duration: 30 }
     this.timerService.createLog(content);
-    counter.restart();
+    this.restart(counter);
     this.toggleButtonTimer = false;
   }
 

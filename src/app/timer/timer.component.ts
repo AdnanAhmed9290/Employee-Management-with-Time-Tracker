@@ -26,7 +26,9 @@ export class TimerComponent implements OnInit, AfterViewInit {
   notify: string;
   projects: any;
   // countDown = { "pomodoro": 1500, "short": 300, "coffee": 600, "long": 1800 }
-  countDown = { "pomodoro": 60, "short": 120, "coffee": 120, "long": 120 }
+  // countDown = { "pomodoro": 60, "short": 120, "coffee": 120, "long": 120 }
+  countDown: any;
+  getCountDown: any;
   toggleButtonTimer: boolean = false;
   processValidation: boolean = false;
 
@@ -44,6 +46,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
     this.notify = Notification.permission;
     this.notify == "granted" ? this.notification_val = "on" : this.notification_val = "off";
     this.projects = this.timerService.getProjects();
+    this.getCountDown = this.timerService.getSettings();
   }
 
   ngOnInit() {
@@ -51,6 +54,10 @@ export class TimerComponent implements OnInit, AfterViewInit {
     this.projects.subscribe(x=>{
       // success data operations
     },error=> console.log(error));
+
+    this.getCountDown.subscribe(x=> {
+      this.countDown = { "pomodoro": x.pomodoro*60 , "short": x.short*60, "coffee": x.coffee*60, "long": x.long*60 } 
+    },error => console.log(error))
 
   }
 

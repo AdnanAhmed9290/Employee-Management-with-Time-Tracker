@@ -18,7 +18,7 @@ import 'rxjs/add/observable/throw';
 export class TimerService {
 
   projectCollection: AngularFirestoreCollection<Log>;
-  // LogsDocument:   AngularFirestoreDocument<Log>;
+  timerDocument:   AngularFirestoreDocument<Log>;
 
   userId : String ;
 
@@ -40,6 +40,16 @@ export class TimerService {
       return this.projectCollection.valueChanges();
   
     }
+
+
+  getSettings(): Observable<any>{
+      this.timerDocument = this.afs.collection<any>('settings').doc('timer');
+      // .valueChanges() is simple. It just returns the 
+      // JSON data without metadata. If you need the 
+      // doc.id() in the value you must persist it your self
+      // or use .snapshotChanges() instead.
+      return this.timerDocument.valueChanges();
+  }
 
   get timestamp() {
     return firebase.firestore.FieldValue.serverTimestamp()

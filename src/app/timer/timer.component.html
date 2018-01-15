@@ -58,7 +58,7 @@
             </form>
             <div class="stopwatch my-5 text-center">
                 <div class="row my-3">
-                    <countdown #cd1 [config]="{leftTime: (countDown.pomodoro), className: 'pomodoro-timer', template: '$!m!:$!s!$!s-ext!',demand: true }"
+                    <countdown *ngIf="getCountDown | async"  #cd1 [config]="{leftTime: (countDown.pomodoro), className: 'pomodoro-timer', template: '$!m!:$!s!$!s-ext!',demand: true }"
                         (finished)="onFinishedPomodoro(cd1)"></countdown>
                 </div>
 
@@ -76,7 +76,7 @@
         <div class="tab-pane" id="short-break" role="tabpanel" aria-labelledby="short-break-tab">
             <div class="stopwatch my-5 text-center">
                 <div class="row my-3">
-                    <countdown #cd2 [config]="{leftTime: (countDown.short), className: 'short-timer', template: '$!m!:$!s!$!s-ext!',demand: true}"
+                    <countdown *ngIf="getCountDown | async" #cd2 [config]="{leftTime: (countDown.short), className: 'short-timer', template: '$!m!:$!s!$!s-ext!',demand: true}"
                         (finished)="onFinishedSB(cd2)" ></countdown>
                 </div>
 
@@ -93,7 +93,7 @@
         <div class="tab-pane" id="coffee-break" role="tabpanel" aria-labelledby="coffee-break-tab">
             <div class="stopwatch my-5 text-center">
                 <div class="row my-3">
-                    <countdown #cd3 [config]="{leftTime: (countDown.coffee), className: 'coffee-timer', template: '$!m!:$!s!$!s-ext!',demand: true}"
+                    <countdown *ngIf="getCountDown | async" #cd3 [config]="{leftTime: (countDown.coffee), className: 'coffee-timer', template: '$!m!:$!s!$!s-ext!',demand: true}"
                         (finished)="onFinishedCB(cd3)"></countdown>
                 </div>
 
@@ -110,7 +110,7 @@
         <div class="tab-pane" id="long-break" role="tabpanel" aria-labelledby="long-break-tab">
             <div class="stopwatch my-5 text-center">
                 <div class="row my-3">
-                    <countdown #cd4 [config]="{leftTime: (countDown.long), className: 'long-timer', template: '$!m!:$!s!$!s-ext!',demand: true}"
+                    <countdown *ngIf="getCountDown | async" #cd4 [config]="{leftTime: (countDown.long), className: 'long-timer', template: '$!m!:$!s!$!s-ext!',demand: true}"
                         (finished)="onFinishedLB(cd4)"></countdown>
                 </div>
 

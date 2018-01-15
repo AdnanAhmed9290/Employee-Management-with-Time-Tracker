@@ -16,14 +16,15 @@ const routes: Routes = [
   { path: '', redirectTo: 'timer' , pathMatch: 'full' },
   { path: 'timer', component: TimerComponent,  canActivate: [AuthGuard] },
   { path: 'activities', component: ActivityLogsComponent,  canActivate: [AuthGuard] },
-  { path: 'items', component: ItemsListComponent, canActivate: [AuthGuard] },
-  { path: 'notes', component: NotesListComponent,  canActivate: [AuthGuard] },
+  // { path: 'items', component: ItemsListComponent, canActivate: [AuthGuard] },
+  // { path: 'notes', component: NotesListComponent,  canActivate: [AuthGuard] },
   
   // uploads are lazy loaded
   { path: 'uploads', loadChildren: './uploads/shared/upload.module#UploadModule', canActivate: [AuthGuard] },
 
   // otherwise redirect to home
   { path: '**', redirectTo: 'timer' }
+  
 ];
 
 @NgModule({

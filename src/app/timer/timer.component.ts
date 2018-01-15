@@ -24,9 +24,9 @@ export class TimerComponent implements OnInit, AfterViewInit {
   model: any;
   notification_val: String;
   notify: string;
-  disableFields: boolean = false;
+  projects: any;
   // countDown = { "pomodoro": 1500, "short": 300, "coffee": 600, "long": 1800 }
-  countDown = { "pomodoro": 30, "short": 10, "coffee": 20, "long": 40 }
+  countDown = { "pomodoro": 60, "short": 120, "coffee": 120, "long": 120 }
   toggleButtonTimer: boolean = false;
   processValidation: boolean = false;
 
@@ -36,16 +36,21 @@ export class TimerComponent implements OnInit, AfterViewInit {
   @ViewChild('cd4') cd4: CountdownComponent;
 
   pomodoroForm = new FormGroup({
-    task: new FormControl('', Validators.required),
-    project: new FormControl('', Validators.required)
+    task: new FormControl({value:'', disabled: false} , Validators.required),
+    project: new FormControl({value:'', disabled: false}, Validators.required)
   });
 
   constructor(private timerService: TimerService) {
     this.notify = Notification.permission;
     this.notify == "granted" ? this.notification_val = "on" : this.notification_val = "off";
+    this.projects = this.timerService.getProjects();
   }
 
   ngOnInit() {
+
+    this.projects.subscribe(x=>{
+      // success data operations
+    },error=> console.log(error));
 
   }
 
@@ -81,9 +86,32 @@ export class TimerComponent implements OnInit, AfterViewInit {
 
   }
 
-  // start(counter: CountdownComponent) {
-  //   console.log(this.projects);
-  // }
+  onStart() {
+    // console.log("timer started");
+  }
+
+
+  onStop(counter: CountdownComponent){
+    counter.stop();
+    let task = this.pomodoroForm.get('task').value;
+    let project = this.pomodoroForm.get('project').value;
+
+    let content: any = {
+      type: "pomodoro",
+      task: task,
+      project: project,
+      fullCycle: false,
+      duration: <number>counter.config.leftTime / 60
+    }
+
+    this.nofitySound(content.type);
+
+    this.timerService.createLog(content);
+    this.restart(counter);
+    this.toggleButtonTimer = false;
+    this.processValidation = false;
+    this.pomodoroForm.reset();
+  }
 
   begin(counter: CountdownComponent) {
 
@@ -94,7 +122,10 @@ export class TimerComponent implements OnInit, AfterViewInit {
       }
 
     }
-    this.disableFields = true;
+    // this.disableFields = true;
+    this.pomodoroForm.controls['task'].disable();
+    this.pomodoroForm.controls['project'].disable();
+    this.reset(counter);
     counter.begin();
     this.toggleButtonTimer = true;
     // let minutes =<number> counter.config.leftTime / 60;
@@ -103,9 +134,14 @@ export class TimerComponent implements OnInit, AfterViewInit {
 
   restart(counter: CountdownComponent) {
 
-    this.processValidation = false;
-    this.pomodoroForm.reset();
-    this.disableFields = false;
+    if (counter == this.cd1) {
+      this.processValidation = false;
+      this.pomodoroForm.reset();
+      this.pomodoroForm.controls['task'].enable();
+      this.pomodoroForm.controls['project'].enable();
+    }
+
+
     let minutes = <number>counter.config.leftTime / 60;
     if (minutes < 10)
       $('.' + counter.config.className).find('span.hand.hand-m').html('<span class="digital digital-0 ">0</span><span class="digital digital-' + minutes.toString()[0] + ' ">' + minutes.toString()[0] + '</span>');
@@ -113,6 +149,22 @@ export class TimerComponent implements OnInit, AfterViewInit {
       $('.' + counter.config.className).find('span.hand.hand-m').html('<span class="digital digital-' + minutes.toString()[0] + ' ">' + minutes.toString()[0] + '</span><span class="digital digital-' + minutes.toString()[1] + ' ">' + minutes.toString()[1] + '</span>');
     $('.' + counter.config.className).find('span.hand.hand-s').html('<span class="digital digital-0 ">0</span><span class="digital digital-0 ">0</span>');
     counter.config.leftTime = <number>counter.config.leftTime + 0.1;
+
+    counter.restart();
+    this.toggleButtonTimer = false;
+    counter.config.leftTime = <number>counter.config.leftTime - 0.1;
+
+  }
+
+  reset(counter: CountdownComponent){
+    let minutes = <number>counter.config.leftTime / 60;
+    if (minutes < 10)
+      $('.' + counter.config.className).find('span.hand.hand-m').html('<span class="digital digital-0 ">0</span><span class="digital digital-' + minutes.toString()[0] + ' ">' + minutes.toString()[0] + '</span>');
+    else
+      $('.' + counter.config.className).find('span.hand.hand-m').html('<span class="digital digital-' + minutes.toString()[0] + ' ">' + minutes.toString()[0] + '</span><span class="digital digital-' + minutes.toString()[1] + ' ">' + minutes.toString()[1] + '</span>');
+    $('.' + counter.config.className).find('span.hand.hand-s').html('<span class="digital digital-0 ">0</span><span class="digital digital-0 ">0</span>');
+    counter.config.leftTime = <number>counter.config.leftTime + 0.1;
+
     counter.restart();
     this.toggleButtonTimer = false;
     counter.config.leftTime = <number>counter.config.leftTime - 0.1;
@@ -125,22 +177,15 @@ export class TimerComponent implements OnInit, AfterViewInit {
     let task = this.pomodoroForm.get('task').value;
     let project = this.pomodoroForm.get('project').value;
 
-    if (Notification.permission !== "granted")
-      Notification.requestPermission();
-    var notification = new Notification(task, {
-      icon: 'assets/images/nordicomm_logo_dark.png',
-      body: "Hey there! Your Pomodoro task on " + project + " is finished",
-    });
-
-    var audio = new Audio('assets/sounds/definite.mp3');
-    audio.play();
-
     let content: any = {
       type: "pomodoro",
       task: task,
       project: project,
+      fullCycle: true,
       duration: 25
     }
+
+    this.nofitySound(content.type);
 
     this.timerService.createLog(content);
     this.restart(counter);
@@ -152,65 +197,46 @@ export class TimerComponent implements OnInit, AfterViewInit {
   }
 
   onFinishedSB(counter:any) {
-
-
-
-    if (Notification.permission !== "granted")
-      Notification.requestPermission();
-    var notification = new Notification("Timer Finished", {
-      icon: 'assets/images/nordicomm_logo_dark.png',
-      body: "Hey there! Your Short Break is over",
-    });
-
-
-    var audio = new Audio('assets/sounds/definite.mp3');
-    audio.play();
-
     
     this.restart(counter);
-    let content: any = { type: "short break", task: '', project: '', duration: 5 }
+    // counter.restart();
+    let content: any = { type: "short break", task: '', project: '', duration: 5 , fullCycle: true }
+    this.nofitySound(content.type);
     this.timerService.createLog(content);
-    
     this.toggleButtonTimer = false;
   }
 
   onFinishedCB(counter:any) {
 
-
-    if (Notification.permission !== "granted")
-      Notification.requestPermission();
-    var notification = new Notification("Timer Finished", {
-      icon: 'assets/images/nordicomm_logo_dark.png',
-      body: "Hey there! Your Coffee Break is over",
-    });
-
-
-    var audio = new Audio('assets/sounds/definite.mp3');
-    audio.play();
-
-    let content: any = { type: "coffee break", task: '', project: '', duration: 10 }
+    let content: any = { type: "coffee break", task: '', project: '', duration: 10 , fullCycle: true }
     this.timerService.createLog(content);
+    this.nofitySound(content.type);
     this.restart(counter);
     this.toggleButtonTimer = false;
   }
 
   onFinishedLB(counter:any) {
 
-    if (Notification.permission !== "granted")
-      Notification.requestPermission();
-    var notification = new Notification("Timer Finished", {
-      icon: 'assets/images/nordicomm_logo_dark.png',
-      body: "Hey there! Your Long Break is over",
-    });
+    let content: any = { type: "long break", task: '', project: '', duration: 30 , fullCycle: true }
+    this.timerService.createLog(content);
+    this.nofitySound(content.type);
+    this.restart(counter);
+    this.toggleButtonTimer = false;
 
+  }
+
+  nofitySound(type){
+    
+    if (Notification.permission !== "granted")
+    Notification.requestPermission();
+    var notification = new Notification("Nordicomm EMS", {
+      icon: 'assets/images/nordicomm_logo_dark.png',
+      body: "Hey there! Your Timer for "+type+" is over",
+    });
 
     var audio = new Audio('assets/sounds/definite.mp3');
     audio.play();
-
-    let content: any = { type: "long break", task: '', project: '', duration: 30 }
-    this.timerService.createLog(content);
-    this.restart(counter);
-    this.toggleButtonTimer = false;
+  
   }
 
   handleChange(num: number) {

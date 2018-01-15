@@ -47,7 +47,9 @@ export class ActivityLogsService {
     //   return arr.map((snap) => Object.assign(snap.payload.val(), { $key: snap.key }) );
     // });
 
-    this.LogsCollection = this.afs.collection<Log>('users/'+this.userId+'/logs', ref => ref.where('date', '==', date).orderBy('createdAt',"desc"));
+    this.LogsCollection = this.afs.collection<Log>('users/'+this.userId+'/logs', 
+      ref => ref.where('date', '==', date).where('fullCycle','==', true)
+      .orderBy('createdAt',"desc"));
     return this.LogsCollection.snapshotChanges().map(actions => {
       return actions.map(action => {
         const data = action.payload.doc.data() as Log;
@@ -63,18 +65,18 @@ export class ActivityLogsService {
     return firebase.firestore.FieldValue.serverTimestamp()
   }
 
-  createLog(log: any)  {
-    // const timestamp = this.timestamp
-    let now = moment();
-    let start = moment().subtract(log.duration, 'm');
-    const userRef: AngularFirestoreCollection<any> = this.afs.collection(`users/`).doc(''+this.userId+'/').collection('logs');
-    userRef.add({
-      ...log,
-      startAt: start.format(),
-      createdAt: now.format(),
-      date: now.format('YYYY/MM/DD') 
-    });
-    // this.db.list(`logs/${this.userId}`).push(log);
-  }
+  // createLog(log: any)  {
+  //   // const timestamp = this.timestamp
+  //   let now = moment();
+  //   let start = moment().subtract(log.duration, 'm');
+  //   const userRef: AngularFirestoreCollection<any> = this.afs.collection(`users/`).doc(''+this.userId+'/').collection('logs');
+  //   userRef.add({
+  //     ...log,
+  //     startAt: start.format(),
+  //     createdAt: now.format(),
+  //     date: now.format('YYYY/MM/DD') 
+  //   });
+  //   // this.db.list(`logs/${this.userId}`).push(log);
+  // }
 
 }

@@ -2,7 +2,22 @@
 
   <div class="calender row my-4">
 
-    <h2 class="w-100 mb-4">Activity Logs</h2>
+    <h2 class="w-100 mb-4 d-none d-lg-block d-xl-block">Activity Logs</h2>
+
+    <div class="col-12 p-0 d-block d-sm-block d-md-block d-lg-none d-xl-none">
+        <ul class="list-unstyled list-inline">
+            <li class="list-inline-item  align-top w-50">
+              <h3>Activity Logs</h3>
+            </li>
+            <li class="list-inline-item align-top cycles">
+                {{cycles.pomodoro}} /
+            </li>
+            <li class="list-inline-item cycles">
+              <p class="text-muted m-0">16 cycles</p>
+              <p class="text-muted m-0 recomended">(recomended)</p>
+            </li>
+          </ul>
+    </div>
 
     <ul class="list-unstyled list-inline">
       <li class="list-inline-item  align-top">
@@ -46,10 +61,10 @@
           Long Break
         </button> -->
       </li>
-      <li class="list-inline-item align-top cycles">
+      <li class="list-inline-item align-top cycles d-none d-lg-inline d-xl-inline">
         {{cycles.pomodoro}} /
       </li>
-      <li class="list-inline-item cycles">
+      <li class="list-inline-item cycles d-none d-lg-inline-block d-xl-inline-block">
         <p class="text-muted m-0">16 cycles</p>
         <p class="text-muted m-0 recomended">(recomended)</p>
       </li>

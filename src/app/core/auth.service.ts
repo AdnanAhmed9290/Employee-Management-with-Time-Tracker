@@ -66,7 +66,14 @@ export class AuthService {
         // this.notify.update('Welcome to Employee Management System!!!', 'success');
         return this.updateUserData(credential.user);
       })
-      .catch((error) => this.handleError(error) );
+      .catch((error) => {
+        if(error.message == "Missing or insufficient permissions."){
+          toastr.error('Only users with Nordicomm Domain are allowed access')
+        }
+        else{
+          this.handleError(error);
+        }
+      });
   }
 
   //// ============= Anonymous Auth ====================== ////
@@ -122,8 +129,8 @@ export class AuthService {
 
   // If error, console log and notify user
   private handleError(error: Error) {
-    console.error(error);
     toastr.error(error.message);
+    console.log(error);
     // this.notify.update(error.message, 'error');
   }
 
@@ -138,7 +145,6 @@ export class AuthService {
       displayName: user.displayName || 'nameless user',
       photoURL: user.photoURL || 'https://goo.gl/Fz9nrQ',
     };
-    toastr.success('Login Successfull');
     return userRef.set(data);
   }
 }

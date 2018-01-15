@@ -17,7 +17,7 @@ import 'rxjs/add/observable/throw';
 @Injectable()
 export class TimerService {
 
-  // LogsCollection: AngularFirestoreCollection<Log>;
+  projectCollection: AngularFirestoreCollection<Log>;
   // LogsDocument:   AngularFirestoreDocument<Log>;
 
   userId : String ;
@@ -30,6 +30,16 @@ export class TimerService {
    // Return an observable list with optional query
   // You will usually call this from OnInit in a component
   
+  getProjects(): Observable<any> {
+    
+      this.projectCollection = this.afs.collection<any>('projects');
+      // .valueChanges() is simple. It just returns the 
+      // JSON data without metadata. If you need the 
+      // doc.id() in the value you must persist it your self
+      // or use .snapshotChanges() instead.
+      return this.projectCollection.valueChanges();
+  
+    }
 
   get timestamp() {
     return firebase.firestore.FieldValue.serverTimestamp()
@@ -44,7 +54,16 @@ export class TimerService {
       startAt: start.format(),
       createdAt: now.format(),
       date: now.format('YYYY/MM/DD') 
-    });
+    })
+    .then( x => toastr.success('Activity Log Saved') )
+    .catch( error => this.handleError(error));
+  }
+
+   // If error, console log and notify user
+   private handleError(error: Error) {
+    toastr.error(error.message);
+    console.log(error);
+    // this.notify.update(error.message, 'error');
   }
 
 }

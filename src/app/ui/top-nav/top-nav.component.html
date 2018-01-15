@@ -49,7 +49,7 @@
               </a>
 
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="#">Settings</a>
+                <a class="dropdown-item" data-toggle="modal" data-target="#settingModal" >Settings</a>
                 <a class="dropdown-item" href="#" (click)="logout()">Logout</a>
               </div>
             </div>
@@ -85,20 +85,64 @@
       <h4 class="mt-3 mb-5">{{user.displayName}}</h4>
     </div>
 
+    <div class="user-area" *ngIf="!(auth.user | async)">
+      <img class="avatar rounded-circle" [src]="'https://api.adorable.io/avatars/109/fire.png'" width="100" />
+      <h4 class="mt-3 mb-5">Hello Guest</h4>
+    </div>
+
 
     <ul class="m-auto list-unstyled">
       <li class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" routerLink="/timer">Timer</a>
+        <a class="nav-link" routerLink="/timer" (click)="collapseNav = false" >Timer</a>
       </li>
       <li class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" routerLink="/activities">Activity Log</a>
+        <a class="nav-link" routerLink="/activities" (click)="collapseNav = false">Activity Log</a>
       </li>
       <li class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" routerLink="/documents">My Documents</a>
+        <a class="nav-link" routerLink="/documents" (click)="collapseNav = false">My Documents</a>
       </li>
       <li class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" routerLink="/faq">FAQ</a>
+        <a class="nav-link" routerLink="/faq" (click)="collapseNav = false">FAQ</a>
       </li>
     </ul>
+
+    <div class="logout" *ngIf="auth.user | async">
+        <button class="btn logout-btn" (click)="logout()">Logout</button>
+    </div>
   </div>
 </div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="settingModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    
+      <div class="modal-body">
+        <div class="container">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+          <h2>Options</h2>
+          <div class="body my-4">
+            <h4>Select Sound</h4>
+
+            <select class="form-control">
+              <option>Sound 1</option>
+              <option>Sound 2</option>
+              <option>Sound 3</option>
+              <option>Sound 4</option>
+            </select>
+          </div>
+          <div class="footer">
+            <button class="btn btn-info">SAVE</button>
+            <button class="btn btn-info">RESET</button>
+            <!-- <button class="btn btn-info">SAVE</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

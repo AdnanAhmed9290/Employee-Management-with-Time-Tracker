@@ -30,8 +30,12 @@ a {
 //   }
 }
 
-.btn.disabled, .btn:disabled{
+.btn.disabled, .btn:disabled, input:disabled{
     cursor: no-drop;
+}
+
+#toast-container{
+    top: 4rem;
 }
 
 #wrapper {

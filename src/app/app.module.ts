@@ -6,8 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-///// Start FireStarter
-
 // Core
 import { CoreModule } from './core/core.module';
 
@@ -15,19 +13,19 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
 // Feature Modules
-import { ItemModule } from './items/shared/item.module';
-import { UploadModule } from './uploads/shared/upload.module';
 import { UiModule } from './ui/shared/ui.module';
-import { NotesModule } from './notes/notes.module';
 import { ActivityLogsModule } from './activity-logs/shared/activity-logs.module';
 import { TimerModule } from './timer/shared/timer.module';
-///// End FireStarter
 
 import { environment } from '../environments/environment';
+
+
+///// Start FireStarter
 
 import { AngularFireModule } from 'angularfire2';
 export const firebaseConfig = environment.firebaseConfig;
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+///// End FireStarter
 
 @NgModule({
   declarations: [
@@ -40,11 +38,9 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
     AppRoutingModule,
     CoreModule,
     SharedModule,
-    ItemModule,
     UiModule,
     ActivityLogsModule,
     TimerModule,
-    NotesModule,
     AngularFireModule.initializeApp(firebaseConfig)
     // NgbModule.forRoot()
   ],

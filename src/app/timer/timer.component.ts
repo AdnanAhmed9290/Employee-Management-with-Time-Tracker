@@ -25,8 +25,9 @@ export class TimerComponent implements OnInit, AfterViewInit {
   notification_val: String;
   notify: string;
   projects: any;
+  loadingSpinner: boolean;
   // countDown = { "pomodoro": 1500, "short": 300, "coffee": 600, "long": 1800 }
-  // countDown = { "pomodoro": 60, "short": 120, "coffee": 120, "long": 120 }
+  // countDown = { "pomodoro": 60, "short": 6, "coffee": 5, "long": 4 }
   countDown: any;
   getCountDown: any;
   toggleButtonTimer: boolean = false;
@@ -47,16 +48,19 @@ export class TimerComponent implements OnInit, AfterViewInit {
     this.notify == "granted" ? this.notification_val = "on" : this.notification_val = "off";
     this.projects = this.timerService.getProjects();
     this.getCountDown = this.timerService.getSettings();
+
   }
 
   ngOnInit() {
 
+    this.loadingSpinner = true; 
     this.projects.subscribe(x=>{
       // success data operations
     },error=> console.log(error));
 
     this.getCountDown.subscribe(x=> {
       this.countDown = { "pomodoro": x.pomodoro*60 , "short": x.short*60, "coffee": x.coffee*60, "long": x.long*60 } 
+      this.loadingSpinner = false;
     },error => console.log(error))
 
   }
@@ -192,13 +196,12 @@ export class TimerComponent implements OnInit, AfterViewInit {
       duration: 25
     }
 
-    this.nofitySound(content.type);
-
     this.timerService.createLog(content);
     this.restart(counter);
     this.toggleButtonTimer = false;
     this.processValidation = false;
     this.pomodoroForm.reset();
+    this.nofitySound(content.type);
 
 
   }
@@ -208,27 +211,29 @@ export class TimerComponent implements OnInit, AfterViewInit {
     this.restart(counter);
     // counter.restart();
     let content: any = { type: "short break", task: '', project: '', duration: 5 , fullCycle: true }
-    this.nofitySound(content.type);
     this.timerService.createLog(content);
     this.toggleButtonTimer = false;
+    this.nofitySound(content.type);
+
   }
 
   onFinishedCB(counter:any) {
 
     let content: any = { type: "coffee break", task: '', project: '', duration: 10 , fullCycle: true }
     this.timerService.createLog(content);
-    this.nofitySound(content.type);
     this.restart(counter);
     this.toggleButtonTimer = false;
+    this.nofitySound(content.type);
+
   }
 
   onFinishedLB(counter:any) {
 
     let content: any = { type: "long break", task: '', project: '', duration: 30 , fullCycle: true }
     this.timerService.createLog(content);
-    this.nofitySound(content.type);
     this.restart(counter);
     this.toggleButtonTimer = false;
+    this.nofitySound(content.type);
 
   }
 

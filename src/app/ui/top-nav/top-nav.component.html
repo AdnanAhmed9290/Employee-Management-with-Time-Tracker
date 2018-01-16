@@ -32,7 +32,7 @@
             <p class="text-light px-5 mt-1 mb-0">
               <span class="text-muted">Howdy Guest</span>
               <br> Login to start</p>
-            <img class="avatar rounded-circle position-absolute" [src]="'https://api.adorable.io/avatars/109/fire.png'" width=50px />
+            <img class="avatar rounded-circle position-absolute" [src]="'https://api.adorable.io/avatars/109/fire.png'" width=40px />
           </li>
         </ng-template>
 
@@ -42,7 +42,7 @@
             <div class="dropdown show" *ngIf="auth.user | async as user">
               <a class="btn profile-btn px-5 text-left" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
-                <img class="avatar rounded-circle" [src]="user.photoURL || 'https://api.adorable.io/avatars/109/fire.png'" width=50px />
+                <img class="avatar rounded-circle" [src]="user.photoURL || 'https://api.adorable.io/avatars/109/fire.png'" width=40px />
                 <span class="text-muted">Welcome</span>
                 <br> {{user.displayName}}
                 <i class="fas fa-cog fa-lg"></i>
@@ -107,7 +107,8 @@
     </ul>
 
     <div class="logout" *ngIf="auth.user | async">
-        <button class="btn logout-btn" (click)="logout()">Logout</button>
+        <!-- <button class="btn logout-btn" (click)="logout()">Logout</button> -->
+        <a class="btn btn-default logout-btn" href="#" (click)="logout()">Logout</a>
     </div>
   </div>
 </div>

@@ -3,8 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { UserLoginComponent } from './ui/user-login/user-login.component';
-import { ItemsListComponent } from './items/items-list/items-list.component';
-import { NotesListComponent } from './notes/notes-list/notes-list.component';
 import { TimerComponent } from './timer/timer.component';
 import { ActivityLogsComponent } from './activity-logs/activity-logs.component';
 
@@ -20,7 +18,7 @@ const routes: Routes = [
   // { path: 'notes', component: NotesListComponent,  canActivate: [AuthGuard] },
   
   // uploads are lazy loaded
-  { path: 'uploads', loadChildren: './uploads/shared/upload.module#UploadModule', canActivate: [AuthGuard] },
+  // { path: 'uploads', loadChildren: './uploads/shared/upload.module#UploadModule', canActivate: [AuthGuard] },
 
   // otherwise redirect to home
   { path: '**', redirectTo: 'timer' }

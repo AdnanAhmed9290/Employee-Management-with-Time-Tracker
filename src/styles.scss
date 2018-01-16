@@ -16,6 +16,7 @@ $heading-font: 'Roboto', sans-serif;
 body {
   font-family: $body-font;
   position: relative;
+  font-size: 1em;
 }
 
 h1, h2, h3, h4, h5, h6, {
@@ -58,6 +59,10 @@ a {
     &.collapsed{
         margin-left: $collapse-width;
     }
+}
+
+.bg-dark{
+    background-color: #252525 !important;
 }
 
 footer-nav{
@@ -410,7 +415,7 @@ nav{
               border-left: 10px solid transparent;
               border-right: 10px solid transparent;
               border-bottom: 10px solid #ff000000;
-              border-top: 10px solid #343a40;
+              border-top: 10px solid #252525;
             }
           }
       
@@ -441,6 +446,7 @@ nav{
         background: transparent;
         color: #fff;
         border: 0;
+        line-height: 1.2;
       
         &:focus{
           outline: 0;
@@ -480,7 +486,7 @@ nav{
             border: 1px solid #dee2e6;
             padding-top: 1.5vw;
             padding-bottom: 1.5vw; 
-            font-size: 1.2em;
+            font-size: 1em;
             color: #252525;
             border-radius: 0;
             line-height: 20px;
@@ -512,7 +518,9 @@ nav{
     }
 
     .count-down{
-        font-size: 6em;
+        font-size: 5em;
+        font-weight: bold;
+        color: #375880;
         margin: auto;
         position: relative;
 

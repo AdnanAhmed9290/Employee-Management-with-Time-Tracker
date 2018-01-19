@@ -470,6 +470,10 @@ footer-nav{
 nav{
     padding: 0.2em 1em;
 
+    .navbar-brand{
+        padding: 0.5rem 0;
+    }
+
     &.navbar {
         border-bottom: 1px solid #E4E4E4;
         box-shadow: 0 0 4px rgba(0,0,0,.1), 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -484,7 +488,7 @@ nav{
             &::before{
               content: "";
               position: absolute;
-              bottom: -20px;
+              bottom: -23px;
               left: 50%;
               margin-left: -10px;
               border-left: 10px solid transparent;
@@ -495,7 +499,7 @@ nav{
           }
       
           a.nav-link{
-            color: #fff;
+            color: rgba(255,255,255,0.73);
             font-weight: normal;
             transition: color 0.3s ease;
             position: relative;

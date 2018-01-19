@@ -11,6 +11,7 @@ import {
   NavigationError
 } from '@angular/router'
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -19,7 +20,7 @@ import {
 })
 export class AppComponent implements AfterViewInit {
 
-    @ViewChild(TopNavComponent) topNav:boolean;
+    @ViewChild(TopNavComponent) topNav;
     
     collapseNav: boolean = false;
     // Sets initial value to true to show loading spinner on first load
@@ -37,7 +38,7 @@ export class AppComponent implements AfterViewInit {
 
       ngAfterContentChecked(){
         // console.log('ass');
-        // this.collapseNav = this.topNav.collapseNav;
+        this.collapseNav = this.topNav.collapseNav;
       }
     
       // Shows and hides the loading spinner during RouterEvent changes

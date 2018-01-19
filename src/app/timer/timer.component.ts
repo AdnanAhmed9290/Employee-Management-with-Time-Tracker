@@ -28,6 +28,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
   loadingSpinner: boolean;
   // countDown = { "pomodoro": 1500, "short": 300, "coffee": 600, "long": 1800 }
   // countDown = { "pomodoro": 60, "short": 6, "coffee": 5, "long": 4 }
+  timerStatus: boolean;
   countDown: any;
   getCountDown: any;
   toggleButtonTimer: boolean = false;
@@ -63,6 +64,12 @@ export class TimerComponent implements OnInit, AfterViewInit {
       this.loadingSpinner = false;
     },error => console.log(error))
 
+    this.timerService.currentStatus.subscribe(status => {
+      this.timerStatus = status;
+    })
+
+    this.timerService.changeTimerStatus(false);
+
   }
 
   ngAfterViewInit() {
@@ -92,6 +99,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
       setTimeout(function () {
         counter.begin();
       }, 600);
+      this.timerService.changeTimerStatus(true);
       this.toggleButtonTimer = true;
     }
 
@@ -139,6 +147,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
     this.reset(counter);
     counter.begin();
     this.toggleButtonTimer = true;
+    this.timerService.changeTimerStatus(true);
     // let minutes =<number> counter.config.leftTime / 60;
     // $('.'+counter.config.className).find('span.hand.hand-m').html('<span class="digital digital-2 ">2</span><span class="digital digital-4 ">4</span>');
   }
@@ -164,6 +173,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
     counter.restart();
     this.toggleButtonTimer = false;
     counter.config.leftTime = <number>counter.config.leftTime - 0.1;
+    this.timerService.changeTimerStatus(false);
 
   }
 
@@ -179,6 +189,7 @@ export class TimerComponent implements OnInit, AfterViewInit {
     counter.restart();
     this.toggleButtonTimer = false;
     counter.config.leftTime = <number>counter.config.leftTime - 0.1;
+    this.timerService.changeTimerStatus(false);
 
   }
 

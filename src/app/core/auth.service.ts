@@ -64,11 +64,14 @@ export class AuthService {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
         // this.notify.update('Welcome to Employee Management System!!!', 'success');
-        return this.updateUserData(credential.user);
+        console.log(credential);
+        return this.updateUserData(credential);
       })
       .catch((error) => {
-        if(error.message == "Missing or insufficient permissions."){
-          toastr.error('Only users with Nordicomm Domain are allowed access')
+        if(error.message == 'Missing or insufficient permissions.'){
+          toastr.error('Only users with Nordicomm Domain are allowed access');
+          this.notify.update('Only users with Nordicomm Domain are allowed access', 'error');
+          this.signOut();
         }
         else{
           this.handleError(error);
@@ -130,21 +133,22 @@ export class AuthService {
   // If error, console log and notify user
   private handleError(error: Error) {
     toastr.error(error.message);
-    console.log(error);
+    console.log('asd');
     // this.notify.update(error.message, 'error');
   }
 
   // Sets user data to firestore after succesful login
-  private updateUserData(user: User) {
+  private updateUserData(credential) {
 
-    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
+    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${credential.user.uid}`);
 
     const data: User = {
-      uid: user.uid,
-      email: user.email || null,
-      displayName: user.displayName || 'nameless user',
-      photoURL: user.photoURL || 'https://goo.gl/Fz9nrQ',
+      uid: credential.user.uid,
+      email: credential.additionalUserInfo.profile.email || null,
+      displayName: credential.additionalUserInfo.profile.name || 'nameless user',
+      photoURL: credential.additionalUserInfo.profile.picture || 'https://goo.gl/Fz9nrQ',
     };
-    return userRef.set(data);
+    console.log(data);
+    return userRef.update(data);
   }
 }

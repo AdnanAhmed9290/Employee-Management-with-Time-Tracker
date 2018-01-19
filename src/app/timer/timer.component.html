@@ -4,29 +4,30 @@
         <li class="nav-item">
             <a class="nav-link active" id="pomodoro-tab" (click)="tabs(cd1)" data-toggle="tab" href="#pomodoro" role="tab" aria-controls="pomodoro"
                 aria-selected="true">
-                <i class="fas fa-stopwatch fa-lg"></i>
-                <span class="d-none d-sm-inline"> Pomodoro</span>
+                <!-- <i class="fas fa-stopwatch fa-lg"></i> -->
+                <span class="icon pomodoro"></span>
+                <span class="text d-none d-sm-inline-block"> Pomodoro</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="short-break-tab" (click)="tabs(cd2)" data-toggle="tab" href="#short-break" role="tab" aria-controls="short-break"
                 aria-selected="false">
-                <i class="fas fa-glass-martini fa-lg"></i>
-                <span class="d-none d-sm-inline"> Short Break</span>
+                <span class="icon short"></span>
+                <span class="text d-none d-sm-inline-block"> Short Break</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="coffee-break-tab" (click)="tabs(cd3)" data-toggle="tab" href="#coffee-break" role="tab" aria-controls="coffee-break"
                 aria-selected="false">
-                <i class="fas fa-coffee fa-lg"></i>
-                <span class="d-none d-sm-inline"> Coffee Break</span>
+                <span class="icon coffee"></span>
+                <span class="text d-none d-sm-inline-block"> Coffee Break</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" id="long-break-tab" (click)="tabs(cd4)" data-toggle="tab" href="#long-break" role="tab" aria-controls="long-break"
                 aria-selected="false">
-                <i class="fas fa-utensils fa-lg"></i>
-                <span class="d-none d-sm-inline"> Long Break</span>
+                <span class="icon long"></span>
+                <span class="text d-none d-sm-inline-block"> Long Break</span>
             </a>
         </li>
     </ul>
@@ -63,7 +64,7 @@
                         (finished)="onFinishedPomodoro(cd1)"></countdown>
                 </div>
 
-                <div class="timer-btns row btn-group-vertical">
+                <div class="timer-btns row btn-group-vertical mt-4">
                     <button *ngIf="!toggleButtonTimer" (click)="begin(cd1)" class="btn btn-default btn-start mb-3">
                         <i class="fas fa-play"></i> Start</button>
                     <button *ngIf="toggleButtonTimer" class="btn btn-default btn-stop mb-3"
@@ -81,7 +82,7 @@
                         (finished)="onFinishedSB(cd2)" ></countdown>
                 </div>
 
-                <div class="timer-btns row btn-group-vertical">
+                <div class="timer-btns row btn-group-vertical mt-4">
                     <button *ngIf="!toggleButtonTimer" (click)="begin(cd2)" class="btn btn-default btn-start mb-3">
                         <i class="fas fa-play"></i> Start</button>
                     <button *ngIf="toggleButtonTimer" (click)="cd2.stop()" class="btn btn-default btn-stop mb-3">
@@ -98,7 +99,7 @@
                         (finished)="onFinishedCB(cd3)"></countdown>
                 </div>
 
-                <div class="timer-btns row btn-group-vertical">
+                <div class="timer-btns row btn-group-vertical mt-4">
                     <button *ngIf="!toggleButtonTimer" (click)="begin(cd3)" class="btn btn-default btn-start mb-3">
                         <i class="fas fa-play"></i> Start</button>
                     <button *ngIf="toggleButtonTimer" (click)="cd3.stop()" class="btn btn-default btn-stop mb-3">
@@ -115,7 +116,7 @@
                         (finished)="onFinishedLB(cd4)"></countdown>
                 </div>
 
-                <div class="timer-btns row btn-group-vertical">
+                <div class="timer-btns row btn-group-vertical mt-4">
                     <button *ngIf="!toggleButtonTimer" (click)="begin(cd4)" class="btn btn-default btn-start mb-3">
                         <i class="fas fa-play"></i> Start</button>
                     <button *ngIf="toggleButtonTimer" (click)="cd4.stop()" class="btn btn-default btn-stop mb-3">
@@ -131,7 +132,7 @@
         <div class="row">
             <div class="col-md d-none d-lg-block d-xl-block">
                 <h5 class="title pl-5">
-                    <i class="fas fa-keyboard fa-lg icon"></i>Keyboard Shortcuts</h5>
+                    <span class="icon icon-keyboard"></span>Keyboard Shortcuts</h5>
                 <ul class="list-unstyled text pl-5">
                     <li>
                         <strong>SPACE</strong> start or stop timer</li>
@@ -147,21 +148,25 @@
             </div>
             <div class="col-md">
                 <h5 class="title pl-5">
-                    <i class="fas fa-bell fa-lg icon"></i>Notifications</h5>
+                    <span class="icon icon-notification"></span>Notifications</h5>
                 <div class="text pl-5">
                     <p>Desktop Notifications are currently supported in Chrome, Firefox and Safari</p>
                     <div class="switch switch--horizontal">
+                        
+                        <p class="notification-status value">{{notification_val}}</p>
+                        
                         <input id="radio-a" type="radio" name="first-switch" value="off" (change)="handleChange(1)" [(ngModel)]="notification_val"
                         />
                         <!-- <label for="radio-a">Off</label> -->
                         <input id="radio-b" type="radio" name="first-switch" value="on" (change)="handleChange(2)" [(ngModel)]="notification_val"
                         />
                         <!-- <label for="radio-b">On</label> -->
+                        
                         <span class="toggle-outside">
                             <span class="toggle-inside"></span>
                         </span>
+                        
                     </div>
-                    <p class="notification-status value">{{notification_val}}</p>
                 </div>
 
             </div>

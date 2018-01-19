@@ -1,6 +1,6 @@
 <div id="activity-section" class="container">
 
-  <div class="calender row my-4">
+  <div class="calender row my-3 pb-3">
 
     <h2 class="w-100 mb-4 d-none d-lg-block d-xl-block">Activity Logs</h2>
 
@@ -70,24 +70,26 @@
       </li>
     </ul>
 
+    
+  <hr>
   </div>
 
-  <hr>
-
-  <loading-spinner *ngIf="showSpinner"></loading-spinner>
-
-  <h4 *ngIf="cycles.data"> No Activities for this date</h4>
 
   <div class="logs-data mt-5">
-    <div class="mb-5 logs row" *ngFor="let item of logData | async">
+    
+  <h4 *ngIf="cycles.data"> No Activities for this date</h4>
+  <loading-spinner *ngIf="showSpinner"></loading-spinner>
+
+    <div class="mb-4 logs row" *ngFor="let item of logData | async">
       <ul class="list-inline list-unstyled">
         <li class="list-inline-item align-baseline">
           <span class="text-muted">{{item.startAt | date:"hh:mm a"}} - {{item.createdAt | date:"hh:mm a"}}</span>
         </li>
-        <li class="list-inline-item">
-          <span class="icon" [ngClass]="{'pomodoro': item.type == 'pomodoro', 'coffee': item.type == 'coffee break'}">
-            <i class="fas fa-lg" [ngClass]="{'fa-stopwatch': item.type == 'pomodoro', 'fa-glass-martini': item.type == 'short break',
-              'fa-coffee': item.type == 'coffee break', 'fa-utensils': item.type == 'long break'}"></i>
+        <li class="list-inline-item align-middle">
+          <span class="icons" [ngClass]="{'pomodoro': item.type == 'pomodoro', 'coffee': item.type == 'coffee break',
+          'long': item.type == 'long break' , 'short': item.type == 'short break' }">
+            <i class="icon" [ngClass]="{'pomodoro': item.type == 'pomodoro', 'coffee': item.type == 'coffee break',
+            'long': item.type == 'long break' , 'short': item.type == 'short break' }"></i>
           </span>
         </li>
         <li class="list-inline-item align-middle">

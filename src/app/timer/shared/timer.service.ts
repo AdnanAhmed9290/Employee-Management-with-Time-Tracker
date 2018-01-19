@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import * as firebase from 'firebase';
 
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as moment from 'moment';
 
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -22,16 +23,23 @@ export class TimerService {
 
   userId : String ;
 
+  private timerSource = new BehaviorSubject<boolean>(false);
+  currentStatus = this.timerSource.asObservable();
+
+
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
-      if(this.afAuth)
-        this.userId = this.afAuth.auth.currentUser.uid; 
+  }
+
+  
+  changeTimerStatus(status: boolean) {
+    this.timerSource.next(status)
   }
 
    // Return an observable list with optional query
   // You will usually call this from OnInit in a component
   
   getProjects(): Observable<any> {
-    
+      
       this.projectCollection = this.afs.collection<any>('projects');
       // .valueChanges() is simple. It just returns the 
       // JSON data without metadata. If you need the 
@@ -56,6 +64,8 @@ export class TimerService {
   }
 
   createLog(log: any)  {
+    if(this.afAuth)
+      this.userId = this.afAuth.auth.currentUser.uid; 
     let now = moment();
     let start = moment().subtract(log.duration, 'm');
     const userRef: AngularFirestoreCollection<any> = this.afs.collection(`users/`).doc(''+this.userId+'/').collection('logs');

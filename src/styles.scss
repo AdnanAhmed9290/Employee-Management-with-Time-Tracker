@@ -5,13 +5,46 @@
 
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,700" rel="stylesheet');
 
+@font-face {
+    font-family: 'proxima_novabold';
+    src: url('assets/fonts/mark_simonson_-_proxima_nova_bold-webfont.woff2') format('woff2'),
+         url('assets/fonts/mark_simonson_-_proxima_nova_bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'proxima_nova_rgregular';
+    src: url('assets/fonts/mark_simonson_-_proxima_nova_regular-webfont.woff2') format('woff2'),
+         url('assets/fonts/mark_simonson_-_proxima_nova_regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'proxima_nova_ltsemibold';
+    src: url('assets/fonts/mark_simonson_-_proxima_nova_semibold-webfont.woff2') format('woff2'),
+         url('assets/fonts/mark_simonson_-_proxima_nova_semibold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 $primary-color: #039be5;
 $collapse-width : 300px;
 
 ///// Content
 
-$body-font: 'Roboto', sans-serif;
-$heading-font: 'Roboto', sans-serif;
+$body-font: 'proxima_nova_rgregular', sans-serif;
+$heading-font: 'proxima_nova_ltsemibold', sans-serif;
 
 body {
   font-family: $body-font;
@@ -77,13 +110,13 @@ footer-nav{
     border-radius: 0;
     padding-left: 0;
     border-bottom: 1px solid #ced4da;
-    color: #CCCCCC;
+    color: $gray-lighter;
 
     &.task-input{
         font-size: 1.4em;
 
         &::placeholder{
-            color: #CCCCCC;
+            color: $gray-lighter;
         }
     }
 
@@ -96,6 +129,50 @@ footer-nav{
         cursor: no-drop;
         color: #495057;
     }
+
+}
+
+// =================================================================
+
+//  icons
+
+.icon{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    background-size:contain;
+    background-repeat: no-repeat; 
+
+    &.icon-notification{
+        background-image: url(assets/images/icon-notification.svg);
+
+    }
+
+    &.icon-keyboard{
+        background-image: url(assets/images/icon-keyboard.svg);
+
+    }
+
+    &.icon-cog{
+        background-image: url(assets/images/icon-cog.svg);
+    }
+
+    &.pomodoro{
+        background-image: url(assets/images/icon-pomodoro.svg);
+    }
+
+    &.short{
+        background-image: url(assets/images/icon-short-break.svg);
+    }
+    &.coffee{
+        background-image: url(assets/images/icon-lunch-break.svg);
+    }
+    &.long{
+        background-image: url(assets/images/icon-long-break.svg);
+    }
+
+
+
 
 }
 
@@ -215,8 +292,6 @@ footer-nav{
 }
 
 .input__label--hoshi::after {
-	margin-top: 2px;
-	border-bottom: 4px solid red;
 	-webkit-transform: translate3d(-100%, 0, 0);
 	transform: translate3d(-100%, 0, 0);
 	-webkit-transition: -webkit-transform 0.3s;
@@ -224,7 +299,7 @@ footer-nav{
 }
 
 .input__label--hoshi-color-1::after {
-	border-color: hsl(200, 100%, 50%);
+	border-color: $primary-color;
 }
 
 .input__label--hoshi-color-2::after {
@@ -344,7 +419,7 @@ footer-nav{
 //Social Buttons
 
 .input {
-    margin-bottom: 5px;
+    margin-bottom: 0;
   }
   
   .btn-social {
@@ -409,7 +484,7 @@ nav{
             &::before{
               content: "";
               position: absolute;
-              bottom: -23px;
+              bottom: -20px;
               left: 50%;
               margin-left: -10px;
               border-left: 10px solid transparent;
@@ -458,14 +533,18 @@ nav{
           left: -5px;
         }
       
-        .fa-cog{
+        .icon-cog{
           position: absolute;
           right: 0;
-          top: 30%;
+          top: 15px;
+          width: 20px;
+          height: 20px;
         }
       
       }
 }
+
+
 
 
 // ==================================================================
@@ -481,30 +560,63 @@ nav{
     .nav-tabs{
         border-bottom: 0;
         margin-bottom: 2vw;
+        background-color: #FCFCFC;
 
         .nav-link{
             border: 1px solid #dee2e6;
-            padding-top: 1.5vw;
-            padding-bottom: 1.5vw; 
-            font-size: 1em;
+            padding-top: 0.8vw;
+            padding-bottom: 0.8vw; 
+            font-size: 1.2em;
             color: #252525;
             border-radius: 0;
             line-height: 20px;
 
+            .icon{
+                position: relative;
+                color: #252525;
+                display: inline-block;
+                width: 35px;
+                height: 35px;
+                vertical-align: bottom;
+
+                &.short{
+                    width: 23px;
+                }
+            }
+
+            .text{
+                padding-left: 5px;
+                vertical-align: baseline;
+                height: 25px;
+            }
+
             &.active{
                 color: $primary-color;
                 background: rgba(3,155,299,0.06);
+
+                .pomodoro{
+                    background: url(assets/images/pomodoro-active.svg) no-repeat
+                }
+                .short{
+                    background: url(assets/images/icon-short-break-active.svg) no-repeat
+                }
+                .coffee{
+                    background: url(assets/images/icon-lunch-break-active.svg) no-repeat
+                }
+                .long{
+                    background: url(assets/images/icon-long-break-active.svg) no-repeat
+                }
             }
         }
 
         .nav-item:first-child .nav-link{
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
         }
 
         .nav-item:last-child .nav-link{
-            border-top-right-radius: 5px;
-            border-bottom-right-radius: 5px;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
         }
 
 
@@ -513,8 +625,15 @@ nav{
 
     #pomodoro{
         select{
-            margin-top: 1.7em;
+            margin-top: 1.55em;
+            
+            &:disabled{
+                color: #495057;
+                border-color: $primary-color;
+            }
         }
+
+
     }
 
     .count-down{
@@ -527,9 +646,10 @@ nav{
         .hand-m::before{
             content: 'min';
             position: absolute;
-            color: #cccccc;
+            color: $gray-lighter;
             font-size: 20px;
             bottom: 0;
+            font-weight: normal;
             left: 20%;
             margin-left: -10px;
         }
@@ -537,8 +657,9 @@ nav{
         .hand-s::before{
             content: 'sec';
             position: absolute;
-            color: #cccccc;
+            color: $gray-lighter;
             font-size: 20px;
+            font-weight: normal;
             bottom: 0;
             right: 20%;
             margin-right: -10px;
@@ -575,7 +696,7 @@ nav{
 
     .footer{
 
-        border-top: 1px solid #CCCCCC;
+        border-top: 1px solid $gray-lighter;
 
         .title{
             position: relative;
@@ -712,13 +833,13 @@ nav{
 
     .calender{
         
-        // border-bottom: 1px solid $gray-light;
+        border-bottom: 1px solid $gray-lighter;
 
         .dateInput{
             border-bottom-left-radius: 5px;
             border-top-left-radius: 5px;
-            border: 1px solid #868e96;
-            color: #868e96;
+            border: 1px solid $gray-light;
+            color: $gray-light;
             padding-left: 1em;
             max-width: 120px;
         }
@@ -742,35 +863,55 @@ nav{
 
     .logs-data{
 
-        .icon{
+        .icons{
+            display: inline-grid;
+            width: 65px;
+            height: 65px;
             padding: 0.7em;
             border-radius: 50%;
-            border: 1px solid;
+            border: 1px solid $gray-lighter;
             position: relative;
+            background-color: #F8F8F8;
+
+            .icon{
+                top: 50%;
+                margin-top: -15px;
+                left: 50%;
+                margin-left: -15px;
+
+                &.short{
+                    margin-left: -10px;
+                }
+            }
 
             &::before{
                 content: '';
                 position: absolute;
-                height: 4rem;
+                height: 3rem;
                 width: 2px;
-                border-left: 2px solid #CCC;
-                bottom: -63px;
+                border-left: 2px solid $gray-lighter;
+                bottom: -49px;
                 left: 50%;
             }
 
             &.pomodoro{
                 color: $primary-color;
                 border: 1px solid $primary-color;
+                background: transparent;
+
+                .icon{
+                    color: $primary-color;
+                }
             }
 
-            &.coffee{
-                padding: 0.7em 0.4em;
-            }
+            // &.coffee{
+            //     padding: 0.7em 0.4em;
+            // }
         
         }
 
         .logs:last-child{
-            .icon::before{
+            .icons::before{
                 content: none;
             }
         }

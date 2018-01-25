@@ -16,6 +16,7 @@ interface User {
   email?: string | null;
   photoURL?: string;
   displayName?: string;
+  timerStatus?: boolean;
 }
 
 @Injectable()
@@ -64,7 +65,6 @@ export class AuthService {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
         // this.notify.update('Welcome to Employee Management System!!!', 'success');
-        console.log(credential);
         return this.updateUserData(credential);
       })
       .catch((error) => {
@@ -124,10 +124,20 @@ export class AuthService {
   // }
 
   signOut() {
-    this.afAuth.auth.signOut().then(() => {
-        this.router.navigate(['/']);
-        // toastr.success('Logout Successfull');
+   
+    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${this.afAuth.auth.currentUser.uid}`);
+    const data: any = {
+      timerStatus: false
+    };
+
+    userRef.update(data).then(()=> {
+      this.afAuth.auth.signOut().then(() => {
+        
+          this.router.navigate(['/login']);
+          // toastr.success('Logout Successfull');
+      });
     });
+    
   }
 
   // If error, console log and notify user
@@ -148,7 +158,17 @@ export class AuthService {
       displayName: credential.additionalUserInfo.profile.name || 'nameless user',
       photoURL: credential.additionalUserInfo.profile.picture || 'https://goo.gl/Fz9nrQ',
     };
-    console.log(data);
-    return userRef.update(data);
+
+    this.afs.firestore.doc(`users/${credential.user.uid}`).get()
+    .then(docSnapshot => {
+      if (docSnapshot.exists) {
+        // do something
+        return userRef.update(data);
+      }
+      else{
+        return userRef.set(data);
+      }
+    });
+    
   }
 }

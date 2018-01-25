@@ -1,5 +1,12 @@
 <div id="timer" class="align-content-center">
     <!-- Nav tabs -->
+    <div *ngIf="this.tm | async"  class="overlay align-middle">
+        <div class="text">
+            <h2 class="text-primary"><i class="fa fa-lock fa-lg"></i></h2>
+            <p>Your timer is already in progress in other Location<br>
+                Finish or stop that to continue here </p>
+        </div>
+    </div>
     <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" id="pomodoro-tab" (click)="tabs(cd1)" data-toggle="tab" href="#pomodoro" role="tab" aria-controls="pomodoro"

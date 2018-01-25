@@ -1,11 +1,12 @@
 /// <reference path="../../assets/js/toastr.d.ts" />
 
-import { Component, OnInit, AfterViewInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, AfterViewInit,  AfterViewChecked, ViewChild, ViewEncapsulation, HostListener, OnDestroy } from '@angular/core';
 import { CountdownComponent } from 'ngx-countdown';
 import { FormControl, FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { TimerService } from "./shared/timer.service";
-
+import { AuthService } from "./../core/auth.service";
 import { fadeInAnimation } from "./../shared/fadein.animation";
+import { Observable } from 'rxjs/Observable'
 
 declare var $: any;
 declare var Notification: any;
@@ -19,13 +20,16 @@ declare var Notification: any;
   animations: [fadeInAnimation],
   host: { '[@fadeInAnimation]': '' }
 })
-export class TimerComponent implements OnInit, AfterViewInit {
+export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   model: any;
   notification_val: String;
   notify: string;
   projects: any;
   loadingSpinner: boolean;
+  tS: any;
+  tm: Observable<boolean>;
+  timerIdle: boolean = true;
   // countDown = { "pomodoro": 1500, "short": 300, "coffee": 600, "long": 1800 }
   // countDown = { "pomodoro": 60, "short": 6, "coffee": 5, "long": 4 }
   timerStatus: boolean;
@@ -45,12 +49,29 @@ export class TimerComponent implements OnInit, AfterViewInit {
   });
 
   constructor(private timerService: TimerService) {
+
     this.notify = Notification.permission;
     this.notify == "granted" ? this.notification_val = "on" : this.notification_val = "off";
     this.projects = this.timerService.getProjects();
     this.getCountDown = this.timerService.getSettings();
+    this.tS = this.timerService.timerStatusCheck();
 
   }
+  
+
+  @HostListener('window:unload', [ '$event' ])
+  unloadHandler(event) {
+    if(this.timerIdle == false)
+      this.timerService.updateTimerStatus(false);
+  }
+
+  @HostListener('window:beforeunload', [ '$event' ])
+  beforeUnloadHander(event) {
+    if(this.timerIdle == false)
+      this.timerService.updateTimerStatus(false);
+  }
+
+
 
   ngOnInit() {
 
@@ -59,6 +80,10 @@ export class TimerComponent implements OnInit, AfterViewInit {
       // success data operations
     },error=> console.log(error));
 
+    this.tS.subscribe( user=>{
+      this.tm = Observable.of(user.timerStatus && this.timerIdle);
+    })
+    
     this.getCountDown.subscribe(x=> {
       this.countDown = { "pomodoro": x.pomodoro*60 , "short": x.short*60, "coffee": x.coffee*60, "long": x.long*60 } 
       this.loadingSpinner = false;
@@ -68,12 +93,16 @@ export class TimerComponent implements OnInit, AfterViewInit {
       this.timerStatus = status;
     })
 
-    this.timerService.changeTimerStatus(false);
-
+    // this.timerService.changeTimerStatus(false);
   }
 
-  ngAfterViewInit() {
+  
+  ngAfterViewChecked(){
+   
+  }
 
+  ngOnDestroy() {
+   
   }
 
   inputFocus(e: any) {
@@ -99,7 +128,9 @@ export class TimerComponent implements OnInit, AfterViewInit {
       setTimeout(function () {
         counter.begin();
       }, 600);
+      this.timerService.updateTimerStatus(true)
       this.timerService.changeTimerStatus(true);
+      this.timerIdle = false;
       this.toggleButtonTimer = true;
     }
 
@@ -123,9 +154,11 @@ export class TimerComponent implements OnInit, AfterViewInit {
       duration: <number>counter.config.leftTime / 60
     }
 
-    this.nofitySound(content.type);
+    // this.nofitySound(content.type);
 
     this.timerService.createLog(content);
+    this.timerService.updateTimerStatus(false);
+    this.timerIdle = true;
     this.restart(counter);
     this.toggleButtonTimer = false;
     this.processValidation = false;
@@ -148,11 +181,16 @@ export class TimerComponent implements OnInit, AfterViewInit {
     counter.begin();
     this.toggleButtonTimer = true;
     this.timerService.changeTimerStatus(true);
+    this.timerService.updateTimerStatus(true);
+    this.timerIdle = false;
     // let minutes =<number> counter.config.leftTime / 60;
-    // $('.'+counter.config.className).find('span.hand.hand-m').html('<span class="digital digital-2 ">2</span><span class="digital digital-4 ">4</span>');
+    // $('.'+counter.config.className).find('span.hand.hand-m').html('<span class="digital digital-2 ">2</span><span class="digital digital-4 ">4</span>')
+
   }
 
   restart(counter: CountdownComponent) {
+
+    console.log('restart');
 
     if (counter == this.cd1) {
       this.processValidation = false;
@@ -174,6 +212,8 @@ export class TimerComponent implements OnInit, AfterViewInit {
     this.toggleButtonTimer = false;
     counter.config.leftTime = <number>counter.config.leftTime - 0.1;
     this.timerService.changeTimerStatus(false);
+    this.timerService.updateTimerStatus(false);
+    this.timerIdle = true;
 
   }
 
@@ -190,7 +230,8 @@ export class TimerComponent implements OnInit, AfterViewInit {
     this.toggleButtonTimer = false;
     counter.config.leftTime = <number>counter.config.leftTime - 0.1;
     this.timerService.changeTimerStatus(false);
-
+    this.timerService.updateTimerStatus(false);
+    this.timerIdle = true;
   }
 
   onFinishedPomodoro(counter:any) {
@@ -259,6 +300,9 @@ export class TimerComponent implements OnInit, AfterViewInit {
 
     var audio = new Audio('assets/sounds/definite.mp3');
     audio.play();
+
+    this.timerService.updateTimerStatus(false);
+    this.timerIdle = true;
   
   }
 

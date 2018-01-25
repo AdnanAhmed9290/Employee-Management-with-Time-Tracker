@@ -6,6 +6,8 @@ import * as firebase from 'firebase';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import * as moment from 'moment';
 
+import { AsyncLocalStorage } from 'angular-async-local-storage';
+
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { Log } from "./../../activity-logs/shared/activity";
@@ -14,6 +16,14 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
+
+interface User {
+  uid: string;
+  email?: string | null;
+  photoURL?: string;
+  displayName?: string;
+  timerStatus?: boolean;
+}
 
 @Injectable()
 export class TimerService {
@@ -27,7 +37,19 @@ export class TimerService {
   currentStatus = this.timerSource.asObservable();
 
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore) {
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, public als: AsyncLocalStorage) {
+
+    window.onbeforeunload = function (e) {
+      var e = e || window.event;
+    
+      //IE & Firefox
+      if (e) {
+        e.returnValue = 'Are you sure?';
+      }
+    
+      // For Safari
+      return 'Are you sure?';
+    };
   }
 
   
@@ -57,6 +79,25 @@ export class TimerService {
       // doc.id() in the value you must persist it your self
       // or use .snapshotChanges() instead.
       return this.timerDocument.valueChanges();
+  }
+
+  timerStatusCheck(): Observable<any>{
+    if(this.afAuth)
+      return this.afs.collection<any>('users').doc(this.afAuth.auth.currentUser.uid).valueChanges();
+      //return  this.afs.doc<any>(`users/${this.afAuth.auth.currentUser.uid}`).valueChanges();
+    else
+      return Observable.of(null);  
+  }
+
+  updateTimerStatus(status: boolean){
+    let user = this.afAuth.auth.currentUser;
+    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
+
+    const data: User = {
+      uid: user.uid,
+      timerStatus: status
+    };
+    return userRef.update(data);
   }
 
   get timestamp() {

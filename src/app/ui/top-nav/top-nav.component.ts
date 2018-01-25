@@ -32,7 +32,6 @@ export class TopNavComponent {
   }
 
   nav(link, check: boolean){
-    console.log(link);
     
     if(this.timerStatus == false || check == true){
       this.route.navigate([link], { replaceUrl: true }); 

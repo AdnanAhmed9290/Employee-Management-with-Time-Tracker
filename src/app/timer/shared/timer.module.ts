@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { CountdownModule } from 'ngx-countdown';
 import { FormsModule,ReactiveFormsModule } from "@angular/forms";
+import { AsyncLocalStorageModule } from 'angular-async-local-storage';
 
 import { SharedModule } from '../../shared/shared.module';
 
@@ -20,7 +21,8 @@ import { TimerComponent } from './../timer.component';
     FormsModule,
     AngularFireDatabaseModule,
     ReactiveFormsModule,
-    CountdownModule
+    CountdownModule,
+    AsyncLocalStorageModule
   ],
   declarations: [
     TimerComponent,

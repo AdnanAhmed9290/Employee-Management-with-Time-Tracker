@@ -105,8 +105,11 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnDestroy() {
-    if(this.timerIdle == false)
+    if(this.timerIdle == false){
+      this.timerIdle = true;
       this.timerService.updateTimerStatus(false);
+    }
+    this.timerService.changeTimerStatus(false);
   }
 
   inputFocus(e: any) {

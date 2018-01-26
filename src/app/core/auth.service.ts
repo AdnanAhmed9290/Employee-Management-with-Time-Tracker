@@ -125,25 +125,33 @@ export class AuthService {
 
   signOut() {
    
-    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${this.afAuth.auth.currentUser.uid}`);
-    const data: any = {
-      timerStatus: false
-    };
+     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${this.afAuth.auth.currentUser.uid}`);
+     const data: any = {
+       timerStatus: false
+     };
 
-    userRef.update(data).then(()=> {
+     userRef.update(data).then(()=> {
       this.afAuth.auth.signOut().then(() => {
         
           this.router.navigate(['/login']);
           // toastr.success('Logout Successfull');
       });
-    });
+     }).catch(()=>{
+       console.log('user not registered');
+      this.afAuth.auth.signOut().then(() => {
+        
+          this.router.navigate(['/login']);
+          // toastr.success('Logout Successfull');
+      });
+     });
+    
     
   }
 
   // If error, console log and notify user
   private handleError(error: Error) {
     toastr.error(error.message);
-    console.log('asd');
+    console.log(error);
     // this.notify.update(error.message, 'error');
   }
 
@@ -159,16 +167,24 @@ export class AuthService {
       photoURL: credential.additionalUserInfo.profile.picture || 'https://goo.gl/Fz9nrQ',
     };
 
-    this.afs.firestore.doc(`users/${credential.user.uid}`).get()
-    .then(docSnapshot => {
-      if (docSnapshot.exists) {
-        // do something
-        return userRef.update(data);
-      }
-      else{
-        return userRef.set(data);
-      }
+    // this.afs.doc(`users/${credential.user.uid}`).snapshotChanges()
+    // this.afs.firestore.doc(`users/${credential.user.uid}`).get()
+    // .then(docSnapshot => {
+    //   if (docSnapshot.exists) {
+    //     // do something
+    //     return userRef.update(data);
+    //   }
+    //   else{
+    //     return userRef.set(data);
+    //   }
+    // });
+
+    return userRef.update(data)
+    .catch((error) => {
+      console.log("Error updating user document doesn't exists"); // (document does not exists)
+      return userRef.set(data);
     });
+
     
   }
 }

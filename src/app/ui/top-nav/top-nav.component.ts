@@ -13,6 +13,7 @@ export class TopNavComponent {
   show = false;
   collapseNav: boolean = false;
   timerStatus: boolean;
+  soundSelected: string = "Sound 1";
 
   toggleCollapse() {
     this.show = !this.show;
@@ -29,6 +30,21 @@ export class TopNavComponent {
     this.timerService.currentStatus.subscribe(status => {
       this.timerStatus = status;
     })
+  }
+
+  save(){
+    localStorage.setItem('sound',this.soundSelected);
+    toastr.success('Settings Saved');
+  }
+
+  reset(){
+    localStorage.clear();
+    toastr.success('Settings Reset');
+  }
+
+  onChange(newSound){
+    var audio = new Audio('assets/sounds/'+this.soundSelected+'.ogg');
+    audio.play();
   }
 
   nav(link, check: boolean){

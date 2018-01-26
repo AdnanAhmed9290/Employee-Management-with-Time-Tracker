@@ -129,15 +129,15 @@
           <div class="body my-4">
             <h4>Select Sound</h4>
 
-            <select class="form-control">
-              <option>Sound 1</option>
-              <option>Sound 2</option>
-              <option>Sound 3</option>
-              <option>Sound 4</option>
+            <select class="form-control" [(ngModel)]="soundSelected" (ngModelChange)="onChange($event)" >
+              <option ng-value="definite.mp3">Sound 1</option>
+              <option ng-value="here_you_go_lighter.ogg" >Sound 2</option>
+              <option ng-value="knock_brush.ogg">Sound 3</option>
+              <option ng-value="save_and_checkout.ogg">Sound 4</option>
             </select>
           </div>
           <div class="footer">
-            <button class="btn btn-info">SAVE</button>
+            <button class="btn btn-info" (click)="save()">SAVE</button>
             <button class="btn btn-info">RESET</button>
             <!-- <button class="btn btn-info">SAVE</button> -->
           </div>

@@ -45,7 +45,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   pomodoroForm = new FormGroup({
     task: new FormControl({value:'', disabled: false} , Validators.required),
-    project: new FormControl({value:'', disabled: false}, Validators.required)
+    project: new FormControl({value:'Choose a Project', disabled: false}, Validators.required)
   });
 
   constructor(private timerService: TimerService) {
@@ -59,17 +59,18 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
   
 
-  @HostListener('window:unload', [ '$event' ])
-  unloadHandler(event) {
-    if(this.timerIdle == false)
-      this.timerService.updateTimerStatus(false);
-  }
+  // @HostListener('window:unload', [ '$event' ])
+  // unloadHandler(event) {
+  //   if(this.timerIdle == false)
+  //     this.timerService.updateTimerStatus(false);
+  // }
 
   @HostListener('window:beforeunload', [ '$event' ])
   beforeUnloadHander(event) {
     if(this.timerIdle == false)
       this.timerService.updateTimerStatus(false);
-  }
+    alert('asdasd');
+    }
 
 
 
@@ -93,6 +94,8 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.timerStatus = status;
     })
 
+    if (Notification.permission !== "granted")
+      Notification.requestPermission();
     // this.timerService.changeTimerStatus(false);
   }
 
@@ -102,7 +105,8 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnDestroy() {
-   
+    if(this.timerIdle == false)
+      this.timerService.updateTimerStatus(false);
   }
 
   inputFocus(e: any) {
@@ -116,9 +120,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   tabs(counter: CountdownComponent) {
-    // setTimeout(function(){
-
-    // },100);
+  
     this.restart(this.cd1);
     this.restart(this.cd2);
     this.restart(this.cd3);
@@ -154,7 +156,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
       duration: <number>counter.config.leftTime / 60
     }
 
-    // this.nofitySound(content.type);
+    // this.notifySound(content.type);
 
     this.timerService.createLog(content);
     this.timerService.updateTimerStatus(false);
@@ -253,7 +255,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.toggleButtonTimer = false;
     this.processValidation = false;
     this.pomodoroForm.reset();
-    this.nofitySound(content.type);
+    this.notifySound(content.type);
 
 
   }
@@ -265,7 +267,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     let content: any = { type: "short break", task: '', project: '', duration: 5 , fullCycle: true }
     this.timerService.createLog(content);
     this.toggleButtonTimer = false;
-    this.nofitySound(content.type);
+    this.notifySound(content.type);
 
   }
 
@@ -275,7 +277,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.timerService.createLog(content);
     this.restart(counter);
     this.toggleButtonTimer = false;
-    this.nofitySound(content.type);
+    this.notifySound(content.type);
 
   }
 
@@ -285,20 +287,24 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.timerService.createLog(content);
     this.restart(counter);
     this.toggleButtonTimer = false;
-    this.nofitySound(content.type);
+    this.notifySound(content.type);
 
   }
 
-  nofitySound(type){
+  notifySound(type){
     
     if (Notification.permission !== "granted")
-    Notification.requestPermission();
+      Notification.requestPermission();
     var notification = new Notification("Nordicomm EMS", {
-      icon: 'assets/images/nordicomm_logo_dark.png',
+      icon: 'favicon.png',
       body: "Hey there! Your Timer for "+type+" is over",
     });
 
-    var audio = new Audio('assets/sounds/definite.mp3');
+    if(localStorage.getItem('sound'))
+      var sound  = localStorage.getItem('sound');
+    else
+      var sound = "Sound 1";
+    var audio = new Audio('assets/sounds/'+sound+'.ogg');
     audio.play();
 
     this.timerService.updateTimerStatus(false);

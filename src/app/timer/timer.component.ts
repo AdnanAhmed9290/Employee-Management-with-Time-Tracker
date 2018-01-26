@@ -145,6 +145,12 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     // console.log("timer started");
   }
 
+  stop(counter: CountdownComponent){
+    counter.stop();
+    this.timerService.updateTimerStatus(false);
+    this.timerIdle = true;
+    this.timerService.changeTimerStatus(false);
+  }
 
   onStop(counter: CountdownComponent){
     counter.stop();
@@ -163,6 +169,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     this.timerService.createLog(content);
     this.timerService.updateTimerStatus(false);
+    this.timerService.changeTimerStatus(false);
     this.timerIdle = true;
     this.restart(counter);
     this.toggleButtonTimer = false;
@@ -311,6 +318,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     audio.play();
 
     this.timerService.updateTimerStatus(false);
+    this.timerService.changeTimerStatus(false);
     this.timerIdle = true;
   
   }

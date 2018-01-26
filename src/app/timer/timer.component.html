@@ -93,7 +93,7 @@
                 <div class="timer-btns row btn-group-vertical mt-4">
                     <button *ngIf="!toggleButtonTimer" (click)="begin(cd2)" class="btn btn-default btn-start mb-3">
                         <i class="fas fa-play"></i> Start</button>
-                    <button *ngIf="toggleButtonTimer" (click)="cd2.stop()" class="btn btn-default btn-stop mb-3">
+                    <button *ngIf="toggleButtonTimer" (click)="stop(cd2)" class="btn btn-default btn-stop mb-3">
                         <i class="fas fa-stop"></i> Stop</button>
                     <button *ngIf="toggleButtonTimer" (click)="restart(cd2)" class="btn btn-default btn-reset mb-3">
                         <i class="fas fa-redo"></i> Reset</button>
@@ -110,7 +110,7 @@
                 <div class="timer-btns row btn-group-vertical mt-4">
                     <button *ngIf="!toggleButtonTimer" (click)="begin(cd3)" class="btn btn-default btn-start mb-3">
                         <i class="fas fa-play"></i> Start</button>
-                    <button *ngIf="toggleButtonTimer" (click)="cd3.stop()" class="btn btn-default btn-stop mb-3">
+                    <button *ngIf="toggleButtonTimer" (click)="stop(cd3)" class="btn btn-default btn-stop mb-3">
                         <i class="fas fa-stop"></i> Stop</button>
                     <button *ngIf="toggleButtonTimer" (click)="restart(cd3)" class="btn btn-default btn-reset mb-3">
                         <i class="fas fa-redo"></i> Reset</button>
@@ -127,7 +127,7 @@
                 <div class="timer-btns row btn-group-vertical mt-4">
                     <button *ngIf="!toggleButtonTimer" (click)="begin(cd4)" class="btn btn-default btn-start mb-3">
                         <i class="fas fa-play"></i> Start</button>
-                    <button *ngIf="toggleButtonTimer" (click)="cd4.stop()" class="btn btn-default btn-stop mb-3">
+                    <button *ngIf="toggleButtonTimer" (click)="stop(cd4)" class="btn btn-default btn-stop mb-3">
                         <i class="fas fa-stop"></i> Stop</button>
                     <button *ngIf="toggleButtonTimer" (click)="restart(cd4)" class="btn btn-default btn-reset mb-3">
                         <i class="fas fa-redo"></i> Reset</button>

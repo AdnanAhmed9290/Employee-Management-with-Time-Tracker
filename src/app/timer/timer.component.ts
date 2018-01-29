@@ -1,6 +1,6 @@
 /// <reference path="../../assets/js/toastr.d.ts" />
 
-import { Component, OnInit, AfterViewInit,  AfterViewChecked, ViewChild, ViewEncapsulation, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, AfterViewChecked, ViewChild, ViewEncapsulation, HostListener, OnDestroy } from '@angular/core';
 import { CountdownComponent } from 'ngx-countdown';
 import { FormControl, FormGroup, Validators, FormBuilder } from "@angular/forms";
 import { TimerService } from "./shared/timer.service";
@@ -30,12 +30,16 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
   tS: any;
   tm: Observable<boolean>;
   timerIdle: boolean = true;
+  result: boolean;
   // countDown = { "pomodoro": 1500, "short": 300, "coffee": 600, "long": 1800 }
-  // countDown = { "pomodoro": 60, "short": 6, "coffee": 5, "long": 4 }
+  // countDown = { "pomodoro": 6, "short": 6, "coffee": 5, "long": 4 }
   timerStatus: boolean;
   countDown: any;
   getCountDown: any;
-  toggleButtonTimer: boolean = false;
+  togglePomodoroTimerButton: boolean = false;
+  toggleShortTimerButton: boolean = false;
+  toggleLongTimerButton: boolean = false;
+  toggleCoffeeTimerButton: boolean = false;
   processValidation: boolean = false;
 
   @ViewChild('cd1') cd1: CountdownComponent;
@@ -44,8 +48,8 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('cd4') cd4: CountdownComponent;
 
   pomodoroForm = new FormGroup({
-    task: new FormControl({value:'', disabled: false} , Validators.required),
-    project: new FormControl({value:'Choose a Project', disabled: false}, Validators.required)
+    task: new FormControl({ value: '', disabled: false }, Validators.required),
+    project: new FormControl({ value: 'Choose a Project', disabled: false }, Validators.required)
   });
 
   constructor(private timerService: TimerService) {
@@ -57,38 +61,48 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.tS = this.timerService.timerStatusCheck();
 
   }
-  
 
-  // @HostListener('window:unload', [ '$event' ])
-  // unloadHandler(event) {
-  //   if(this.timerIdle == false)
-  //     this.timerService.updateTimerStatus(false);
-  // }
 
-  @HostListener('window:beforeunload', [ '$event' ])
+  @HostListener('window:unload', [ '$event' ])
+  unloadHandler(event) {
+    this.onExit();
+    return null;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHander(event) {
-    if(this.timerIdle == false)
-      this.timerService.updateTimerStatus(false);
-    alert('asdasd');
-    }
+    this.onExit();
+    return null;
+  }
 
+  onExit(){
+    console.log('closing');
+    if (this.timerIdle == false) {
+      this.timerService.updateTimerStatus(false);
+    }
+  }
+
+  // @HostListener("keydown.esc")
+  // public onEsc() {
+  //   alert('escape');
+  // }
 
 
   ngOnInit() {
 
-    this.loadingSpinner = true; 
-    this.projects.subscribe(x=>{
+    this.loadingSpinner = true;
+    this.projects.subscribe(x => {
       // success data operations
-    },error=> console.log(error));
+    }, error => console.log(error));
 
-    this.tS.subscribe( user=>{
+    this.tS.subscribe(user => {
       this.tm = Observable.of(user.timerStatus && this.timerIdle);
     })
-    
-    this.getCountDown.subscribe(x=> {
-      this.countDown = { "pomodoro": x.pomodoro*60 , "short": x.short*60, "coffee": x.coffee*60, "long": x.long*60 } 
+
+    this.getCountDown.subscribe(x => {
+      this.countDown = { "pomodoro": x.pomodoro * 60, "short": x.short * 60, "coffee": x.coffee * 60, "long": x.long * 60 }
       this.loadingSpinner = false;
-    },error => console.log(error))
+    }, error => console.log(error))
 
     this.timerService.currentStatus.subscribe(status => {
       this.timerStatus = status;
@@ -99,13 +113,13 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     // this.timerService.changeTimerStatus(false);
   }
 
-  
-  ngAfterViewChecked(){
-   
+
+  ngAfterViewChecked() {
+
   }
 
   ngOnDestroy() {
-    if(this.timerIdle == false){
+    if (this.timerIdle == false) {
       this.timerIdle = true;
       this.timerService.updateTimerStatus(false);
     }
@@ -123,21 +137,21 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   tabs(counter: CountdownComponent) {
-  
-    this.restart(this.cd1);
-    this.restart(this.cd2);
-    this.restart(this.cd3);
-    this.restart(this.cd4);
 
-    if (counter != this.cd1) {
-      setTimeout(function () {
-        counter.begin();
-      }, 600);
-      this.timerService.updateTimerStatus(true)
-      this.timerService.changeTimerStatus(true);
-      this.timerIdle = false;
-      this.toggleButtonTimer = true;
-    }
+    // this.restart(this.cd1);
+    // this.restart(this.cd2);
+    // this.restart(this.cd3);
+    // this.restart(this.cd4);
+
+    // if (counter != this.cd1) {
+    //   setTimeout(function () {
+    //     counter.begin();
+    //   }, 600);
+    //   this.timerService.updateTimerStatus(true)
+    //   this.timerService.changeTimerStatus(true);
+    //   this.timerIdle = false;
+    //   this.toggleButtonTimer = true;
+    // }
 
   }
 
@@ -145,14 +159,14 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     // console.log("timer started");
   }
 
-  stop(counter: CountdownComponent){
+  stop(counter: CountdownComponent) {
     counter.stop();
     this.timerService.updateTimerStatus(false);
     this.timerIdle = true;
     this.timerService.changeTimerStatus(false);
   }
 
-  onStop(counter: CountdownComponent){
+  onStop(counter: CountdownComponent) {
     counter.stop();
     let task = this.pomodoroForm.get('task').value;
     let project = this.pomodoroForm.get('project').value;
@@ -172,37 +186,70 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.timerService.changeTimerStatus(false);
     this.timerIdle = true;
     this.restart(counter);
-    this.toggleButtonTimer = false;
+    this.togglePomodoroTimerButton = false;
     this.processValidation = false;
     this.pomodoroForm.reset();
   }
 
   begin(counter: CountdownComponent) {
 
+    // if (this.timerIdle == false) {
+    //   if(confirm("Are you sure")){
+    //     this.beginTimer(counter);
+    //   }
+    //   else
+    //     return;
+
+    // } else {
+    //   this.beginTimer(counter);
+    // }
+
+    this.beginTimer(counter);
+  }
+
+
+  beginTimer(counter: CountdownComponent) {
     if (counter == this.cd1) {
       this.processValidation = true;
+      this.reset(counter);
+
       if (this.pomodoroForm.invalid) {
+        this.restart(this.cd2);
+        this.restart(this.cd3);
+        this.restart(this.cd4);
         return; //Validation Failed, exit from method
       }
 
+      this.pomodoroForm.controls['task'].disable();
+      this.pomodoroForm.controls['project'].disable();
+
     }
-    // this.disableFields = true;
-    this.pomodoroForm.controls['task'].disable();
-    this.pomodoroForm.controls['project'].disable();
-    this.reset(counter);
+    else {
+      this.restart(this.cd1);
+    }
+
+    this.restart(this.cd2);
+    this.restart(this.cd3);
+    this.restart(this.cd4);
+
     counter.begin();
-    this.toggleButtonTimer = true;
+
+    if (counter == this.cd1)
+      this.togglePomodoroTimerButton = true;
+    else if (counter == this.cd2)
+      this.toggleShortTimerButton = true;
+    else if (counter == this.cd3)
+      this.toggleCoffeeTimerButton = true;
+    else
+      this.toggleLongTimerButton = true;
+
     this.timerService.changeTimerStatus(true);
     this.timerService.updateTimerStatus(true);
     this.timerIdle = false;
-    // let minutes =<number> counter.config.leftTime / 60;
-    // $('.'+counter.config.className).find('span.hand.hand-m').html('<span class="digital digital-2 ">2</span><span class="digital digital-4 ">4</span>')
 
   }
 
   restart(counter: CountdownComponent) {
-
-    console.log('restart');
 
     if (counter == this.cd1) {
       this.processValidation = false;
@@ -221,7 +268,11 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     counter.config.leftTime = <number>counter.config.leftTime + 0.1;
 
     counter.restart();
-    this.toggleButtonTimer = false;
+    this.togglePomodoroTimerButton = false;
+    this.toggleShortTimerButton = false;
+    this.toggleLongTimerButton = false;
+    this.toggleCoffeeTimerButton = false;
+
     counter.config.leftTime = <number>counter.config.leftTime - 0.1;
     this.timerService.changeTimerStatus(false);
     this.timerService.updateTimerStatus(false);
@@ -229,7 +280,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   }
 
-  reset(counter: CountdownComponent){
+  reset(counter: CountdownComponent) {
     let minutes = <number>counter.config.leftTime / 60;
     if (minutes < 10)
       $('.' + counter.config.className).find('span.hand.hand-m').html('<span class="digital digital-0 ">0</span><span class="digital digital-' + minutes.toString()[0] + ' ">' + minutes.toString()[0] + '</span>');
@@ -239,15 +290,20 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     counter.config.leftTime = <number>counter.config.leftTime + 0.1;
 
     counter.restart();
-    this.toggleButtonTimer = false;
+
+    this.togglePomodoroTimerButton = false;
+    this.toggleShortTimerButton = false;
+    this.toggleLongTimerButton = false;
+    this.toggleCoffeeTimerButton = false;
+
     counter.config.leftTime = <number>counter.config.leftTime - 0.1;
     this.timerService.changeTimerStatus(false);
     this.timerService.updateTimerStatus(false);
     this.timerIdle = true;
   }
 
-  onFinishedPomodoro(counter:any) {
-    
+  onFinishedPomodoro(counter: any) {
+
 
     let task = this.pomodoroForm.get('task').value;
     let project = this.pomodoroForm.get('project').value;
@@ -262,7 +318,9 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     this.timerService.createLog(content);
     this.restart(counter);
-    this.toggleButtonTimer = false;
+
+    this.togglePomodoroTimerButton = false;
+
     this.processValidation = false;
     this.pomodoroForm.reset();
     this.notifySound(content.type);
@@ -270,57 +328,57 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   }
 
-  onFinishedSB(counter:any) {
-    
+  onFinishedSB(counter: any) {
+
     this.restart(counter);
     // counter.restart();
-    let content: any = { type: "short break", task: '', project: '', duration: 5 , fullCycle: true }
+    let content: any = { type: "short break", task: '', project: '', duration: 5, fullCycle: true }
     this.timerService.createLog(content);
-    this.toggleButtonTimer = false;
+    this.toggleShortTimerButton = false;
     this.notifySound(content.type);
 
   }
 
-  onFinishedCB(counter:any) {
+  onFinishedCB(counter: any) {
 
-    let content: any = { type: "coffee break", task: '', project: '', duration: 10 , fullCycle: true }
-    this.timerService.createLog(content);
-    this.restart(counter);
-    this.toggleButtonTimer = false;
-    this.notifySound(content.type);
-
-  }
-
-  onFinishedLB(counter:any) {
-
-    let content: any = { type: "long break", task: '', project: '', duration: 30 , fullCycle: true }
+    let content: any = { type: "coffee break", task: '', project: '', duration: 10, fullCycle: true }
     this.timerService.createLog(content);
     this.restart(counter);
-    this.toggleButtonTimer = false;
+    this.toggleCoffeeTimerButton = false;
     this.notifySound(content.type);
 
   }
 
-  notifySound(type){
-    
+  onFinishedLB(counter: any) {
+
+    let content: any = { type: "long break", task: '', project: '', duration: 30, fullCycle: true }
+    this.timerService.createLog(content);
+    this.restart(counter);
+    this.toggleLongTimerButton = false;
+    this.notifySound(content.type);
+
+  }
+
+  notifySound(type) {
+
     if (Notification.permission !== "granted")
       Notification.requestPermission();
     var notification = new Notification("Nordicomm EMS", {
       icon: 'favicon.png',
-      body: "Hey there! Your Timer for "+type+" is over",
+      body: "Hey there! Your Timer for " + type + " is over",
     });
 
-    if(localStorage.getItem('sound'))
-      var sound  = localStorage.getItem('sound');
+    if (localStorage.getItem('sound'))
+      var sound = localStorage.getItem('sound');
     else
       var sound = "Sound 1";
-    var audio = new Audio('assets/sounds/'+sound+'.ogg');
+    var audio = new Audio('assets/sounds/' + sound + '.ogg');
     audio.play();
 
     this.timerService.updateTimerStatus(false);
     this.timerService.changeTimerStatus(false);
     this.timerIdle = true;
-  
+
   }
 
   handleChange(num: number) {

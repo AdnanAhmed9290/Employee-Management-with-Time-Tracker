@@ -12,10 +12,7 @@ import { AuthService } from '../../core/auth.service';
 export class UserLoginComponent {
 
   constructor(public auth: AuthService,
-              private router: Router) {
-
-      console.log(this.auth.user);
-  }
+              private router: Router) {}
 
   /// Social Login
 
@@ -31,7 +28,7 @@ export class UserLoginComponent {
         this.router.navigate(['/']);
         // this.showSpinner = true;
         // this.afterSignIn()
-      },error=>console.log('asda'));
+      },error=>console.log(error.messages));
   }
 
   // signInWithFacebook() {

@@ -11,6 +11,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 import { TimerService } from './timer.service';
 
+import { HttpModule } from '@angular/http';
 import { TimerComponent } from './../timer.component';
 
 
@@ -22,7 +23,8 @@ import { TimerComponent } from './../timer.component';
     AngularFireDatabaseModule,
     ReactiveFormsModule,
     CountdownModule,
-    AsyncLocalStorageModule
+    AsyncLocalStorageModule,
+    HttpModule
   ],
   declarations: [
     TimerComponent,

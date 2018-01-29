@@ -14,6 +14,7 @@ export class TopNavComponent {
   collapseNav: boolean = false;
   timerStatus: boolean;
   soundSelected: string = "Sound 1";
+  pageLoader: boolean;
 
   toggleCollapse() {
     this.show = !this.show;
@@ -21,9 +22,9 @@ export class TopNavComponent {
 
   constructor(public auth: AuthService, private timerService: TimerService, private route: Router) { }
   
-    logout() {
+  logout() {
+    this.pageLoader = true;
     this.auth.signOut();
-  
   }
 
   ngOnInit(){

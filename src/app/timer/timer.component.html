@@ -15,6 +15,7 @@
                 <!-- <i class="fas fa-stopwatch fa-lg"></i> -->
                 <span class="icon pomodoro"></span>
                 <span class="text d-none d-sm-inline-block"> Pomodoro</span>
+                <span *ngIf="togglePomodoroTimerButton"  class="ml-1 text-danger"><i class="far fa-dot-circle"></i></span>
             </a>
         </li>
         <li class="nav-item">
@@ -22,6 +23,8 @@
                 aria-selected="false">
                 <span class="icon short"></span>
                 <span class="text d-none d-sm-inline-block"> Short Break</span>
+                <span *ngIf="toggleShortTimerButton"  class="ml-1 text-danger"><i class="far fa-dot-circle"></i></span>
+                
             </a>
         </li>
         <li class="nav-item">
@@ -29,6 +32,7 @@
                 aria-selected="false">
                 <span class="icon coffee"></span>
                 <span class="text d-none d-sm-inline-block"> Coffee Break</span>
+                <span *ngIf="toggleCoffeeTimerButton"  class="ml-1 text-danger"><i class="far fa-dot-circle"></i></span>
             </a>
         </li>
         <li class="nav-item">
@@ -36,6 +40,7 @@
                 aria-selected="false">
                 <span class="icon long"></span>
                 <span class="text d-none d-sm-inline-block"> Long Break</span>
+                <span *ngIf="toggleLongTimerButton"  class="ml-1 text-danger"><i class="far fa-dot-circle"></i></span>
             </a>
         </li>
     </ul>
@@ -73,12 +78,12 @@
                 </div>
 
                 <div class="timer-btns row btn-group-vertical mt-4">
-                    <button *ngIf="!toggleButtonTimer" (click)="begin(cd1)" class="btn btn-default btn-start mb-3">
+                    <button *ngIf="!togglePomodoroTimerButton" (click)="begin(cd1)" class="btn btn-default btn-start mb-3">
                         <i class="fas fa-play"></i> Start</button>
-                    <button *ngIf="toggleButtonTimer" class="btn btn-default btn-stop mb-3"
+                    <button *ngIf="togglePomodoroTimerButton" class="btn btn-default btn-stop mb-3"
                         data-toggle="modal" data-target="#stopModal">
                         <i class="fas fa-stop"></i> Stop</button>
-                    <button *ngIf="toggleButtonTimer" (click)="restart(cd1)" class="btn btn-default btn-reset mb-3">
+                    <button *ngIf="togglePomodoroTimerButton" (click)="restart(cd1)" class="btn btn-default btn-reset mb-3">
                         <i class="fas fa-redo"></i> Reset</button>
                 </div>
             </div>
@@ -91,11 +96,11 @@
                 </div>
 
                 <div class="timer-btns row btn-group-vertical mt-4">
-                    <button *ngIf="!toggleButtonTimer" (click)="begin(cd2)" class="btn btn-default btn-start mb-3">
+                    <button *ngIf="!toggleShortTimerButton" (click)="begin(cd2)" class="btn btn-default btn-start mb-3">
                         <i class="fas fa-play"></i> Start</button>
-                    <button *ngIf="toggleButtonTimer" (click)="stop(cd2)" class="btn btn-default btn-stop mb-3">
+                    <button *ngIf="toggleShortTimerButton" (click)="stop(cd2)" class="btn btn-default btn-stop mb-3">
                         <i class="fas fa-stop"></i> Stop</button>
-                    <button *ngIf="toggleButtonTimer" (click)="restart(cd2)" class="btn btn-default btn-reset mb-3">
+                    <button *ngIf="toggleShortTimerButton" (click)="restart(cd2)" class="btn btn-default btn-reset mb-3">
                         <i class="fas fa-redo"></i> Reset</button>
                 </div>
             </div>
@@ -108,11 +113,11 @@
                 </div>
 
                 <div class="timer-btns row btn-group-vertical mt-4">
-                    <button *ngIf="!toggleButtonTimer" (click)="begin(cd3)" class="btn btn-default btn-start mb-3">
+                    <button *ngIf="!toggleCoffeeTimerButton" (click)="begin(cd3)" class="btn btn-default btn-start mb-3">
                         <i class="fas fa-play"></i> Start</button>
-                    <button *ngIf="toggleButtonTimer" (click)="stop(cd3)" class="btn btn-default btn-stop mb-3">
+                    <button *ngIf="toggleCoffeeTimerButton" (click)="stop(cd3)" class="btn btn-default btn-stop mb-3">
                         <i class="fas fa-stop"></i> Stop</button>
-                    <button *ngIf="toggleButtonTimer" (click)="restart(cd3)" class="btn btn-default btn-reset mb-3">
+                    <button *ngIf="toggleCoffeeTimerButton" (click)="restart(cd3)" class="btn btn-default btn-reset mb-3">
                         <i class="fas fa-redo"></i> Reset</button>
                 </div>
             </div>
@@ -125,11 +130,11 @@
                 </div>
 
                 <div class="timer-btns row btn-group-vertical mt-4">
-                    <button *ngIf="!toggleButtonTimer" (click)="begin(cd4)" class="btn btn-default btn-start mb-3">
+                    <button *ngIf="!toggleLongTimerButton" (click)="begin(cd4)" class="btn btn-default btn-start mb-3">
                         <i class="fas fa-play"></i> Start</button>
-                    <button *ngIf="toggleButtonTimer" (click)="stop(cd4)" class="btn btn-default btn-stop mb-3">
+                    <button *ngIf="toggleLongTimerButton" (click)="stop(cd4)" class="btn btn-default btn-stop mb-3">
                         <i class="fas fa-stop"></i> Stop</button>
-                    <button *ngIf="toggleButtonTimer" (click)="restart(cd4)" class="btn btn-default btn-reset mb-3">
+                    <button *ngIf="toggleLongTimerButton" (click)="restart(cd4)" class="btn btn-default btn-reset mb-3">
                         <i class="fas fa-redo"></i> Reset</button>
                 </div>
             </div>

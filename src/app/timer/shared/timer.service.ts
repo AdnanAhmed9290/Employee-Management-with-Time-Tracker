@@ -13,6 +13,9 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Log } from "./../../activity-logs/shared/activity";
 import { Observable } from 'rxjs/Observable';
 
+
+import { Http, Headers, Response } from '@angular/http';
+
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
@@ -37,7 +40,8 @@ export class TimerService {
   currentStatus = this.timerSource.asObservable();
 
 
-  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, public als: AsyncLocalStorage) {
+  constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, public als: AsyncLocalStorage
+    ,private http: Http) {
 
     window.onbeforeunload = function (e) {
       var e = e || window.event;
@@ -90,7 +94,9 @@ export class TimerService {
   }
 
   updateTimerStatus(status: boolean){
+    
     let user = this.afAuth.auth.currentUser;
+    // return this.http.get('localhost:3000/timerFalse/'+user.uid);
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
 
     const data: User = {

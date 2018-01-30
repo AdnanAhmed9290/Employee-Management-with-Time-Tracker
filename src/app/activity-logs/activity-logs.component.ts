@@ -1,9 +1,10 @@
 /// <reference path="../../assets/js/toastr.d.ts" />
 
 import { Component, OnInit } from '@angular/core';
-import { fadeInAnimation} from "./../shared/fadein.animation";
 import {NgbDateStruct,NgbDateAdapter, NgbCalendar, NgbDatepickerConfig} from '@ng-bootstrap/ng-bootstrap';
 import { ActivityLogsService } from './shared/activity-logs.service';
+
+import { fadeInAnimation} from "./../shared/fadein.animation";
 
 import * as moment from 'moment';
 

@@ -20,6 +20,7 @@ import { ActivityLogsModule } from './activity-logs/shared/activity-logs.module'
 import { TimerModule } from './timer/shared/timer.module';
 
 import { environment } from '../environments/environment';
+// import { NotificationMessageComponent } from './ui/notification-message/notification-message.component';
 
 
 ///// Start FireStarter
@@ -27,11 +28,16 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from 'angularfire2';
 export const firebaseConfig = environment.firebaseConfig;
 import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { DocumentsComponent } from './documents/documents.component';
+import { FaqComponent } from './faq/faq.component';
 ///// End FireStarter
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DocumentsComponent,
+    FaqComponent,
+    // NotificationMessageComponent
   ],
   imports: [
     BrowserModule,
@@ -43,9 +49,14 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
     UiModule,
     ActivityLogsModule,
     TimerModule,
+    
     AngularFireModule.initializeApp(firebaseConfig)
     // NgbModule.forRoot()
   ],
+  // exports:[
+    
+  //   NotificationMessageComponent
+  // ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [
     AppComponent,

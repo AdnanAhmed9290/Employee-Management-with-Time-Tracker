@@ -6,16 +6,17 @@ import { FormControl, FormGroup, Validators, FormBuilder } from "@angular/forms"
 import { TimerService } from "./shared/timer.service";
 import { AuthService } from "./../core/auth.service";
 import { fadeInAnimation } from "./../shared/fadein.animation";
-import { Observable } from 'rxjs/Observable'
+import { Observable } from 'rxjs/Observable';
+import { NotifyService } from './../core/notify.service'
 
 declare var $: any;
 declare var Notification: any;
 
 @Component({
-  // selector: 'timer',
-  moduleId: module.id.toString(),
+  selector: 'timer',
+  // moduleId: module.id.toString(),
   templateUrl: './timer.component.html',
-  // styleUrls: ['./timer.component.scss'],
+  styleUrls: ['./timer.component.scss'],
   // encapsulation: ViewEncapsulation.None,
   animations: [fadeInAnimation],
   host: { '[@fadeInAnimation]': '' }
@@ -32,9 +33,9 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
   timerIdle: boolean = true;
   result: boolean;
   // countDown = { "pomodoro": 1500, "short": 300, "coffee": 600, "long": 1800 }
-  // countDown = { "pomodoro": 6, "short": 6, "coffee": 5, "long": 4 }
+  countDown = { "pomodoro": 6, "short": 6, "coffee": 5, "long": 4 }
   timerStatus: boolean;
-  countDown: any;
+  // countDown: any;
   getCountDown: any;
   togglePomodoroTimerButton: boolean = false;
   toggleShortTimerButton: boolean = false;
@@ -52,7 +53,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     project: new FormControl({ value: 'Choose a Project', disabled: false }, Validators.required)
   });
 
-  constructor(private timerService: TimerService) {
+  constructor(private timerService: TimerService, private notifyService: NotifyService) {
 
     this.notify = Notification.permission;
     this.notify == "granted" ? this.notification_val = "on" : this.notification_val = "off";
@@ -103,7 +104,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.countDown = { "pomodoro": x.pomodoro * 60, "short": x.short * 60, "coffee": x.coffee * 60, "long": x.long * 60 }
       this.loadingSpinner = false;
     }, error => console.log(error))
-
+ 
     this.timerService.currentStatus.subscribe(status => {
       this.timerStatus = status;
     })
@@ -325,6 +326,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.pomodoroForm.reset();
     this.notifySound(content.type);
 
+    this.notifyService.update("Your Pomodoro Cycle is finished, you can now take a Short Break","success");
 
   }
 
@@ -337,6 +339,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.toggleShortTimerButton = false;
     this.notifySound(content.type);
 
+    this.notifyService.update("Your Short Break is finished, you can now start A Pomodoro Cycle","success");
   }
 
   onFinishedCB(counter: any) {
@@ -346,6 +349,8 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.restart(counter);
     this.toggleCoffeeTimerButton = false;
     this.notifySound(content.type);
+    
+    this.notifyService.update("Your Coffee Break is finished, you can now start A Pomodoro Cycle","success");
 
   }
 
@@ -356,6 +361,8 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.restart(counter);
     this.toggleLongTimerButton = false;
     this.notifySound(content.type);
+    
+    this.notifyService.update("Your Long Break is finished, you can now start A Pomodoro Cycle","success");
 
   }
 
@@ -368,10 +375,19 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
       body: "Hey there! Your Timer for " + type + " is over",
     });
 
+    notification.onclick = function(event) {
+      // event.preventDefault(); // prevent the browser from focusing the Notification's tab
+      window.open('https://nordicomm.co/ems/#/timer');
+      notification.close();
+
+    }
+
+
     if (localStorage.getItem('sound'))
       var sound = localStorage.getItem('sound');
     else
       var sound = "Sound 1";
+
     var audio = new Audio('assets/sounds/' + sound + '.ogg');
     audio.play();
 

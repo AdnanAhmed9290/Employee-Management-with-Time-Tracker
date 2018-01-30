@@ -122,7 +122,7 @@ export class TimerService {
       createdAt: now.format(),
       date: now.format('YYYY/MM/DD') 
     })
-    .then( x => toastr.success('Activity Log Saved') )
+    .then( x => console.log('Activity Log Saved') )
     .catch( error => this.handleError(error));
   }
 

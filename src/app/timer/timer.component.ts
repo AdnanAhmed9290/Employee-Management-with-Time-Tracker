@@ -103,10 +103,10 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
       this.tm = Observable.of(user.timerStatus && this.timerIdle);
     })
 
-    // this.getCountDown.subscribe(x => {
-    //   this.countDown = { "pomodoro": x.pomodoro * 60, "short": x.short * 60, "coffee": x.coffee * 60, "long": x.long * 60 }
+    this.getCountDown.subscribe(x => {
+      this.countDown = { "pomodoro": x.pomodoro * 60, "short": x.short * 60, "coffee": x.coffee * 60, "long": x.long * 60 }
       this.loadingSpinner = false;
-    // }, error => console.log(error))
+    }, error => console.log(error))
 
     this.timerService.currentStatus.subscribe(status => {
       this.timerStatus = status;

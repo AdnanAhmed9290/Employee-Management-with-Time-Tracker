@@ -16,5 +16,6 @@ export class Log {
     duration: number;
     body: string;
     active = true;
+    createdAt?: string;
 }
   

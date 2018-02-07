@@ -43,17 +43,23 @@ export class TimerService {
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, public als: AsyncLocalStorage
     ,private http: Http) {
 
-    window.onbeforeunload = function (e) {
-      var e = e || window.event;
-    
-      //IE & Firefox
-      if (e) {
-        e.returnValue = 'Are you sure?';
-      }
-    
-      // For Safari
-      return 'Are you sure?';
-    };
+      let _this = this;
+      this.currentStatus.subscribe(x=> {
+          if(x == true){
+            window.onbeforeunload = function (e) {
+                _this.updateTimerStatus(false);                
+                // var e = e || window.event;
+                console.log('exiting');
+                //IE & Firefox
+                if (e) {
+                  e.returnValue = 'Are you sure?';
+                }
+              
+                // For Safari
+                return 'Are you sure?';
+              };
+          }
+      })
   }
 
   
@@ -107,7 +113,8 @@ export class TimerService {
   }
 
   get timestamp() {
-    return firebase.firestore.FieldValue.serverTimestamp()
+    // console.log(moment(firebase.firestore.FieldValue.serverTimestamp()));
+    return firebase.database.ServerValue.TIMESTAMP
   }
 
   createLog(log: any)  {
@@ -120,7 +127,8 @@ export class TimerService {
       ...log,
       startAt: start.format(),
       createdAt: now.format(),
-      date: now.format('YYYY/MM/DD') 
+      date: now.format('YYYY/MM/DD'),
+      timeStamp: new Date().getTime()
     })
     .then( x => console.log('Activity Log Saved') )
     .catch( error => this.handleError(error));

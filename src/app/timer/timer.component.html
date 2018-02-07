@@ -73,7 +73,7 @@
             <div class="stopwatch my-5 pb-3 text-center">
                 <div class="row my-3">
                     <loading-spinner *ngIf="loadingSpinner" ></loading-spinner>
-                    <countdown *ngIf="getCountDown | async"  #cd1 [config]="{leftTime: (countDown.pomodoro), className: 'pomodoro-timer', template: '$!m!:$!s!$!s-ext!',demand: true }"
+                    <countdown *ngIf="getCountDown | async"  #cd1 [config]="{leftTime: (countDown.pomodoro), startTime:(currentTime) , className: 'pomodoro-timer', template: '$!m!:$!s!$!s-ext!',demand: true }"
                         (finished)="onFinishedPomodoro(cd1)"></countdown>
                 </div>
 

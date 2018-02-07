@@ -7,8 +7,11 @@ import { TimerComponent } from './timer/timer.component';
 import { ActivityLogsComponent } from './activity-logs/activity-logs.component';
 import { DocumentsComponent } from './documents/documents.component';
 import { FaqComponent } from "./faq/faq.component";
+import { ReportsComponent } from './reports/reports.component';
+import { SingleReportComponent } from './reports/single-report/single-report.component';
 
 import { AuthGuard } from './core/auth.guard';
+import { AdminGuard } from './core/admin.guard';
 import { CoreModule } from './core/core.module';
 
 const routes: Routes = [
@@ -18,6 +21,8 @@ const routes: Routes = [
   { path: 'activities', component: ActivityLogsComponent,  canActivate: [AuthGuard] },
   { path: 'documents', component: DocumentsComponent,  canActivate: [AuthGuard] },
   { path: 'faq', component: FaqComponent,  canActivate: [AuthGuard] },
+  { path: 'reports', component: ReportsComponent,  canActivate: [AuthGuard, AdminGuard]  },
+  { path: 'reports/:id', component: SingleReportComponent,  canActivate: [AuthGuard, AdminGuard]},
   // { path: 'items', component: ItemsListComponent, canActivate: [AuthGuard] },
   // { path: 'notes', component: NotesListComponent,  canActivate: [AuthGuard] },
   
@@ -32,6 +37,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [AuthGuard],
+  providers: [AuthGuard,AdminGuard ],
 })
 export class AppRoutingModule { }

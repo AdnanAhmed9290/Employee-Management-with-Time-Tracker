@@ -21,7 +21,7 @@ declare var Notification: any;
   animations: [fadeInAnimation],
   host: { '[@fadeInAnimation]': '' }
 })
-export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, AfterViewInit {
 
   model: any;
   notification_val: String;
@@ -42,6 +42,8 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
   toggleLongTimerButton: boolean = false;
   toggleCoffeeTimerButton: boolean = false;
   processValidation: boolean = false;
+  timer: number = 1000*60*25;
+  currentTime: any;
 
   @ViewChild('cd1') cd1: CountdownComponent;
   @ViewChild('cd2') cd2: CountdownComponent;
@@ -64,17 +66,17 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
 
-  @HostListener('window:unload', [ '$event' ])
-  unloadHandler(event) {
-    this.onExit();
-    return null;
-  }
+  // @HostListener('window:unload', [ '$event' ])
+  // unloadHandler(event) {
+  //   this.onExit();
+  //   return null;
+  // }
 
-  @HostListener('window:beforeunload', ['$event'])
-  beforeUnloadHander(event) {
-    this.onExit();
-    return null;
-  }
+  // @HostListener('window:beforeunload', ['$event'])
+  // beforeUnloadHander(event) {
+  //   this.onExit();
+  //   return null;
+  // }
 
   onExit(){
     console.log('closing');
@@ -92,6 +94,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngOnInit() {
 
     this.loadingSpinner = true;
+
     this.projects.subscribe(x => {
       // success data operations
     }, error => console.log(error));
@@ -100,20 +103,21 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.tm = Observable.of(user.timerStatus && this.timerIdle);
     })
 
-    this.getCountDown.subscribe(x => {
-      this.countDown = { "pomodoro": x.pomodoro * 60, "short": x.short * 60, "coffee": x.coffee * 60, "long": x.long * 60 }
+    // this.getCountDown.subscribe(x => {
+    //   this.countDown = { "pomodoro": x.pomodoro * 60, "short": x.short * 60, "coffee": x.coffee * 60, "long": x.long * 60 }
       this.loadingSpinner = false;
-    }, error => console.log(error))
- 
+    // }, error => console.log(error))
+
     this.timerService.currentStatus.subscribe(status => {
       this.timerStatus = status;
     })
 
-    if (Notification.permission !== "granted")
-      Notification.requestPermission();
-    // this.timerService.changeTimerStatus(false);
   }
 
+  ngAfterViewInit(){
+    if (Notification.permission !== "granted")
+      Notification.requestPermission();
+  }
 
   ngAfterViewChecked() {
 
@@ -125,6 +129,9 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.timerService.updateTimerStatus(false);
     }
     this.timerService.changeTimerStatus(false);
+    // this.getCountDown.unsubscribe();
+    // this.tS.unsubscribe();
+    // this.projects.unsubscribe();
   }
 
   inputFocus(e: any) {
@@ -136,6 +143,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked {
       $(e.target).parent().removeClass('input--filled');
     }
   }
+
 
   tabs(counter: CountdownComponent) {
 

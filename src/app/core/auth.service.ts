@@ -10,14 +10,7 @@ import { NotifyService } from './notify.service';
 
 import { Observable } from 'rxjs/Observable';
 import { switchMap } from 'rxjs/operators';
-
-interface User {
-  uid: string;
-  email?: string | null;
-  photoURL?: string;
-  displayName?: string;
-  timerStatus?: boolean;
-}
+import { User } from './user';
 
 @Injectable()
 export class AuthService {
@@ -165,26 +158,41 @@ export class AuthService {
       email: credential.additionalUserInfo.profile.email || null,
       displayName: credential.additionalUserInfo.profile.name || 'nameless user',
       photoURL: credential.additionalUserInfo.profile.picture || 'https://goo.gl/Fz9nrQ',
+      roles: {
+        subscriber: true
+      }
     };
 
-    // this.afs.doc(`users/${credential.user.uid}`).snapshotChanges()
-    // this.afs.firestore.doc(`users/${credential.user.uid}`).get()
-    // .then(docSnapshot => {
-    //   if (docSnapshot.exists) {
-    //     // do something
-    //     return userRef.update(data);
-    //   }
-    //   else{
-    //     return userRef.set(data);
-    //   }
+    return userRef.set(data,{ merge: true });
+    // .catch((error) => {
+    //   console.log("Error updating user document doesn't exists"); // (document does not exists)
+    //   return userRef.set(data);
     // });
-
-    return userRef.update(data)
-    .catch((error) => {
-      console.log("Error updating user document doesn't exists"); // (document does not exists)
-      return userRef.set(data);
-    });
-
-    
   }
+
+  ///// Role-based Authorization //////
+  isSubscriber(user: User): boolean {
+    const allowed = ['admin', 'hr', 'subscriber']
+    return this.checkAuthorization(user, allowed)
+  }
+  isHR(user: User): boolean {
+    const allowed = ['admin', 'hr']
+    return this.checkAuthorization(user, allowed)
+  }
+  isAdmin(user: User): boolean {
+    const allowed = ['admin']
+    return this.checkAuthorization(user, allowed)
+  }
+  // determines if user has matching role
+  private checkAuthorization(user: User, allowedRoles: string[]): boolean {
+    if (!user) return false
+    for (const role of allowedRoles) {
+      if ( user.roles[role] ) {
+        return true
+      }
+    }
+    return false
+  }
+
+
 }

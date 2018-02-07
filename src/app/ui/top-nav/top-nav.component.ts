@@ -15,6 +15,7 @@ export class TopNavComponent {
   timerStatus: boolean;
   soundSelected: string = "Sound 1";
   pageLoader: boolean;
+  checkAdmin: any;
 
   toggleCollapse() {
     this.show = !this.show;

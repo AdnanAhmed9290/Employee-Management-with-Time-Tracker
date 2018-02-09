@@ -33,6 +33,7 @@ export class SingleReportComponent implements OnInit, AfterViewInit {
   color = 'primary';
   mode = 'indeterminate';
   dateSelected: NgbDateStruct;
+  dayOffset = 24*60*60*1000;
   maxDate: any;
   date: {year: number, month: number};
   maxDateFlag : boolean = true;
@@ -83,9 +84,10 @@ export class SingleReportComponent implements OnInit, AfterViewInit {
   getWeeklyData(date: any){
     
     this.showProgress = true;
-    var dateOffset = (24*60*60*1000) * 7; //7 days
+    var dateOffset =  this.dayOffset* 6; //7 days
     let myDate = new Date(this.getDate(date));
     this.week.start = new Date(this.getDate(date)).getTime();
+    console.log(new Date(this.week.start));
     this.week.end =  myDate.setTime(myDate.getTime() - dateOffset);
     let weekly = {
       pomdoro: 0,
@@ -94,7 +96,7 @@ export class SingleReportComponent implements OnInit, AfterViewInit {
       long: 0
     };
 
-    this.logService.getWeeklyLogsList(this.week.start,this.week.end,this.userId).subscribe(data=>{
+    this.logService.getWeeklyLogsList(this.week.start + this.dayOffset ,this.week.end,this.userId).subscribe(data=>{
       data.forEach(element => {
         if(element.type == 'pomodoro'){
           weekly.pomdoro++;
@@ -123,7 +125,7 @@ export class SingleReportComponent implements OnInit, AfterViewInit {
   getMonthlyData(date: any){
 
     this.showProgress = true;
-    var dateOffset = (24*60*60*1000) * 30; //30 days
+    var dateOffset = this.dayOffset * 30; //30 days
     let myDate = new Date(this.getDate(date));
     this.month.start = new Date(this.getDate(date)).getTime();
     this.month.end =  myDate.setTime(myDate.getTime() - dateOffset);
@@ -135,7 +137,7 @@ export class SingleReportComponent implements OnInit, AfterViewInit {
       long: 0
     };
   
-    this.logService.getMonthlyLogsList(this.month.start,this.month.end,this.userId).subscribe(data=>{
+    this.logService.getMonthlyLogsList(this.month.start + this.dayOffset,this.month.end,this.userId).subscribe(data=>{
       data.forEach(element => {
         if(element.type == 'pomodoro'){
           // this.daily.pomodoro[counter]= element;

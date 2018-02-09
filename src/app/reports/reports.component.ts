@@ -37,7 +37,6 @@ export class ReportsComponent  implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-
     this.usersData.subscribe(data => {
       this.dataSource = new MatTableDataSource<User>(data);
       this.dataSource.paginator = this.paginator;

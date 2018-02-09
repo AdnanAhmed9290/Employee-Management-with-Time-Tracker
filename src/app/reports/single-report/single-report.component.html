@@ -1,24 +1,32 @@
 <div id="activity-section" class="container  d-inline-block w-100">
 
-  <div class="calender row my-3 pb-3">
+  <div class="calender row mt-3 pb-3">
 
-    <h2 class="w-100 mb-4 d-none d-lg-block d-xl-block">Activity Logs</h2>
+    <!-- for large screens -->
+    <div *ngIf="userData" class="userData w-100 mb-2 d-none d-lg-block d-xl-block">
+      <h2>{{userData.displayName}} Activity Logs</h2>
+      <p>{{userData.email}}</p>
+      <img class="img-fluid profile-img rounded-circle" src="{{userData.photoURL}}">
+    </div>
 
+    <!-- for samll screens -->
     <div class="col-12 p-0 d-block d-sm-block d-md-block d-lg-none d-xl-none">
       <ul class="list-unstyled list-inline">
-        <li class="list-inline-item  align-top w-50">
-          <h3>Activity Logs</h3>
+        <li class="list-inline-item  align-top w-50" *ngIf="userData ">
+          <h3>{{userData.displayName}} Activity Logs</h3>
+          <p>{{userData.email}}</p>
         </li>
         <li class="list-inline-item align-top cycles">
           {{cycles.pomodoro}} /
         </li>
         <li class="list-inline-item cycles">
-          <p class="text-muted m-0">16 cycles</p>
+          <p class="text-muted m-0">10 cycles</p>
           <p class="text-muted m-0 recomended">(recomended)</p>
         </li>
       </ul>
     </div>
 
+    <!-- DatePicker Section -->
     <ul class="list-unstyled list-inline">
       <li class="list-inline-item  align-top">
         <button class="btn btn-default arrow-btn" (click)="subDate()">
@@ -48,43 +56,42 @@
         <button class="btn btn-default today-btn" (click)="selectToday()">
           Today
         </button>
-        <!-- <button class="btn btn-default" (click)="createP()">
-          Pomodoro
-        </button>
-        <button class="btn btn-default" (click)="createS()">
-          Short Break
-        </button>
-        <button class="btn btn-default" (click)="createC()">
-          Coffee Break
-        </button>
-        <button class="btn btn-default" (click)="createL()">
-          Long Break
-        </button> -->
       </li>
       <li class="list-inline-item align-top cycles d-none d-lg-inline d-xl-inline">
         {{cycles.pomodoro}} /
       </li>
       <li class="list-inline-item cycles d-none d-lg-inline-block d-xl-inline-block">
-        <p class="text-muted m-0">16 cycles</p>
+        <p class="text-muted m-0">10 cycles</p>
         <p class="text-muted m-0 recomended">(recomended)</p>
       </li>
     </ul>
 
-
-    <hr>
   </div>
 
+  <!-- Progress Bar -->
+  <div class="progress row" *ngIf="showProgress">
+    <mat-progress-bar class="employee-margin" [color]="color" [mode]="mode">
+    </mat-progress-bar>
+  </div>
 
+<!-- Logs Area -->
   <div class="area">
     <div class="row">
-      <div class="logs-data mt-5 col-sm-9">
+
+      <!-- Daiy Logs -->
+      <div class="logs-data mt-5 col-sm-6">
+
+        <div class="row daily-heading">
+            <h3 class=" w-100" >Daily Report</h3>
+            <p class="text-primary m-0" *ngIf="userData" ><strong>{{ dateSelected.day }}-{{ dateSelected.month }}-{{ dateSelected.year }}</strong></p>
+        </div>
 
         <h4 *ngIf="cycles.data"> No Activities for this date</h4>
-        <loading-spinner *ngIf="showSpinner"></loading-spinner>
 
-        <div class="mb-4 logs row" *ngFor="let item of logData | async">
-          <ul class="list-inline list-unstyled">
-            <li class="list-inline-item align-baseline">
+        <div class="mb-4 logs row daily-report" *ngFor="let item of logData | async">
+          
+          <ul class="list-inline list-unstyled w-100">
+            <li class="list-inline-item align-baseline" style="width: 150px">
               <span class="text-muted">{{item.startAt | date:"hh:mm a"}} - {{item.createdAt | date:"hh:mm a"}}</span>
             </li>
             <li class="list-inline-item align-middle">
@@ -94,7 +101,7 @@
                   'long': item.type == 'long break' , 'short': item.type == 'short break' }"></i>
               </span>
             </li>
-            <li class="list-inline-item align-middle">
+            <li class="list-inline-item align-middle w-50">
 
               <span *ngIf="item.task != ''" class="font-weight-bold">{{item.task}}
                 <br>
@@ -111,10 +118,28 @@
         </div>
 
       </div>
-      <div class="col-sm-3 userData" *ngIf="userData" >
-          <img class="img-fluid" src="{{userData.photoURL}}">
-          <h4 class="mt-3 mb-0">{{userData.displayName}}</h4>
-          <p>{{userData.email}}</p>
+      <div class="col-sm-6" *ngIf="userData">
+        <!-- Weekly Logs -->
+        <div class="weekly my-5" *ngIf="checkweeklyData | async">
+          <h3>Weekly Report</h3>
+          <p class="text-primary"><strong>{{ week.end | date }} - {{ week.start | date}}</strong></p>
+          <hr>
+          <div style="display: block">
+            <canvas baseChart [data]="WeeklyChartData" [labels]="ChartLabels" [chartType]="WeeklyChartType">
+            </canvas>
+          </div>
+        </div>
+        <!-- Monthly Logs -->
+        <div class="monthly my-5" *ngIf="checkmonthlyData | async">
+          <h3>Monthly Report</h3>
+          <p class="text-primary"><strong>{{ month.end | date }} - {{ month.start | date}}</strong></p>
+          <hr>
+          <div style="display: block">
+            <canvas baseChart [data]="MonthlyChartData" [labels]="ChartLabels" [chartType]="MonthlyChartType">
+            </canvas>
+          </div>
+        </div>
+
       </div>
 
     </div>

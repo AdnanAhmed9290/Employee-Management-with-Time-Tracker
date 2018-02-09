@@ -21,8 +21,8 @@ const routes: Routes = [
   { path: 'activities', component: ActivityLogsComponent,  canActivate: [AuthGuard] },
   { path: 'documents', component: DocumentsComponent,  canActivate: [AuthGuard] },
   { path: 'faq', component: FaqComponent,  canActivate: [AuthGuard] },
-  { path: 'reports', component: ReportsComponent,  canActivate: [AuthGuard, AdminGuard]  },
-  { path: 'reports/:id', component: SingleReportComponent,  canActivate: [AuthGuard, AdminGuard]},
+  { path: 'reports', component: ReportsComponent,  canActivate: [AuthGuard, ]  },
+  { path: 'reports/:id', component: SingleReportComponent,  canActivate: [AuthGuard, ]},
   // { path: 'items', component: ItemsListComponent, canActivate: [AuthGuard] },
   // { path: 'notes', component: NotesListComponent,  canActivate: [AuthGuard] },
   

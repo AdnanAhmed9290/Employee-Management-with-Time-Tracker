@@ -16,37 +16,15 @@ export class UserLoginComponent {
 
   /// Social Login
 
-  // signInWithGithub() {
-  //   this.auth.githubLogin()
-  //   .then(() => this.afterSignIn());
-  // }
-
   signInWithGoogle() {
     this.auth.googleLogin()
       .then(() => {
-        
-        this.router.navigate(['/']);
+        // this.auth.notify.update('Welcome to Employee Management System!!!', 'success');
+        this.router.navigate(['/timer']);
         // this.showSpinner = true;
         // this.afterSignIn()
       },error=>console.log(error.messages));
   }
-
-  // signInWithFacebook() {
-  //   this.auth.facebookLogin()
-  //     .then(() => this.afterSignIn());
-  // }
-
-  // signInWithTwitter() {
-  //   this.auth.twitterLogin()
-  //     .then(() => this.afterSignIn());
-  // }
-
-  // /// Anonymous Sign In
-
-  // signInAnonymously() {
-  //   this.auth.anonymousLogin()
-  //     .then(() => this.afterSignIn());
-  // }
 
   /// Shared
 

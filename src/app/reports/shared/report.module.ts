@@ -16,7 +16,7 @@ import {
   MatDialogModule, 
   MatPaginatorModule,
   MatButtonModule, 
-  MatCardModule,
+  MatCardModule
 } from '@angular/material';
 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -24,7 +24,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 // import {CdkTableModule} from '@angular/cdk/table';
 // import { AngularFireDatabaseModule } from 'angularfire2/database';
-
+import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { ReportsComponent } from './../reports.component';
 import { ReportService } from './report.service';
 import { SingleReportComponent } from './../single-report/single-report.component';
@@ -48,7 +48,8 @@ import { SingleReportComponent } from './../single-report/single-report.componen
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatProgressBarModule,
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    ChartsModule
 
   ],
   declarations: [

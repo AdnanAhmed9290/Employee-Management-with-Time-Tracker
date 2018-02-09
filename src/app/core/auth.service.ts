@@ -20,7 +20,7 @@ export class AuthService {
   constructor(private afAuth: AngularFireAuth,
               private afs: AngularFirestore,
               private router: Router,
-              private notify: NotifyService) {
+              public notify: NotifyService) {
 
     this.user = this.afAuth.authState
       .switchMap((user) => {
@@ -39,26 +39,13 @@ export class AuthService {
     return this.oAuthLogin(provider);
   }
 
-  // githubLogin() {
-  //   const provider = new firebase.auth.GithubAuthProvider();
-  //   return this.oAuthLogin(provider);
-  // }
-
-  // facebookLogin() {
-  //   const provider = new firebase.auth.FacebookAuthProvider();
-  //   return this.oAuthLogin(provider);
-  // }
-
-  // twitterLogin() {
-  //   const provider = new firebase.auth.TwitterAuthProvider();
-  //   return this.oAuthLogin(provider);
-  // }
-
   private oAuthLogin(provider: firebase.auth.AuthProvider) {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((credential) => {
+        
+        let promiss = this.updateUserData(credential);
         // this.notify.update('Welcome to Employee Management System!!!', 'success');
-        return this.updateUserData(credential);
+        return promiss;
       })
       .catch((error) => {
         if(error.message == 'Missing or insufficient permissions.'){
@@ -72,49 +59,6 @@ export class AuthService {
       });
   }
 
-  //// ============= Anonymous Auth ====================== ////
-
-  // anonymousLogin() {
-  //   return this.afAuth.auth.signInAnonymously()
-  //     .then((user) => {
-  //       this.notify.update('Welcome to Employee Management System !!!', 'success');
-  //       return this.updateUserData(user); // if using firestore
-  //     })
-  //     .catch((error) => {
-  //       console.error(error.code);
-  //       console.error(error.message);
-  //       this.handleError(error);
-  //     });
-  // }
-
-  //// ======================= Email/Password Auth =================== ////
-
-  // emailSignUp(email: string, password: string) {
-  //   return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-  //     .then((user) => {
-  //       this.notify.update('Welcome to Firestarter!!!', 'success');
-  //       return this.updateUserData(user); // if using firestore
-  //     })
-  //     .catch((error) => this.handleError(error) );
-  // }
-
-  // emailLogin(email: string, password: string) {
-  //   return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-  //     .then((user) => {
-  //       this.notify.update('Welcome to Firestarter!!!', 'success')
-  //       return this.updateUserData(user); // if using firestore
-  //     })
-  //     .catch((error) => this.handleError(error) );
-  // }
-
-  // =========== Sends email allowing user to reset password ==================
-  // resetPassword(email: string) {
-  //   const fbAuth = firebase.auth();
-
-  //   return fbAuth.sendPasswordResetEmail(email)
-  //     .then(() => this.notify.update('Password update email sent', 'info'))
-  //     .catch((error) => this.handleError(error));
-  // }
 
   signOut() {
    
@@ -131,11 +75,7 @@ export class AuthService {
       });
      }).catch(()=>{
        console.log('user not registered');
-      this.afAuth.auth.signOut().then(() => {
-        
-          this.router.navigate(['/login']);
-          // toastr.success('Logout Successfull');
-      });
+     
      });
     
     
@@ -162,7 +102,6 @@ export class AuthService {
         subscriber: true
       }
     };
-
     return userRef.set(data,{ merge: true });
     // .catch((error) => {
     //   console.log("Error updating user document doesn't exists"); // (document does not exists)

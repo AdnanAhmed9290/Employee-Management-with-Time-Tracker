@@ -41,14 +41,7 @@ export class ReportService {
       console.log(logs.length);
       return logs.length;
     })
-    // p.short = this.afs.collection(`users/`+user.uid+`/logs`,ref => ref.where('date', '==', '2018/02/01').where('type','==', 'short break')).snapshotChanges()
-    // .map(logs=>{
-    //   return logs.length;
-    // })
-    // p.coffee = this.afs.collection(`users/`+user.uid+`/logs`,ref => ref.where('date', '==', '2018/02/01').where('type','==', 'coffee break')).snapshotChanges()
-    // .map(logs=>{
-    //   return logs.length;
-    // })
+
     return pomodoro;
   }
 
@@ -59,9 +52,12 @@ export class ReportService {
       .orderBy('createdAt',"desc"));
     return this.LogsCollection.snapshotChanges().map(actions => {
       return actions.map(action => {
-        const data = action.payload.doc.data() as Log;
+        const dta = action.payload.doc.data() as Log;
         const id = action.payload.doc.id;
-        return { id, ...data };
+        // if(data.type == 'pomodoro'){
+
+        // }
+        return { id, ...dta };
       });
     });
   }
@@ -75,7 +71,6 @@ export class ReportService {
         const data = action.payload.doc.data() as Log;
         const id = action.payload.doc.id;
         // this.afs.doc('users/'+user+'/logs/'+id).update({
-        //   ...data,
         //   timeStamp: new Date(data.createdAt).getTime()
         // })
         return { id, ...data };
@@ -86,8 +81,7 @@ export class ReportService {
   getMonthlyLogsList(start: any, end:any, user: any): Observable<Log []> {
 
     this.LogsCollection = this.afs.collection<Log>('users/'+user+'/logs', 
-      ref => ref.where('timeStamp', '<', start).where('timeStamp', '>', end)
-      .orderBy('createdAt',"desc"));
+      ref => ref.where('timeStamp', '<', start).where('timeStamp', '>', end));
     return this.LogsCollection.snapshotChanges().map(actions => {
       return actions.map(action => {
         const data = action.payload.doc.data() as Log;

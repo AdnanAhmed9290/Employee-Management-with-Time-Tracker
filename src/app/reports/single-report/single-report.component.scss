@@ -1,0 +1,36 @@
+
+
+
+@media screen and (min-width: 786px){
+    .calender{
+        border-bottom: 1px solid #e5e5e5;
+        box-shadow: 10px 10px 20px 0px rgba(0, 0, 0, 0.08);
+        position: relative;
+        
+        .userData{
+            // text-align: right;
+        
+            .profile-img{
+                position: absolute;
+                max-width: 200px;
+                height: 90%;
+                top: 5px;
+                right: 5px;
+            }
+        }
+    }
+
+    
+    .weekly, .monthly{
+        h3,p{
+            text-align: right;
+        }
+    }
+}
+
+.daily-heading{
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}

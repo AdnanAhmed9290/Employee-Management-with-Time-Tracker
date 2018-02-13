@@ -43,8 +43,7 @@ export class ActivityLogsComponent implements OnInit {
   date: {year: number, month: number};
   maxDateFlag : boolean = true;
   cycles = {
-    pomodoro : 0,
-    data : true
+    pomodoro : 0
   };
   dateModel : Date;
 
@@ -68,14 +67,9 @@ export class ActivityLogsComponent implements OnInit {
         if(element.type == 'pomodoro')  
           ++counter;
       });
-      if(x.length == 0)
-        this.cycles.data = true;
-      else
-        this.cycles.data = false;
       this.cycles.pomodoro = counter;
       this.showSpinner = false;
     },error => {
-      this.cycles.data = true;
       this.showSpinner = false ;
     });
   }
@@ -90,7 +84,7 @@ export class ActivityLogsComponent implements OnInit {
     this.getActivityData(this.dateSelected);
     // if(this.compareDates(this.dateSelected,this.maxDate)){
     //     this.maxDateFlag = true;
-    // }
+    // }s
   }
   
   subDate(){
@@ -125,46 +119,5 @@ export class ActivityLogsComponent implements OnInit {
     }
     this.getActivityData(this.dateSelected);
   }
-
-  // createP(){
-  //   let content : any = {
-  //     type: "pomodoro",
-  //     task: "Create Module Added",
-  //     project: "Babywink Web",
-  //     duration: 25
-  //   }
-  //   this.logService.createLog(content);
-  // }
-
-  // createS(){
-  //   let content : any = {
-  //     type: "short break",
-  //     task: "",
-  //     project: "",
-  //     duration: 5
-  //   }
-  //   this.logService.createLog(content);
-  // }
-
-  // createC(){
-  //   let content : any = {
-  //     type: "coffee break",
-  //     task: "",
-  //     project: "",
-  //     duration: 10
-  //   }
-  //   this.logService.createLog(content);
-  // }
-
-  // createL(){
-  //   let content : any = {
-  //     type: "long break",
-  //     task: "",
-  //     project: "",
-  //     duration: 30
-  //   }
-  //   this.logService.createLog(content);
-  // }
-
 
 }

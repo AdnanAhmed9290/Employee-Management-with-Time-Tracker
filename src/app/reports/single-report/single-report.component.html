@@ -86,7 +86,7 @@
             <p class="text-primary m-0" *ngIf="userData" ><strong>{{ dateSelected.day }}-{{ dateSelected.month }}-{{ dateSelected.year }}</strong></p>
         </div>
 
-        <h4 *ngIf="cycles.data"> No Activities for this date</h4>
+        <h4 *ngIf="(logData | async)?.length == 0"> No Activities for this date</h4>
 
         <div class="mb-4 logs row daily-report" *ngFor="let item of logData | async">
           

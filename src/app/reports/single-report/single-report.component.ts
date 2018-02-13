@@ -38,8 +38,7 @@ export class SingleReportComponent implements OnInit, AfterViewInit {
   date: {year: number, month: number};
   maxDateFlag : boolean = true;
   cycles = {
-    pomodoro : 0,
-    data : true
+    pomodoro : 0
   };
   dateModel : Date;
   userId : string;
@@ -87,7 +86,7 @@ export class SingleReportComponent implements OnInit, AfterViewInit {
     var dateOffset =  this.dayOffset* 6; //7 days
     let myDate = new Date(this.getDate(date));
     this.week.start = new Date(this.getDate(date)).getTime();
-    console.log(new Date(this.week.start));
+    // console.log(new Date(this.week.start));
     this.week.end =  myDate.setTime(myDate.getTime() - dateOffset);
     let weekly = {
       pomdoro: 0,
@@ -180,16 +179,11 @@ export class SingleReportComponent implements OnInit, AfterViewInit {
           ++counter;
         }  
       });
-      if(x.length == 0)
-        this.cycles.data = true;
-      else
-        this.cycles.data = false;
       this.cycles.pomodoro = counter;
       this.showProgress = false ;
       // console.log('pomdoro :'+this.dailyPomodoro);
     },error => {
       toastr.error(error.message);
-      this.cycles.data = true;
       this.showProgress = false ;
     });
   }

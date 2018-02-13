@@ -35,7 +35,6 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
   // countDown = { "pomodoro": 1500, "short": 300, "coffee": 600, "long": 1800 }
   countDown = { "pomodoro": 6, "short": 6, "coffee": 5, "long": 4 }
   timerStatus: boolean;
-  // countDown: any;
   getCountDown: any;
   togglePomodoroTimerButton: boolean = false;
   toggleShortTimerButton: boolean = false;
@@ -85,10 +84,30 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
     }
   }
 
-  // @HostListener("keydown.esc")
-  // public onEsc() {
-  //   alert('escape');
-  // }
+  @HostListener('window:keyup', ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    if (event.altKey && event.keyCode === 80 ) {
+      // this.increment
+      $('a[href="#pomodoro"]').tab('show');
+    }
+    else if (event.altKey && event.keyCode === 83 ) {
+      // this.increment
+      $('a[href="#short-break"]').tab('show');
+    }
+    else if (event.altKey && event.keyCode === 67 ) {
+      // this.increment
+      $('a[href="#coffee-break"]').tab('show');
+    }
+    else if (event.altKey && event.keyCode === 76 ) {
+      // this.increment
+      $('a[href="#long-break"]').tab('show');
+    }
+    else if (event.keyCode === 32 ) {
+      // this.increment
+      console.log('Space');
+    }
+
+  }
 
 
   ngOnInit() {
@@ -212,7 +231,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
     // } else {
     //   this.beginTimer(counter);
     // }
-
+    this.notifyService.clear();
     this.beginTimer(counter);
   }
 

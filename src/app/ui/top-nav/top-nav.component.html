@@ -21,6 +21,9 @@
         <li class="nav-item" [routerLinkActive]="['active']">
           <a class="nav-link p-3" (click)="nav('/faq', false)" routerLink="/faq">FAQ</a>
         </li>
+        <li class="nav-item" [routerLinkActive]="['active']" *ngIf="auth.user | async as user"  >
+          <a *ngIf="auth.isAdmin(user)" class="nav-link p-3" (click)="nav('/reports', false)" routerLink="/reports">Reports</a>
+        </li>
       </ul>
       <ul class="navbar-nav">
         <div *ngIf="auth.user | async; then authenticated else guest">
@@ -49,7 +52,6 @@
               </a>
 
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" routerLink="/reports" >Reports</a>
                 <a class="dropdown-item" data-toggle="modal" data-target="#settingModal" >Settings</a>
                 <a class="dropdown-item" href="javascript:" (click)="logout()">Logout</a>
               </div>

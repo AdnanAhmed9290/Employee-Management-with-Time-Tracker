@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
+// import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { NotifyService } from './notify.service';
 
 import { Observable } from 'rxjs/Observable';
@@ -16,6 +17,7 @@ import { User } from './user';
 export class AuthService {
 
   user: Observable<User | null>;
+  userId: any;
 
   constructor(private afAuth: AngularFireAuth,
               private afs: AngularFirestore,
@@ -30,6 +32,16 @@ export class AuthService {
           return Observable.of(null);
         }
       });
+
+      // this.afAuth.authState
+      //       .do(user => {
+      //         if (user) {
+      //            this.userId = user.uid
+      //           //  this.updateOnConnect()
+      //            this.updateOnDisconnect() // <-- new line added
+      //         }
+      //       })
+      //   .subscribe();
   }
 
   ////// OAuth Methods /////
@@ -80,6 +92,22 @@ export class AuthService {
     
     
   }
+
+    /// Helper to perform the update in Firebase
+  public updateStatus(status: string) {
+    if (!this.userId) return
+    this.afs.doc(`users/` + this.userId).update({ timerStatus: status })
+  }
+
+  // Updates status when connection to Firebase ends
+  // private updateOnDisconnect() {
+  //   firebase.database().
+  //     .onDisconnect()
+  //     .update({status: 'offline'});
+  //   firebase.database().ref().child(`users/${this.userId}`)
+  //           .onDisconnect()
+  //           .update({status: 'offline'})
+  // }
 
   // If error, console log and notify user
   private handleError(error: Error) {

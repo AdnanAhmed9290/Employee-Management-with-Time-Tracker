@@ -77,7 +77,7 @@
 
   <div class="logs-data mt-5">
     
-  <h4 *ngIf="cycles.data"> No Activities for this date</h4>
+  <h4 *ngIf="(logData | async)?.length == 0"> No Activities for this date</h4>
   <loading-spinner *ngIf="showSpinner"></loading-spinner>
 
     <div class="mb-4 logs row" *ngFor="let item of logData | async">

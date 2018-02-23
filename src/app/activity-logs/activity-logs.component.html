@@ -82,7 +82,7 @@
 
     <div class="mb-4 logs row" *ngFor="let item of logData | async">
       <ul class="list-inline list-unstyled">
-        <li class="list-inline-item align-baseline">
+        <li class="list-inline-item align-baseline"  style="width: 150px" class="d-none d-lg-inline-block d-xl-inline-block">
           <span class="text-muted">{{item.startAt | date:"hh:mm a"}} - {{item.createdAt | date:"hh:mm a"}}</span>
         </li>
         <li class="list-inline-item align-middle">
@@ -102,6 +102,10 @@
           </span>
           <span *ngIf="item.task == ''" class="text-muted text-uppercase font-weight-bold">{{item.type}}
             <br>
+          </span>
+          <span class="d-block d-sm-block d-md-block d-lg-none d-xl-none text-muted">
+              {{item.startAt | date:"hh:mm a"}} - {{item.createdAt | date:"hh:mm a"}}
+             <br>
           </span>
           <span class="time">{{item.duration}} min</span>
         </li>

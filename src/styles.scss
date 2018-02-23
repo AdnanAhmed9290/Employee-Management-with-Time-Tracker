@@ -889,6 +889,7 @@ nav{
             border: 1px solid $gray-lighter;
             position: relative;
             background-color: #F8F8F8;
+            z-index: 0;
 
             .icon{
                 top: 50%;
@@ -904,17 +905,23 @@ nav{
             &::before{
                 content: '';
                 position: absolute;
-                height: 3rem;
+                height: 6rem;
                 width: 2px;
                 border-left: 2px solid $gray-lighter;
-                bottom: -49px;
+                bottom: -95px;
                 left: 50%;
+                z-index: -1;
             }
 
             &.pomodoro{
                 color: $primary-color;
                 border: 1px solid $primary-color;
-                background: transparent;
+                background: #fff;
+
+                // &::before{
+                //     height: 4.5rem;
+                //     bottom: -25px;
+                // }
 
                 .icon{
                     color: $primary-color;
@@ -946,3 +953,10 @@ nav{
         }
     }
 }
+
+// @media screen and (max-width: 768px){
+//     #activity-section .logs-data .icons.pomodoro::before{
+//         height: 5rem;
+//         bottom: -70px;
+//     }
+// }

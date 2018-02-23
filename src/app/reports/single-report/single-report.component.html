@@ -74,24 +74,26 @@
     </mat-progress-bar>
   </div>
 
-<!-- Logs Area -->
+  <!-- Logs Area -->
   <div class="area">
     <div class="row">
 
       <!-- Daiy Logs -->
-      <div class="logs-data mt-5 col-sm-6">
+      <div class="logs-data mt-5 col-md-6">
 
         <div class="row daily-heading">
-            <h3 class=" w-100" >Daily Report</h3>
-            <p class="text-primary m-0" *ngIf="userData" ><strong>{{ dateSelected.day }}-{{ dateSelected.month }}-{{ dateSelected.year }}</strong></p>
+          <h3 class=" w-100">Daily Report</h3>
+          <p class="text-primary m-0" *ngIf="userData">
+            <strong>{{ dateSelected.day }}-{{ dateSelected.month }}-{{ dateSelected.year }}</strong>
+          </p>
         </div>
 
         <h4 *ngIf="(logData | async)?.length == 0"> No Activities for this date</h4>
 
         <div class="mb-4 logs row daily-report" *ngFor="let item of logData | async">
-          
-          <ul class="list-inline list-unstyled w-100">
-            <li class="list-inline-item align-baseline" style="width: 150px">
+
+          <ul class="list-inline list-unstyled w-100" data-id="{{item.id}}">
+            <li class="list-inline-item align-baseline" style="width: 150px" class="d-none d-lg-inline-block d-xl-inline-block">
               <span class="text-muted">{{item.startAt | date:"hh:mm a"}} - {{item.createdAt | date:"hh:mm a"}}</span>
             </li>
             <li class="list-inline-item align-middle">
@@ -112,34 +114,44 @@
               <span *ngIf="item.task == ''" class="text-muted text-uppercase font-weight-bold">{{item.type}}
                 <br>
               </span>
+              <span class="d-block d-sm-block d-md-block d-lg-none d-xl-none text-muted">
+                {{item.startAt | date:"hh:mm a"}} - {{item.createdAt | date:"hh:mm a"}}
+                <br>
+              </span>
               <span class="time">{{item.duration}} min</span>
             </li>
           </ul>
         </div>
 
       </div>
-      <div class="col-sm-6" *ngIf="userData">
-        <!-- Weekly Logs -->
-        <div class="weekly my-5" *ngIf="checkweeklyData | async">
-          <h3>Weekly Report</h3>
-          <p class="text-primary"><strong>{{ week.end | date }} - {{ week.start | date}}</strong></p>
-          <hr>
-          <div style="display: block">
-            <canvas baseChart [data]="WeeklyChartData" [labels]="ChartLabels" [chartType]="WeeklyChartType">
-            </canvas>
+      <div class="col-md-6 pr-0" *ngIf="userData">
+        <div class="">
+          <!-- Weekly Logs -->
+          <div class="weekly my-5" *ngIf="checkweeklyData | async">
+            <h3>Weekly Report</h3>
+            <p class="text-primary">
+              <strong>{{ week.end | date }} - {{ week.start | date}}</strong>
+            </p>
+            <hr>
+            <div style="display: block">
+              <canvas baseChart [data]="WeeklyChartData" [labels]="ChartLabels" [chartType]="WeeklyChartType">
+              </canvas>
+            </div>
           </div>
-        </div>
-        <!-- Monthly Logs -->
-        <div class="monthly my-5" *ngIf="checkmonthlyData | async">
-          <h3>Monthly Report</h3>
-          <p class="text-primary"><strong>{{ month.end | date }} - {{ month.start | date}}</strong></p>
-          <hr>
-          <div style="display: block">
-            <canvas baseChart [data]="MonthlyChartData" [labels]="ChartLabels" [chartType]="MonthlyChartType">
-            </canvas>
+          <!-- Monthly Logs -->
+          <div class="monthly my-5" *ngIf="checkmonthlyData | async">
+            <h3>Monthly Report</h3>
+            <p class="text-primary">
+              <strong>{{ month.end | date }} - {{ month.start | date}}</strong>
+            </p>
+            <hr>
+            <div style="display: block">
+              <canvas baseChart [data]="MonthlyChartData" [labels]="ChartLabels" [chartType]="MonthlyChartType">
+              </canvas>
+            </div>
           </div>
-        </div>
 
+        </div>
       </div>
 
     </div>

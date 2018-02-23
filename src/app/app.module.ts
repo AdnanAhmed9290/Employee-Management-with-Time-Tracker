@@ -53,9 +53,8 @@ import { FaqComponent } from './faq/faq.component';
     ActivityLogsModule,
     TimerModule,
     ReportsModule,
-    // DataTableModule,
-    AngularFireModule.initializeApp(firebaseConfig)
-    // NgbModule.forRoot()
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFirestoreModule.enablePersistence()
   ],
   // exports:[
     

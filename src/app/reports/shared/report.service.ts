@@ -52,12 +52,12 @@ export class ReportService {
       .orderBy('createdAt',"desc"));
     return this.LogsCollection.snapshotChanges().map(actions => {
       return actions.map(action => {
-        const dta = action.payload.doc.data() as Log;
+        const data = action.payload.doc.data() as Log;
         const id = action.payload.doc.id;
         // if(data.type == 'pomodoro'){
 
         // }
-        return { id, ...dta };
+        return { id, ...data };
       });
     });
   }

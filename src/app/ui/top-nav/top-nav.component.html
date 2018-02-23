@@ -13,7 +13,7 @@
           <a class="nav-link p-3" (click)="nav('/timer',true)" routerLink="/timer">Timer</a>
         </li>
         <li class="nav-item" [routerLinkActive]="['active']">
-          <a class="nav-link p-3" (click)="nav('/activities', false)" routerLink="/activities" >Activity Log</a>
+          <a class="nav-link p-3" (click)="nav('/activities', false)" routerLink="/activities">Activity Log</a>
         </li>
         <li class="nav-item" [routerLinkActive]="['active']">
           <a class="nav-link p-3" (click)="nav('/documents', false)" routerLink="/documents">My Documents</a>
@@ -21,7 +21,7 @@
         <li class="nav-item" [routerLinkActive]="['active']">
           <a class="nav-link p-3" (click)="nav('/faq', false)" routerLink="/faq">FAQ</a>
         </li>
-        <li class="nav-item" [routerLinkActive]="['active']" *ngIf="auth.user | async as user"  >
+        <li class="nav-item" [routerLinkActive]="['active']" *ngIf="auth.user | async as user">
           <a *ngIf="auth.isAdmin(user)" class="nav-link p-3" (click)="nav('/reports', false)" routerLink="/reports">Reports</a>
         </li>
       </ul>
@@ -52,7 +52,7 @@
               </a>
 
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" data-toggle="modal" data-target="#settingModal" >Settings</a>
+                <a class="dropdown-item" data-toggle="modal" data-target="#settingModal">Settings</a>
                 <a class="dropdown-item" href="javascript:" (click)="logout()">Logout</a>
               </div>
             </div>
@@ -96,7 +96,7 @@
 
     <ul class="m-auto list-unstyled">
       <li class="nav-item" [routerLinkActive]="['active']">
-        <a class="nav-link" routerLink="/timer" (click)="collapseNav = false" >Timer</a>
+        <a class="nav-link" routerLink="/timer" (click)="collapseNav = false">Timer</a>
       </li>
       <li class="nav-item" [routerLinkActive]="['active']">
         <a class="nav-link" routerLink="/activities" (click)="collapseNav = false">Activity Log</a>
@@ -107,11 +107,14 @@
       <li class="nav-item" [routerLinkActive]="['active']">
         <a class="nav-link" routerLink="/faq" (click)="collapseNav = false">FAQ</a>
       </li>
+      <li class="nav-item" [routerLinkActive]="['active']" *ngIf="auth.user | async as user">
+        <a *ngIf="auth.isAdmin(user)" class="nav-link" (click)="collapseNav = false" routerLink="/reports">Reports</a>
+      </li>
     </ul>
 
     <div class="logout" *ngIf="auth.user | async">
-        <!-- <button class="btn logout-btn" (click)="logout()">Logout</button> -->
-        <a class="btn btn-default logout-btn" href="#" (click)="logout()">Logout</a>
+      <!-- <button class="btn logout-btn" (click)="logout()">Logout</button> -->
+      <a class="btn btn-default logout-btn" href="#" (click)="logout()">Logout</a>
     </div>
   </div>
 </div>
@@ -122,19 +125,19 @@
 <div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="settingModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-    
+
       <div class="modal-body">
         <div class="container">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
           <h2>Options</h2>
           <div class="body my-4">
             <h4>Select Sound</h4>
 
-            <select class="form-control" [(ngModel)]="soundSelected" (ngModelChange)="onChange($event)" >
+            <select class="form-control" [(ngModel)]="soundSelected" (ngModelChange)="onChange($event)">
               <option ng-value="definite.mp3">Sound 1</option>
-              <option ng-value="here_you_go_lighter.ogg" >Sound 2</option>
+              <option ng-value="here_you_go_lighter.ogg">Sound 2</option>
               <option ng-value="knock_brush.ogg">Sound 3</option>
               <option ng-value="save_and_checkout.ogg">Sound 4</option>
             </select>
@@ -149,4 +152,3 @@
     </div>
   </div>
 </div>
-

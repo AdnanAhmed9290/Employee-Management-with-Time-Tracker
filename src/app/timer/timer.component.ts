@@ -24,7 +24,7 @@ declare var Notification: any;
 export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, AfterViewInit {
 
   model: any;
-  notification_val: String;
+  notification_val: String = "off";
   notify: string;
   projects: any;
   loadingSpinner: boolean;
@@ -134,8 +134,8 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
   }
 
   ngAfterViewInit(){
-    if (Notification.permission !== "granted")
-      Notification.requestPermission();
+    // if (Notification.permission !== "granted")
+    //   Notification.requestPermission();
   }
 
   ngAfterViewChecked() {
@@ -220,17 +220,6 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
   }
 
   begin(counter: CountdownComponent) {
-
-    // if (this.timerIdle == false) {
-    //   if(confirm("Are you sure")){
-    //     this.beginTimer(counter);
-    //   }
-    //   else
-    //     return;
-
-    // } else {
-    //   this.beginTimer(counter);
-    // }
     this.notifyService.clear();
     this.beginTimer(counter);
   }

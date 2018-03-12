@@ -56,8 +56,8 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
 
   constructor(private timerService: TimerService, private notifyService: NotifyService) {
 
-    this.notify = Notification.permission;
-    this.notify == "granted" ? this.notification_val = "on" : this.notification_val = "off";
+    // this.notify = Notification.permission;
+    // this.notify == "granted" ? this.notification_val = "on" : this.notification_val = "off";
     this.projects = this.timerService.getProjects();
     this.getCountDown = this.timerService.getSettings();
     this.tS = this.timerService.timerStatusCheck();
@@ -395,19 +395,19 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
 
   notifySound(type) {
 
-    if (Notification.permission !== "granted")
-      Notification.requestPermission();
-    var notification = new Notification("Nordicomm EMS", {
-      icon: 'favicon.png',
-      body: "Hey there! Your Timer for " + type + " is over",
-    });
+    // if (Notification.permission !== "granted")
+    //   Notification.requestPermission();
+    // var notification = new Notification("Nordicomm EMS", {
+    //   icon: 'favicon.png',
+    //   body: "Hey there! Your Timer for " + type + " is over",
+    // });
 
-    notification.onclick = function(event) {
-      // event.preventDefault(); // prevent the browser from focusing the Notification's tab
-      window.open('https://nordicomm.co/ems/#/timer');
-      notification.close();
+    // notification.onclick = function(event) {
+    //   // event.preventDefault(); // prevent the browser from focusing the Notification's tab
+    //   window.open('https://nordicomm.co/ems/#/timer');
+    //   notification.close();
 
-    }
+    // }
 
 
     if (localStorage.getItem('sound'))

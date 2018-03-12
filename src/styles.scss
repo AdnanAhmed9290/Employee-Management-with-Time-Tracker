@@ -404,6 +404,13 @@ footer-nav{
 
         &.collapsed{
             left: 0;
+
+            &::before{
+                content: '';
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.2);
+            }
         }
     }
 
@@ -954,9 +961,14 @@ nav{
     }
 }
 
-// @media screen and (max-width: 768px){
-//     #activity-section .logs-data .icons.pomodoro::before{
-//         height: 5rem;
-//         bottom: -70px;
-//     }
-// }
+
+// =================================================================================
+
+
+                                // Media Queries //
+
+// =================================================================================
+
+@media screen and (max-width:768px){
+    
+}

@@ -1,0 +1,20 @@
+{
+    "version": "0.1.0",
+    "configurations": [
+
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "Launch Chrome",
+            "url": "http://localhost:8080",
+            "webRoot": "${workspaceFolder}"
+        },{
+            "name": "iOS Web",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9000,
+            // "url": "http://localhost:4200/*",
+            "webRoot": "${workspaceRoot}"
+        }
+    ]
+}

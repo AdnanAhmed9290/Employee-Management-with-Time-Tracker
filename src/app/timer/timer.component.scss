@@ -18,3 +18,15 @@
 
 //     }
 // }
+
+
+@media screen and (max-width:768px){
+    #timer .footer .notification-status{
+        bottom: 0;
+
+    }
+
+    #pomodoro .input{
+        width: 100%;
+    }
+}

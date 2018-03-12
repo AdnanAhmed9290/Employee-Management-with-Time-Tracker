@@ -20,6 +20,7 @@ export class UserLoginComponent {
     this.auth.googleLogin()
       .then(() => {
         // this.auth.notify.update('Welcome to Employee Management System!!!', 'success');
+        console.log('Login Successfull');
         this.router.navigate(['/timer']);
         // this.showSpinner = true;
         // this.afterSignIn()

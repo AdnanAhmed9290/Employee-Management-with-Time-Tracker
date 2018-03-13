@@ -31,6 +31,7 @@
     "@types/moment": "^2.13.0",
     "angular-4-data-table": "^0.4.3",
     "angular-async-local-storage": "^3.1.1",
+    "angular2-notifications": "^0.4.53",
     "angularfire2": "^5.0.0-rc.4",
     "bootstrap": "^4.0.0-beta.3",
     "chart.js": "^2.7.1",

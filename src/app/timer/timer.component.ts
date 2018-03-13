@@ -7,7 +7,9 @@ import { TimerService } from "./shared/timer.service";
 import { AuthService } from "./../core/auth.service";
 import { fadeInAnimation } from "./../shared/fadein.animation";
 import { Observable } from 'rxjs/Observable';
-import { NotifyService } from './../core/notify.service'
+import { NotifyService } from './../core/notify.service';
+
+// import { PushNotificationsService } from 'angular2-notifications'; //import the service
 
 declare var $: any;
 declare var Notification: any;
@@ -56,14 +58,56 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
 
   constructor(private timerService: TimerService, private notifyService: NotifyService) {
 
-    // this.notify = Notification.permission;
-    // this.notify == "granted" ? this.notification_val = "on" : this.notification_val = "off";
+    if ('Notification' in window)
+      this.notify = Notification.requestPermission();
+    this.notify == "granted" ? this.notification_val = "on" : this.notification_val = "off";
+
     this.projects = this.timerService.getProjects();
     this.getCountDown = this.timerService.getSettings();
     this.tS = this.timerService.timerStatusCheck();
 
+
   }
 
+
+  ngOnInit() {
+
+    this.loadingSpinner = true;
+
+    this.projects.subscribe(x => {
+      // success data operations
+    }, error => console.log(error));
+
+    this.tS.subscribe(user => {
+      this.tm = Observable.of(user.timerStatus && this.timerIdle);
+    })
+
+    this.getCountDown.subscribe(x => {
+      this.countDown = { "pomodoro": x.pomodoro * 60, "short": x.short * 60, "coffee": x.coffee * 60, "long": x.long * 60 }
+      this.loadingSpinner = false;
+    }, error => console.log(error))
+
+    this.timerService.currentStatus.subscribe(status => {
+      this.timerStatus = status;
+    })
+
+  }
+  
+  ngAfterViewInit(){
+    
+  }
+
+  ngAfterViewChecked() {
+
+  }
+
+  ngOnDestroy() {
+    if (this.timerIdle == false) {
+      this.timerIdle = true;
+      this.timerService.updateTimerStatus(false);
+    }
+    this.timerService.changeTimerStatus(false);
+  }
 
   // @HostListener('window:unload', [ '$event' ])
   // unloadHandler(event) {
@@ -76,6 +120,8 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
   //   this.onExit();
   //   return null;
   // }
+
+
 
   onExit(){
     console.log('closing');
@@ -109,49 +155,6 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
 
   }
 
-
-  ngOnInit() {
-
-    this.loadingSpinner = true;
-
-    this.projects.subscribe(x => {
-      // success data operations
-    }, error => console.log(error));
-
-    this.tS.subscribe(user => {
-      this.tm = Observable.of(user.timerStatus && this.timerIdle);
-    })
-
-    this.getCountDown.subscribe(x => {
-      this.countDown = { "pomodoro": x.pomodoro * 60, "short": x.short * 60, "coffee": x.coffee * 60, "long": x.long * 60 }
-      this.loadingSpinner = false;
-    }, error => console.log(error))
-
-    this.timerService.currentStatus.subscribe(status => {
-      this.timerStatus = status;
-    })
-
-  }
-
-  ngAfterViewInit(){
-    // if (Notification.permission !== "granted")
-    //   Notification.requestPermission();
-  }
-
-  ngAfterViewChecked() {
-
-  }
-
-  ngOnDestroy() {
-    if (this.timerIdle == false) {
-      this.timerIdle = true;
-      this.timerService.updateTimerStatus(false);
-    }
-    this.timerService.changeTimerStatus(false);
-    // this.getCountDown.unsubscribe();
-    // this.tS.unsubscribe();
-    // this.projects.unsubscribe();
-  }
 
   inputFocus(e: any) {
     $(e.target).parent().addClass('input--filled');
@@ -384,19 +387,24 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
 
   notifySound(type) {
 
-    // if (Notification.permission !== "granted")
-    //   Notification.requestPermission();
-    // var notification = new Notification("Nordicomm EMS", {
-    //   icon: 'favicon.png',
-    //   body: "Hey there! Your Timer for " + type + " is over",
-    // });
 
-    // notification.onclick = function(event) {
-    //   // event.preventDefault(); // prevent the browser from focusing the Notification's tab
-    //   window.open('https://nordicomm.co/ems/#/timer');
-    //   notification.close();
-
-    // }
+    if('Notification' in window){
+      
+      if (Notification.permission !== "granted")
+        Notification.requestPermission();
+      
+      var notification = new Notification("Nordicomm EMS", {
+        icon: 'favicon.png',
+        body: "Hey there! Your Timer for " + type + " is over",
+      });
+  
+      notification.onclick = function(event) {
+        // event.preventDefault(); // prevent the browser from focusing the Notification's tab
+        window.open('https://nordicomm.co/ems/#/timer');
+        notification.close();
+  
+      }
+    }
 
 
     if (localStorage.getItem('sound'))
@@ -418,10 +426,11 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
     // Let's check if the browser supports notifications
     if (!("Notification" in window)) {
       alert("This browser does not support desktop notification");
+      return;
     }
 
     // Otherwise, we need to ask the user for permission
-    else if (Notification.permission !== "denied" && this.notification_val == "on") {
+    if (Notification.permission == "denied") {
       Notification.requestPermission(function (permission: any) {
       });
     }

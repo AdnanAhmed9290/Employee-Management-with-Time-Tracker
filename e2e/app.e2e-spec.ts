@@ -1,10 +1,10 @@
-import { FirestarterPage } from './app.po';
+import { CiphertrickNotifyPage } from './app.po';
 
-describe('firestarter App', () => {
-  let page: FirestarterPage;
+describe('ciphertrick-notify App', () => {
+  let page: CiphertrickNotifyPage;
 
   beforeEach(() => {
-    page = new FirestarterPage();
+    page = new CiphertrickNotifyPage();
   });
 
   it('should display message saying app works', () => {

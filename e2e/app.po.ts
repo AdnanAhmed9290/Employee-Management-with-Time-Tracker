@@ -1,6 +1,6 @@
 import { browser, element, by } from 'protractor';
 
-export class FirestarterPage {
+export class CiphertrickNotifyPage {
   navigateTo() {
     return browser.get('/');
   }

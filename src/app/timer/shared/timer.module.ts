@@ -15,6 +15,9 @@ import { TimerService } from './timer.service';
 import { HttpModule } from '@angular/http';
 import { TimerComponent } from './../timer.component';
 
+
+// import { PushNotificationsService } from 'angular2-notifications';
+
 // import { NotificationMessageComponent } from './../../ui/notification-message/notification-message.component';
 
 
@@ -30,7 +33,7 @@ import { TimerComponent } from './../timer.component';
     CountdownModule,
     AsyncLocalStorageModule,
     HttpModule,
-    UiModule 
+    UiModule
 
   ],
   declarations: [

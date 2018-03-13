@@ -6,8 +6,10 @@
           </aside> -->
 
       <main class=" content container" [ngClass]="{collapsed: collapseNav}">
+        
         <router-outlet></router-outlet>
         <loading-spinner *ngIf="loading"></loading-spinner>
+        
         <!-- <br>
         <notification-message></notification-message> -->
       </main>

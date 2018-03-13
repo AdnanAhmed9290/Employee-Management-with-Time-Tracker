@@ -21,6 +21,7 @@ import { ActivityLogsModule } from './activity-logs/shared/activity-logs.module'
 import { TimerModule } from './timer/shared/timer.module';
 import { ReportsModule } from './reports/shared/report.module';
 import { environment } from '../environments/environment';
+
 // import { NotificationMessageComponent } from './ui/notification-message/notification-message.component';
 
 // import {  DataTableModule } from 'angular-4-data-table-bootstrap-4';
@@ -60,7 +61,7 @@ import { FaqComponent } from './faq/faq.component';
     
   //   NotificationMessageComponent
   // ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy} ],
   bootstrap: [
     AppComponent,
   ],

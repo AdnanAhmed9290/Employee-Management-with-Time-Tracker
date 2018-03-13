@@ -9,8 +9,7 @@ import {
   NavigationEnd,
   NavigationCancel,
   NavigationError
-} from '@angular/router'
-
+} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -28,16 +27,15 @@ export class AppComponent implements AfterViewInit {
     pageLoader: any;
     
       constructor(private router: Router, private aS : AuthService) {
-        router.events.subscribe((event: RouterEvent) => {
+        
+      }
+
+      ngAfterViewInit(){
+        this.router.events.subscribe((event: RouterEvent) => {
           this.navigationInterceptor(event)
         })
 
         this.pageLoader = this.aS;
-
-      }
-
-      ngAfterViewInit(){
-        
         // this.loading = this.topNav.pageLoader;
         // this.collapseNav = this.topNav.collapseNav;
       }

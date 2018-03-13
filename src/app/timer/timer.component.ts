@@ -26,7 +26,7 @@ declare var Notification: any;
 export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, AfterViewInit {
 
   model: any;
-  notification_val: String = "off";
+  notification_val: string = "off";
   notify: string;
   projects: any;
   loadingSpinner: boolean;
@@ -43,7 +43,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
   toggleLongTimerButton: boolean = false;
   toggleCoffeeTimerButton: boolean = false;
   processValidation: boolean = false;
-  timer: number = 1000*60*25;
+  timer: number = 1000 * 60 * 25;
   currentTime: any;
 
   @ViewChild('cd1') cd1: CountdownComponent;
@@ -58,9 +58,6 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
 
   constructor(private timerService: TimerService, private notifyService: NotifyService) {
 
-    if ('Notification' in window)
-      this.notify = Notification.requestPermission();
-    this.notify == "granted" ? this.notification_val = "on" : this.notification_val = "off";
 
     this.projects = this.timerService.getProjects();
     this.getCountDown = this.timerService.getSettings();
@@ -71,6 +68,13 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
 
 
   ngOnInit() {
+
+    if ('Notification' in window) {
+      let self = this;
+      Notification.requestPermission().then(function (permission) {
+        permission == "granted" ? self.notification_val = 'on' : self.notification_val = 'off';
+      });
+    }
 
     this.loadingSpinner = true;
 
@@ -92,9 +96,9 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
     })
 
   }
-  
-  ngAfterViewInit(){
-    
+
+  ngAfterViewInit() {
+
   }
 
   ngAfterViewChecked() {
@@ -123,7 +127,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
 
 
 
-  onExit(){
+  onExit() {
     console.log('closing');
     if (this.timerIdle == false) {
       this.timerService.updateTimerStatus(false);
@@ -132,23 +136,23 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
 
   @HostListener('window:keyup', ['$event'])
   keyEvent(event: KeyboardEvent) {
-    if (event.altKey && event.keyCode === 80 ) {
+    if (event.altKey && event.keyCode === 80) {
       // this.increment
       $('a[href="#pomodoro"]').tab('show');
     }
-    else if (event.altKey && event.keyCode === 83 ) {
+    else if (event.altKey && event.keyCode === 83) {
       // this.increment
       $('a[href="#short-break"]').tab('show');
     }
-    else if (event.altKey && event.keyCode === 67 ) {
+    else if (event.altKey && event.keyCode === 67) {
       // this.increment
       $('a[href="#coffee-break"]').tab('show');
     }
-    else if (event.altKey && event.keyCode === 76 ) {
+    else if (event.altKey && event.keyCode === 76) {
       // this.increment
       $('a[href="#long-break"]').tab('show');
     }
-    else if (event.keyCode === 32 ) {
+    else if (event.keyCode === 32) {
       // this.increment
       console.log('Space');
     }
@@ -345,7 +349,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
     this.pomodoroForm.reset();
     this.notifySound(content.type);
 
-    this.notifyService.update("Your Pomodoro Cycle is finished, you can now take a Short Break","success");
+    this.notifyService.update("Your Pomodoro Cycle is finished, you can now take a Short Break", "success");
 
   }
 
@@ -358,7 +362,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
     this.toggleShortTimerButton = false;
     this.notifySound(content.type);
 
-    this.notifyService.update("Your Short Break is finished, you can now start A Pomodoro Cycle","success");
+    this.notifyService.update("Your Short Break is finished, you can now start A Pomodoro Cycle", "success");
   }
 
   onFinishedCB(counter: any) {
@@ -368,8 +372,8 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
     this.restart(counter);
     this.toggleCoffeeTimerButton = false;
     this.notifySound(content.type);
-    
-    this.notifyService.update("Your Coffee Break is finished, you can now start A Pomodoro Cycle","success");
+
+    this.notifyService.update("Your Coffee Break is finished, you can now start A Pomodoro Cycle", "success");
 
   }
 
@@ -380,29 +384,29 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
     this.restart(counter);
     this.toggleLongTimerButton = false;
     this.notifySound(content.type);
-    
-    this.notifyService.update("Your Long Break is finished, you can now start A Pomodoro Cycle","success");
+
+    this.notifyService.update("Your Long Break is finished, you can now start A Pomodoro Cycle", "success");
 
   }
 
   notifySound(type) {
 
 
-    if('Notification' in window){
-      
+    if ('Notification' in window) {
+
       if (Notification.permission !== "granted")
         Notification.requestPermission();
-      
+
       var notification = new Notification("Nordicomm EMS", {
         icon: 'favicon.png',
         body: "Hey there! Your Timer for " + type + " is over",
       });
-  
-      notification.onclick = function(event) {
+
+      notification.onclick = function (event) {
         // event.preventDefault(); // prevent the browser from focusing the Notification's tab
         window.open('https://nordicomm.co/ems/#/timer');
         notification.close();
-  
+
       }
     }
 
@@ -428,12 +432,13 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
       alert("This browser does not support desktop notification");
       return;
     }
-
-    // Otherwise, we need to ask the user for permission
-    if (Notification.permission == "denied") {
-      Notification.requestPermission(function (permission: any) {
+    else {
+      let self = this;
+      Notification.requestPermission().then(function (permission) {
+        permission == "granted" ? self.notification_val = 'on' : self.notification_val = 'off';
       });
     }
+
   }
 
 }

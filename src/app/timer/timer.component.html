@@ -15,7 +15,7 @@
                 <!-- <i class="fas fa-stopwatch fa-lg"></i> -->
                 <span class="icon pomodoro"></span>
                 <span class="text d-none d-sm-inline-block"> Pomodoro</span>
-                <span *ngIf="togglePomodoroTimerButton"  class="ml-1 text-danger"><i class="far fa-dot-circle"></i></span>
+                <span *ngIf="togglePomodoroTimerButton"  class="ml-1 text-danger in-progress"><i class="far fa-dot-circle"></i></span>
             </a>
         </li>
         <li class="nav-item">
@@ -23,7 +23,7 @@
                 aria-selected="false">
                 <span class="icon short"></span>
                 <span class="text d-none d-sm-inline-block"> Short Break</span>
-                <span *ngIf="toggleShortTimerButton"  class="ml-1 text-danger"><i class="far fa-dot-circle"></i></span>
+                <span *ngIf="toggleShortTimerButton"  class="ml-1 text-danger in-progress"><i class="far fa-dot-circle"></i></span>
                 
             </a>
         </li>
@@ -32,7 +32,7 @@
                 aria-selected="false">
                 <span class="icon coffee"></span>
                 <span class="text d-none d-sm-inline-block"> Coffee Break</span>
-                <span *ngIf="toggleCoffeeTimerButton"  class="ml-1 text-danger"><i class="far fa-dot-circle"></i></span>
+                <span *ngIf="toggleCoffeeTimerButton"  class="ml-1 text-danger in-progress"><i class="far fa-dot-circle"></i></span>
             </a>
         </li>
         <li class="nav-item">
@@ -40,7 +40,7 @@
                 aria-selected="false">
                 <span class="icon long"></span>
                 <span class="text d-none d-sm-inline-block"> Long Break</span>
-                <span *ngIf="toggleLongTimerButton"  class="ml-1 text-danger"><i class="far fa-dot-circle"></i></span>
+                <span *ngIf="toggleLongTimerButton"  class="ml-1 text-danger in-progress"><i class="far fa-dot-circle"></i></span>
             </a>
         </li>
     </ul>

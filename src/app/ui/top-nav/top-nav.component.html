@@ -112,18 +112,21 @@
       </li>
     </ul>
 
-    <div class="logout" *ngIf="auth.user | async">
+    <div class="logout d-flex justify-content-between" *ngIf="auth.user | async">
       <!-- <button class="btn logout-btn" (click)="logout()">Logout</button> -->
-      <a class="btn btn-default logout-btn" href="#" (click)="logout()">Logout</a>
+      <a class="btn btn-default logout-btn" href="#" (click)="logout()"><i class="fas fa-sign-out-alt fa-2x"></i></a>
+      <a class="btn btn-default " data-toggle="modal" data-target="#settingModal"><i class="fas fa-cog fa-2x"></i></a>
+
     </div>
   </div>
+  <div class="backlay" *ngIf="collapseNav == true" ></div>
 </div>
 
 
 
 <!-- Modal -->
 <div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="settingModal" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
 
       <div class="modal-body">

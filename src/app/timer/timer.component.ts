@@ -69,13 +69,6 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
 
   ngOnInit() {
 
-    if ('Notification' in window) {
-      let self = this;
-      Notification.requestPermission().then(function (permission) {
-        permission == "granted" ? self.notification_val = 'on' : self.notification_val = 'off';
-      });
-    }
-
     this.loadingSpinner = true;
 
     this.projects.subscribe(x => {
@@ -88,12 +81,14 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
 
     this.getCountDown.subscribe(x => {
       this.countDown = { "pomodoro": x.pomodoro * 60, "short": x.short * 60, "coffee": x.coffee * 60, "long": x.long * 60 }
-      this.loadingSpinner = false;
+    this.loadingSpinner = false;
     }, error => console.log(error))
 
     this.timerService.currentStatus.subscribe(status => {
       this.timerStatus = status;
     })
+
+    this.requestPermission();
 
   }
 
@@ -125,6 +120,30 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
   //   return null;
   // }
 
+  requestPermission() {
+    if ('Notification' in window) {
+      let self = this;
+
+      try {
+        Notification.requestPermission()
+          .then(function (permission) {
+            permission == "granted" ? self.notification_val = 'on' : self.notification_val = 'off';
+          })
+      } catch (error) {
+        // Safari doesn't return a promise for requestPermissions and it                                                                                                                                       
+        // throws a TypeError. It takes a callback as the first argument                                                                                                                                       
+        // instead.
+        if (error instanceof TypeError) {
+          Notification.requestPermission(() => {
+            self.notification_val = 'on';
+          })
+        } else {
+          throw error;
+        }
+      }
+    }
+
+  }
 
 
   onExit() {
@@ -394,9 +413,6 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
 
     if ('Notification' in window) {
 
-      if (Notification.permission !== "granted")
-        Notification.requestPermission();
-
       var notification = new Notification("Nordicomm EMS", {
         icon: 'favicon.png',
         body: "Hey there! Your Timer for " + type + " is over",
@@ -417,7 +433,21 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
       var sound = "Sound 1";
 
     var audio = new Audio('assets/sounds/' + sound + '.ogg');
-    audio.play();
+
+    let promise = audio.play();
+
+    if (promise !== undefined) {
+
+      promise.then(_ => {
+
+        console.log('audio played')
+        // Autoplay started!
+
+      }).catch(error => {
+        console.log(error);
+      });
+
+    }
 
     this.timerService.updateTimerStatus(false);
     this.timerService.changeTimerStatus(false);
@@ -433,10 +463,7 @@ export class TimerComponent implements OnInit, OnDestroy, AfterViewChecked, Afte
       return;
     }
     else {
-      let self = this;
-      Notification.requestPermission().then(function (permission) {
-        permission == "granted" ? self.notification_val = 'on' : self.notification_val = 'off';
-      });
+      this.requestPermission();
     }
 
   }

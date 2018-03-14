@@ -24,6 +24,7 @@ export class TopNavComponent {
   constructor(public auth: AuthService, private timerService: TimerService, private route: Router) { }
   
   logout() {
+    this.collapseNav = false;
     this.pageLoader = true;
     this.auth.signOut();
   }
@@ -46,7 +47,21 @@ export class TopNavComponent {
 
   onChange(newSound){
     var audio = new Audio('assets/sounds/'+this.soundSelected+'.ogg');
-    audio.play();
+    let promise = audio.play();
+
+    promise.then((sound) => {
+
+      console.log('audio played')
+      // Autoplay started!
+      console.log(sound);
+
+    }).catch(error => {
+      console.error(error);
+    });
+    if (promise !== undefined) {
+
+
+    }
   }
 
   nav(link, check: boolean){

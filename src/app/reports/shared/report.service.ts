@@ -91,6 +91,36 @@ export class ReportService {
     });
   }
 
+  getAllEmployees(): Observable<any>{
+    return this.afs.collection('users/').snapshotChanges().map(users => {
+      return users.map(user =>{
+        const data = user.payload.doc.data();
+        const id = user.payload.doc.id;
+
+        return {id, ...data};
+        // this.afs.collection(`users/`+id+`/logs`, ref => ref.where('data','==','2018/04/10'))
+
+      })
+    })
+  }
+
+  getReportOfAllEmployees(userId): Observable<any>{
+
+    let start = moment().subtract(1,'d').format('YYYY/MM/DD');
+    return  this.afs.collection(`users/`+userId+`/logs`, 
+    ref => ref.where('date','==',start).where('type','==','pomodoro')).snapshotChanges().map(logs=> {
+      return logs.map(log => {
+        const data = log.payload.doc.data();
+        const task = data.task;
+        const timeline = moment(data.startAt).format('h:mm a')+' - '+moment(data.createdAt).format('h:mm a');
+        // const end = data.createdAt;
+        const project = data.project;
+        return {task,timeline,project};
+      })
+
+    });
+  }
+
   getUser(userId){
     return this.afs.doc('users/'+userId).valueChanges();
   }

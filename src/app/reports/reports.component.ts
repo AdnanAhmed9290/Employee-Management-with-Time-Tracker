@@ -130,7 +130,7 @@ this.dataSource.filter = filterValue;
         }
 
         doc.save('reports.pdf'); 
-      }, 1000);
+      }, 3000);
 
   }; 
 

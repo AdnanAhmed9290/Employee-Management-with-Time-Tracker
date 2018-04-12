@@ -979,6 +979,24 @@ nav{
     }
 }
 
+#employee-reports{
+    .get-report{
+        
+        // border-bottom: 1px solid $gray-lighter;
+
+        .dateInput{
+            border-bottom-left-radius: 5px;
+            border-top-left-radius: 5px;
+            border: 1px solid $gray-light;
+            color: $gray-light;
+            padding-left: 1em;
+            font-size: 17px;
+            max-width: 120px;
+        }
+
+    }
+}
+
 // 
 
 

@@ -1,9 +1,28 @@
 <div id="employee-reports" class="d-inline-block w-100">
     <div class="page-title my-3 mb-5">
-        <h2 class="title">Employee Reports
-            <button class="btn btn-primary" style="float: right;" (click) = "generateReports()" >Generate Complete Report</button>
-        </h2>
-        
+        <h2 class="title">Employee Reports</h2>
+        <ul class="get-report list-inline list-unstyled mt-4" >
+            
+            <li class="list-inline-item">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <div class="input-group">
+                        <input class="dateInput" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="dateSelected" [maxDate]="maxDate" (ngModelChange)="onDateChange()"
+                            ngbDatepicker #d="ngbDatepicker">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                            <img src="assets/images/icons/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;" />
+                            </button>
+                        </div>
+                        </div>
+                    </div>
+                </form>
+            </li>
+            <li class="list-inline-item align-top">
+                <button class="btn btn-primary" (click) = "generateReports()" >Generate Report</button>
+            </li>
+        </ul>
+
     </div>
 
     <!-- Progress Bar -->

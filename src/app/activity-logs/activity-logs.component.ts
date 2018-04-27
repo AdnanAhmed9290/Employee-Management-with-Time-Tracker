@@ -64,7 +64,7 @@ export class ActivityLogsComponent implements OnInit {
     this.logData.subscribe((x) => {
       let counter = 0;
       x.forEach(element => {
-        if(element.type == 'pomodoro')  
+        if(element.type == 'pomodoro' || element.type == 'meeting')  
           ++counter;
       });
       this.cycles.pomodoro = counter;

@@ -8,9 +8,10 @@
                 Finish or stop that to continue here </p>
         </div>
     </div>
+    <p id="pomodoroCount" *ngIf="pomodoroCounter" >Pomodoro # {{pCounter }}</p>
     <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" id="pomodoro-tab" (click)="tabs(cd1)" data-toggle="tab" href="#pomodoro" role="tab" aria-controls="pomodoro"
+            <a class="nav-link active" id="pomodoro-tab" data-toggle="tab" href="#pomodoro" role="tab" aria-controls="pomodoro"
                 aria-selected="true">
                 <!-- <i class="fas fa-stopwatch fa-lg"></i> -->
                 <span class="icon pomodoro"></span>
@@ -18,8 +19,8 @@
                 <span *ngIf="togglePomodoroTimerButton"  class="ml-1 text-danger in-progress"><i class="far fa-dot-circle"></i></span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" id="short-break-tab" (click)="tabs(cd2)" data-toggle="tab" href="#short-break" role="tab" aria-controls="short-break"
+        <!-- <li class="nav-item">
+            <a class="nav-link" id="short-break-tab" data-toggle="tab" href="#short-break" role="tab" aria-controls="short-break"
                 aria-selected="false">
                 <span class="icon short"></span>
                 <span class="text d-none d-sm-inline-block"> Short Break</span>
@@ -28,19 +29,28 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" id="coffee-break-tab" (click)="tabs(cd3)" data-toggle="tab" href="#coffee-break" role="tab" aria-controls="coffee-break"
+            <a class="nav-link" id="coffee-break-tab" data-toggle="tab" href="#coffee-break" role="tab" aria-controls="coffee-break"
                 aria-selected="false">
                 <span class="icon coffee"></span>
                 <span class="text d-none d-sm-inline-block"> Coffee Break</span>
                 <span *ngIf="toggleCoffeeTimerButton"  class="ml-1 text-danger in-progress"><i class="far fa-dot-circle"></i></span>
             </a>
         </li>
+         -->
         <li class="nav-item">
-            <a class="nav-link" id="long-break-tab" (click)="tabs(cd4)" data-toggle="tab" href="#long-break" role="tab" aria-controls="long-break"
+            <a class="nav-link" id="break-tab" data-toggle="tab" href="#breaks" role="tab" aria-controls="breaks-tab"
                 aria-selected="false">
-                <span class="icon long"></span>
-                <span class="text d-none d-sm-inline-block"> Long Break</span>
-                <span *ngIf="toggleLongTimerButton"  class="ml-1 text-danger in-progress"><i class="far fa-dot-circle"></i></span>
+                <span class="icon coffee"></span>
+                <span class="text d-none d-sm-inline-block"> {{breakText}}</span>
+                <span *ngIf="toggleBreakTimerButton"  class="ml-1 text-danger in-progress"><i class="far fa-dot-circle"></i></span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="meetings-tab" data-toggle="tab" href="#meetings" role="tab" aria-controls="meeting"
+                aria-selected="false">
+                <span class="icon meetings"></span>
+                <span class="text d-none d-sm-inline-block"> Meeting</span>
+                <span *ngIf="toggleMeetingTimerButton"  class="ml-1 text-danger in-progress"><i class="far fa-dot-circle"></i></span>
             </a>
         </li>
     </ul>
@@ -48,10 +58,10 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div class="tab-pane active" id="pomodoro" role="tabpanel" aria-labelledby="home-tab">
-
+            
             <form class="form" [formGroup]="pomodoroForm">
                 <div class="row">
-                    <div class="col-sm-8">
+                    <div class="col-sm-7">
                         <span class="input input--hoshi">
                             <input class="input__field input__field--hoshi" type="text" id="task" formControlName="task" (focus)="inputFocus($event)"
                                 (focusout)="inputFocusOut($event)" />
@@ -61,13 +71,32 @@
                         </span>
                         <label *ngIf="pomodoroForm.get('task').invalid && processValidation" class="text-danger" [ngClass]="'error'"> Enter Task Name </label>
                     </div>
-                    <div class="col-sm-4">
-                        <select class="form-control mb-4" formControlName="project">
+                    <div class="col-sm-5 col-xs-12 position-relative">
+                        <select class="form-control mb-4 select-project" formControlName="project">
                             <option disabled selected value class="d-none">Choose a Project </option>
                             <option *ngFor="let project of projects | async"  ng-value="(project.name)">{{project.name}}</option>
                         </select>
                         <label *ngIf="pomodoroForm.get('project').invalid && processValidation" class="text-danger" [ngClass]="'error'"> Please Choose A Project </label>
+                    
+                        <ul class="list-inline list-unstyled plus-minus-buttons position-absolute">
+                            <!-- <li class="list-inline-item">
+                                    <select class="form-control mb-4" formControlName="project">
+                                            <option disabled selected value class="d-none">Choose a Project </option>
+                                            <option *ngFor="let project of projects | async"  ng-value="(project.name)">{{project.name}}</option>
+                                        </select>
+                                        <labsel *ngIf="pomodoroForm.get('project').invalid && processValidation" class="text-danger" [ngClass]="'error'"> Please Choose A Project </label>
+                            </li> -->
+                            <li class="list-inline-item">
+                                <button class="btn btn-default" [disabled]="togglePomodoroTimerButton" (click)="pomodoroIncrement()" ><i class="fas fa-plus"></i></button>
+                            </li>
+                            <li class="list-inline-item">{{pomodoroTodo}}</li>
+                            <li class="list-inline-item">
+                                <button class="btn btn-default" [disabled]="togglePomodoroTimerButton" (click)="pomodoroDecrement()"><i class="fas fa-minus"></i></button>
+                            </li>
+                        </ul>
+                        
                     </div>
+                    
                 </div>
             </form>
             <div class="stopwatch my-5 pb-3 text-center">
@@ -88,7 +117,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="short-break" role="tabpanel" aria-labelledby="short-break-tab">
+        <!-- <div class="tab-pane" id="short-break" role="tabpanel" aria-labelledby="short-break-tab">
             <div class="stopwatch my-5 py-4 text-center">
                 <div class="row my-3">
                     <countdown *ngIf="getCountDown | async" #cd2 [config]="{leftTime: (countDown.short), className: 'short-timer', template: '$!m!:$!s!$!s-ext!',demand: true}"
@@ -107,11 +136,11 @@
         </div>
         <div class="tab-pane" id="coffee-break" role="tabpanel" aria-labelledby="coffee-break-tab">
             <div class="stopwatch my-5 py-4 text-center">
+                
                 <div class="row my-3">
                     <countdown *ngIf="getCountDown | async" #cd3 [config]="{leftTime: (countDown.coffee), className: 'coffee-timer', template: '$!m!:$!s!$!s-ext!',demand: true}"
                         (finished)="onFinishedCB(cd3)"></countdown>
                 </div>
-
                 <div class="timer-btns row btn-group-vertical mt-4">
                     <button *ngIf="!toggleCoffeeTimerButton" (click)="begin(cd3)" class="btn btn-default btn-start mb-3">
                         <i class="fas fa-play"></i> Start</button>
@@ -138,7 +167,105 @@
                         <i class="fas fa-redo"></i> Reset</button>
                 </div>
             </div>
+        </div> -->
+
+        <!-- Breaks Tab -->
+        <div class="tab-pane" id="breaks" role="tabpanel" aria-labelledby="breaks-tab">
+            <div class="stopwatch my-5 py-4 text-center">
+                <div class="row my-3" [ngClass]="{'hidden': !toggleShortTimerButton}"  >
+                    <countdown *ngIf="getCountDown | async" #cd2 [config]="{leftTime: (countDown.short), className: 'short-timer', template: '$!m!:$!s!$!s-ext!',demand: true}"
+                        (finished)="onFinishedSB(cd2)" ></countdown>
+                </div>
+                <div class="row my-3" [ngClass]="{'hidden': !toggleCoffeeTimerButton}">
+                    <countdown *ngIf="getCountDown | async" #cd3 [config]="{leftTime: (countDown.coffee), className: 'coffee-timer', template: '$!m!:$!s!$!s-ext!',demand: true}"
+                        (finished)="onFinishedCB(cd3)"></countdown>
+                </div>
+                <div class="row my-3" [ngClass]="{'hidden': !toggleLongTimerButton}">
+                    <countdown *ngIf="getCountDown | async" #cd4 [config]="{leftTime: (countDown.long), className: 'long-timer', template: '$!m!:$!s!$!s-ext!',demand: true}"
+                        (finished)="onFinishedLB(cd4)"></countdown>
+                </div>
+
+                <div class="timer-btns row btn-group-vertical mt-4"  *ngIf="toggleBreakTimerButton">
+
+                    <button (click)="stop(cd2)" class="btn btn-default btn-stop mb-3" *ngIf="toggleShortTimerButton" >
+                        <i class="fas fa-stop"></i> Stop</button>
+                    <button (click)="restart(cd2)" class="btn btn-default btn-reset mb-3" *ngIf="toggleShortTimerButton"> 
+                        <i class="fas fa-redo"></i> Reset</button>
+
+                    <button (click)="stop(cd3)" class="btn btn-default btn-stop mb-3" *ngIf="toggleCoffeeTimerButton" >
+                        <i class="fas fa-stop"></i> Stop</button>
+                    <button (click)="restart(cd3)" class="btn btn-default btn-reset mb-3" *ngIf="toggleCoffeeTimerButton"> 
+                        <i class="fas fa-redo"></i> Reset</button>
+                    
+                    <button (click)="stop(cd4)" class="btn btn-default btn-stop mb-3" *ngIf="toggleLongTimerButton" >
+                        <i class="fas fa-stop"></i> Stop</button>
+                    <button (click)="restart(cd4)" class="btn btn-default btn-reset mb-3" *ngIf="toggleLongTimerButton"> 
+                        <i class="fas fa-redo"></i> Reset</button>
+                        
+                </div>
+
+                <div class="break-btns timer-btns mt-5 mb-4" *ngIf="!toggleBreakTimerButton">
+                    <button class="btn btn-default btn-start m-1" (click)="startBreak(cd2)">Short Break</button>
+                    <button class="btn btn-default btn-start m-1" (click)="startBreak(cd3)">Coffee Break</button>
+                    <button class="btn btn-default btn-start m-1" (click)="startBreak(cd4)">Long Break</button>
+                </div>
+            </div>
         </div>
+
+        <!-- Meetings Tab -->
+
+        <div class="tab-pane" id="meetings" role="tabpanel" aria-labelledby="meetings-tab">
+            <div class="my-5 py-4 ">
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        
+                        <span class="input input--hoshi">
+                            <input class="input__field input__field--hoshi" type="text" id="task" [(ngModel)]="meetingAgenda" (focus)="inputFocus($event)" [disabled]="toggleMeetingTimerButton"
+                                (focusout)="inputFocusOut($event)" />
+                            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="task">
+                                <span class="input__label-content input__label-content--hoshi">Meeting Agenda</span>
+                            </label>
+                        </span>
+                        
+                        <h4 class="mt-4">Select Participants</h4>
+                        <ngx-select-dropdown [multiple]="true" [(value)]="userSelected" [config]="selectConfig" [options]="users"></ngx-select-dropdown>
+                    
+                        <h4 class="mt-4">Participants</h4>
+                        <p *ngIf="userSelected.length == 0" >No participant selected</p>
+                        <ul class="list-unstyled list-inline">
+                            <li class="list-inline-item" *ngFor="let user of userSelected" >
+                                <div class="toolTip position-relative">
+                                    <img class="rounded-circle" src="{{user.photoURL}}" alt="{{user.displayName}}" width="50" height="50">
+                                    <span class="tooltiptext">{{user.displayName}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 col-md-6 text-center">
+                        <div class=" my-3">
+                            <countdown *ngIf="getCountDown | async" #cd5 [config]="{leftTime: (countDown.pomodoro), className: 'meeting-timer', template: '$!m!:$!s!$!s-ext!',demand: true}"
+                            (finished)="onFinishedMeeting(cd5)"></countdown>
+                        </div>
+                        <div class="timer-btns row text-center btn-group-vertical mt-4">
+                            <button *ngIf="!toggleMeetingTimerButton" (click)="beginMeeting(cd5)" class="btn btn-default btn-start mb-3">
+                                <i class="fas fa-play"></i> Start</button>
+                            <button *ngIf="toggleMeetingTimerButton" class="btn btn-default btn-stop mb-3"
+                                data-toggle="modal" data-target="#stopModal">
+                                <i class="fas fa-stop"></i> Stop</button>
+                            <button *ngIf="toggleMeetingTimerButton" (click)="restart(cd5)" class="btn btn-default btn-reset mb-3">
+                                <i class="fas fa-redo"></i> Reset</button>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 mt-4">
+                        <h4>Talk Lean</h4>
+                        <textarea class="form-control px-2" [(ngModel)]="talklean" id="" rows="5"></textarea>
+                    </div>
+                </div>
+               
+            </div>
+           
+        </div>
+
     </div>
 
     <notification-message></notification-message>
@@ -169,10 +296,10 @@
                     <div class="switch switch--horizontal">
                         
                         
-                        <input id="radio-a" type="radio" name="first-switch" value="off" (change)="handleChange(1)" [(ngModel)]="notification_val"
+                        <input id="radio-a" type="radio" name="first-switch" value="off" (change)="isNewNotificationSupported()" [(ngModel)]="notification_val"
                         />
                         <!-- <label for="radio-a">Off</label> -->
-                        <input id="radio-b" type="radio" name="first-switch" value="on" (change)="handleChange(2)" [(ngModel)]="notification_val"
+                        <input id="radio-b" type="radio" name="first-switch" value="on" (change)="isNewNotificationSupported()" [(ngModel)]="notification_val"
                         />
                         <!-- <label for="radio-b">On</label> -->
                         

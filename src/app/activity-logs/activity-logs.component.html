@@ -87,9 +87,9 @@
           <span class="text-muted">{{item.startAt | date:"hh:mm a"}} - {{item.createdAt | date:"hh:mm a"}}</span>
         </li>
         <li class="list-inline-item align-middle">
-          <span class="icons" [ngClass]="{'pomodoro': item.type == 'pomodoro', 'coffee': item.type == 'coffee break',
+          <span class="icons" [ngClass]="{'pomodoro': item.type == 'pomodoro' || item.type == 'meeting', 'coffee': item.type == 'coffee break',
           'long': item.type == 'long break' , 'short': item.type == 'short break' }">
-            <i class="icon" [ngClass]="{'pomodoro': item.type == 'pomodoro', 'coffee': item.type == 'coffee break',
+            <i class="icon" [ngClass]="{'pomodoro': item.type == 'pomodoro' , 'meetings': item.type == 'meeting', 'coffee': item.type == 'coffee break',
             'long': item.type == 'long break' , 'short': item.type == 'short break' }"></i>
           </span>
         </li>
@@ -98,10 +98,10 @@
           <span *ngIf="item.task != ''" class="font-weight-bold">{{item.task}}
             <br>
           </span>
-          <span *ngIf="item.task != ''" class="text-muted">{{item.project}}
+          <span *ngIf="item.type == 'pomodoro' " class="text-muted">{{item.project}}
             <br>
           </span>
-          <span *ngIf="item.task == ''" class="text-muted text-uppercase font-weight-bold">{{item.type}}
+          <span *ngIf="item.type != 'pomodoro' " class="text-muted text-uppercase font-weight-bold">{{item.type}}
             <br>
           </span>
           <span class="d-block d-sm-block d-md-block d-lg-none d-xl-none text-muted">

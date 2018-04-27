@@ -1,3 +1,44 @@
 <div id="documents" class="text-center d-inline-block w-100">
-  <img src="assets/images/coming-soon.png" class="img-fluid">
+  <!-- <img src="assets/images/coming-soon.png" class="img-fluid"> -->
+  <ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
+      <div ngxSlickItem class="slide">
+          <h2>What is it?</h2>
+            <div class="reason text-left mt-5">
+              <p>The Pomodoro Technique is a time management method that can be used for any task. For many people, time is an enemy. The anxiety triggered by “the ticking clock”, especially when it involves a deadline, leads to ineffective work and study habits which in turn lead to procrastination.</p>
+              <p>The aim of the Pomodoro Technique is to use time as a valuable ally in accomplishing what we want to do in the way we want to do it, and to enable us to improve continually the way we work or study.</p>
+            </div>
+      </div>
+      <div ngxSlickItem class="slide">
+        
+            <h2>The Goals</h2>
+            <div class="reason text-left mt-5">
+              <p>The Pomodoro Technique will provide a simple tool/process for improving productivity (your own and that of your team members) which can do the following:</p>
+              <ul class="list">
+                <li>Alleviate anxiety linked to beginning</li>
+                <li>Enhance focus and concentration by cutting down on interruptions</li>
+                <li>Increase awareness of your decisions</li>
+                <li>Boost motivation and keep it constant</li>
+                <li>Bolster the determination to achieve your goals</li>
+                <li>Refine the estimation process, both in qualitative and quantitative terms </li>
+                <li>Improve your work or study process</li>
+                <li>Strengthen your resolve to keep on applying yourself in the face of complex situations</li>
+              </ul>
+            </div>
+      </div>
+      <div ngxSlickItem class="slide">
+          <!-- <img src="{{ slide.img }}" alt="" width="100%"> -->
+          <h2>Rules &amp; Tips</h2>
+          <div class="reason text-left mt-5">
+            
+            <ul>
+              <li>If a task takes more than 5–7 Pomodoros, break it down</li>
+              <li>If it takes less than one Pomodoro, add it up, and combine it with another task</li>
+              <li>Once a Pomodoro begins, it has to ring</li>
+              <li>The next Pomodoro will go better</li>
+              <li>Login to the service and track your progress</li>
+              <li>The Pomodoro Technique shouldn’t be used for activities you do in your free time. Enjoy free time!</li>
+            </ul>
+          </div>
+      </div>
+  </ngx-slick>
 </div>

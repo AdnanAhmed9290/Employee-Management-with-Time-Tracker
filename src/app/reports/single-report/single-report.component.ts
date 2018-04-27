@@ -97,7 +97,7 @@ export class SingleReportComponent implements OnInit, AfterViewInit {
 
     this.logService.getWeeklyLogsList(this.week.start + this.dayOffset ,this.week.end,this.userId).subscribe(data=>{
       data.forEach(element => {
-        if(element.type == 'pomodoro'){
+        if(element.type == 'pomodoro' || element.type == 'meeting'){
           weekly.pomdoro++;
         }else if(element.type == 'short break'){
           weekly.short++;
@@ -138,7 +138,7 @@ export class SingleReportComponent implements OnInit, AfterViewInit {
   
     this.logService.getMonthlyLogsList(this.month.start + this.dayOffset,this.month.end,this.userId).subscribe(data=>{
       data.forEach(element => {
-        if(element.type == 'pomodoro'){
+        if(element.type == 'pomodoro' || element.type == 'meeting'){
           // this.daily.pomodoro[counter]= element;
           monthly.pomdoro++;
         }else if(element.type == 'short break'){
@@ -173,7 +173,7 @@ export class SingleReportComponent implements OnInit, AfterViewInit {
     this.logData.subscribe((x) => {
       let counter = 0;
       x.forEach(element => {
-        if(element.type == 'pomodoro'){
+        if(element.type == 'pomodoro' || element.type == 'meeting'){
           // this.daily.pomodoro[counter]= element;
           this.dailyPomodoro.push(element);
           ++counter;

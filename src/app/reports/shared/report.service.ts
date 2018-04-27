@@ -106,11 +106,9 @@ export class ReportService {
 
   getReportOfAllEmployees(userId, start): Observable<any>{
 
-    console.log(start);
     // let start = moment().subtract(1,'d').format('YYYY/MM/DD');
-    console.log(start);
     return  this.afs.collection(`users/`+userId+`/logs`, 
-    ref => ref.where('date','==',start).where('type','==','pomodoro').orderBy('createdAt',"desc")).snapshotChanges().map(logs=> {
+    ref => ref.where('date','==',start).where('type','==','pomodoro').where('type','==','meeting').orderBy('createdAt',"desc")).snapshotChanges().map(logs=> {
       return logs.map(log => {
         const data = log.payload.doc.data();
         const task = data.task;

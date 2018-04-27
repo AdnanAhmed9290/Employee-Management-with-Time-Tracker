@@ -13,8 +13,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Log } from "./../../activity-logs/shared/activity";
 import { Observable } from 'rxjs/Observable';
 
-
-import { Http, Headers, Response } from '@angular/http';
+import { Http, Headers, Response ,RequestOptions} from '@angular/http';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -42,6 +41,10 @@ export class TimerService {
 
   constructor(private afAuth: AngularFireAuth, private afs: AngularFirestore, public als: AsyncLocalStorage
     ,private http: Http) {
+
+      
+        // this.userId = this.afAuth.auth.currentUser.uid; 
+
 
       let _this = this;
       this.currentStatus.subscribe(x=> {
@@ -80,6 +83,19 @@ export class TimerService {
       return this.projectCollection.valueChanges();
   
     }
+
+  getAllEmployees(): Observable<any>{
+    return this.afs.collection('users/').snapshotChanges().map(users => {
+      return users.map(user =>{
+        const data = user.payload.doc.data();
+        const id = user.payload.doc.id;
+
+        return {id, ...data};
+        // this.afs.collection(`users/`+id+`/logs`, ref => ref.where('data','==','2018/04/10'))
+
+      })
+    })
+  }
 
 
   getSettings(): Observable<any>{
@@ -120,9 +136,13 @@ export class TimerService {
   createLog(log: any)  {
     if(this.afAuth)
       this.userId = this.afAuth.auth.currentUser.uid; 
+    this.saveLog(this.userId , log);
+  }
+
+  saveLog(userId, log:any) {
     let now = moment();
     let start = moment().subtract(log.duration, 'm');
-    const userRef: AngularFirestoreCollection<any> = this.afs.collection(`users/`).doc(''+this.userId+'/').collection('logs');
+    const userRef: AngularFirestoreCollection<any> = this.afs.collection(`users/`).doc(''+userId+'/').collection('logs');
     userRef.add({
       ...log,
       startAt: start.format(),
@@ -132,6 +152,33 @@ export class TimerService {
     })
     .then( x => console.log('Activity Log Saved') )
     .catch( error => this.handleError(error));
+  }
+
+  postToSlack(message: string) {
+    let slackUrl = 'https://slack.com/api/chat.postMessage';
+    let channelID = 'GAFB23K70';
+    let api_token = 'xoxp-17073777729-253284235666-354391834403-94be0949b7c962a011596841768d6ff5';
+
+    let cpHeaders = new Headers(
+      { "Accept" : "application/json"}
+    );
+    let options = new RequestOptions({ headers : cpHeaders });
+    this.http.post(`${slackUrl}?token=${api_token}&channel=${channelID}&text=${message}&username=Nordicomm EMS&as_user=false`,options).subscribe(data => console.log(data), error => console.error(error));
+    
+  }
+
+  getTodayPomodoroCount(): Observable<any> {
+    if(this.afAuth)
+      this.userId = this.afAuth.auth.currentUser.uid; 
+    let today = moment().format('YYYY/MM/DD');
+    if (!this.userId) return Observable.of();
+    let LogsCollection = this.afs.collection<Log>('users/'+this.userId+'/logs', 
+      ref => ref.where('date', '==', today).where('fullCycle','==', true).where('duration','==',25)
+      .orderBy('createdAt',"desc"));
+    return LogsCollection.snapshotChanges().map(logs => {
+      return logs.length; 
+    });
+
   }
 
    // If error, console log and notify user

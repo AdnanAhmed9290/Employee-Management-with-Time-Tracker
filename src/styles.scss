@@ -44,7 +44,7 @@ $collapse-width : 300px;
 ///// Content
 
 $body-font: 'proxima_nova_rgregular', sans-serif;
-$heading-font: 'proxima_nova_ltsemibold', sans-serif;
+$heading-font: 'proxima_nova_rgregular', sans-serif;
 
 body {
   font-family: $body-font;
@@ -84,6 +84,9 @@ a {
   overflow: hidden;
 }
 
+.hidden{
+    display: none !important; 
+}
 
 
 .content {
@@ -136,6 +139,10 @@ footer-nav{
 
 }
 
+textarea.form-control{
+    border: 1px solid #ced4da;
+}
+
 // =================================================================
 
 //  icons
@@ -175,10 +182,58 @@ footer-nav{
         background-image: url(assets/images/icon-long-break.svg);
     }
 
+    &.break{
+        background-image: url(assets/images/icon-long-break.svg);
+    }
+
+    &.meetings{
+        background-image: url(assets/images/icon-meetings.svg);
+    }
 
 
 
 }
+
+// ==================================================================
+
+
+// ==================================================================
+
+.toolTip{
+
+    .tooltiptext {
+        visibility: hidden;
+        width: 120px;
+        background-color: black;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px 0;
+        position: absolute;
+        z-index: 1;
+        bottom: 150%;
+        left: 50%;
+        margin-left: -60px;
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: black transparent transparent transparent;
+        }
+    }
+
+    &:hover .tooltiptext {
+        visibility: visible;
+    }
+}
+
+
+
 
 // ==================================================================
  
@@ -192,7 +247,7 @@ footer-nav{
 	display: inline-block;
 	margin: 0;
 	// max-width: 400px;
-	width: calc(100% - 2em);
+	// width: calc(100% - 2em);
 	vertical-align: top;
 }
 
@@ -660,6 +715,12 @@ nav{
                 .long{
                     background: url(assets/images/icon-long-break-active.svg) no-repeat
                 }
+                .break{
+                    background: url(assets/images/icon-long-break-active.svg) no-repeat
+                }
+                .meetings{
+                    background: url(assets/images/icon-meetings-active.svg) no-repeat
+                }
             }
         }
 
@@ -687,9 +748,18 @@ nav{
             }
         }
 
+        .select-project{
+            width: calc(100% - 140px);
+        }
+
+        .plus-minus-buttons{
+            right: 15px;
+            top: 1.8em;
+        }
 
     }
 
+    
     .count-down{
         font-size: 5em;
         font-weight: bold;
@@ -745,6 +815,21 @@ nav{
         &.btn-reset{
             border: 0;
             color: #375880;
+        }
+    }
+
+    #meetings{
+        ngx-select-dropdown{
+            .ngx-dropdown-list-container{
+                .selected-items li{
+                    display: inline-block;
+                    margin: 5px;
+                }
+                .available-items{
+                    height: 150px !important;
+                    overflow-y: scroll;
+                }
+            }
         }
     }
 
@@ -1014,6 +1099,18 @@ nav{
     }
 }
 
+
+// =================================================================================
+
+                            // My Document Page Styling
+
+// =================================================================================
+
+#documents{
+    .slick-prev:before, .slick-next:before{
+        color: black;
+    }
+}
 
 // =================================================================================
 

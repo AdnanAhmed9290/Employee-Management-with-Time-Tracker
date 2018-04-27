@@ -16,4 +16,23 @@ export class DocumentsComponent implements OnInit {
   ngOnInit() {
   }
 
+  slideConfig = {
+    "arrows": true,
+    "dots": true,
+    "infinite": true,
+    "centerMode": false,
+    "slidesToShow": 1,
+    "slidesToScroll": 1,
+    "autoplay": true,
+    "responsive": [{
+      "breakpoint": 769,
+      "settings":{
+          "slidesToShow": 1,
+          "arrows": false
+          }
+      }]
+  };
+
+  
+
 }

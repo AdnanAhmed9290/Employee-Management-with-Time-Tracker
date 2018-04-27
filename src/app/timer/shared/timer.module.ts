@@ -14,7 +14,7 @@ import { TimerService } from './timer.service';
 
 import { HttpModule } from '@angular/http';
 import { TimerComponent } from './../timer.component';
-
+import { SelectDropDownModule } from 'ngx-select-dropdown'
 
 // import { PushNotificationsService } from 'angular2-notifications';
 
@@ -33,7 +33,8 @@ import { TimerComponent } from './../timer.component';
     CountdownModule,
     AsyncLocalStorageModule,
     HttpModule,
-    UiModule
+    UiModule,
+    SelectDropDownModule
 
   ],
   declarations: [

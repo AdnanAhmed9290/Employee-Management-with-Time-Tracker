@@ -14,7 +14,7 @@ import { CoreModule } from './core/core.module';
 
 // Shared/Widget
 import { SharedModule } from './shared/shared.module';
-
+import { SlickModule } from 'ngx-slick';
 // Feature Modules
 import { UiModule } from './ui/shared/ui.module';
 import { ActivityLogsModule } from './activity-logs/shared/activity-logs.module';
@@ -55,7 +55,8 @@ import { FaqComponent } from './faq/faq.component';
     TimerModule,
     ReportsModule,
     AngularFireModule.initializeApp(firebaseConfig),
-    AngularFirestoreModule.enablePersistence()
+    AngularFirestoreModule.enablePersistence(),
+    SlickModule.forRoot()
   ],
   // exports:[
     
